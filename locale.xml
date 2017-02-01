@@ -2,7 +2,7 @@
 <locales>
     <groups name="quiqqer/authfacebook" datatype="js,php">
         <locale name="google2fa.title">
-            <de><![CDATA[Google Authenticator]]></de>
+            <de><![CDATA[Facebook Login]]></de>
         </locale>
 
         <!-- Package -->
@@ -26,7 +26,7 @@
         <locale name="settings.apiSettings.appId.title">
             <de><![CDATA[App-ID]]></de>
         </locale>
-        <locale name="package.description" html="true">
+        <locale name="settings.apiSettings.appId.description" html="true">
             <de><![CDATA[App-ID des Facebook Developer Accounts bzw. der Facebook App, über die die API-Kommunikation zur Authentifizierung stattfindet. Siehe <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></de>
         </locale>
     </groups>
@@ -93,10 +93,19 @@
 
         <!-- Class: Facebook -->
         <locale name="classes.facebook.login.btn.text">
+            <de><![CDATA[Facebook Logout]]></de>
+        </locale>
+        <locale name="classes.facebook.login.btn.text">
             <de><![CDATA[Facebook Login]]></de>
         </locale>
         <locale name="classes.facebook.login.btn.authorize.text">
-            <de><![CDATA[QUIQQER für Facebook-Konto autorisieren]]></de>
+            <de><![CDATA[QUIQQER autorisieren]]></de>
+        </locale>
+        <locale name="classes.facebook.warn.no.appId">
+            <de><![CDATA[Die Facebook Authentifikation kann nicht verwendet werden, da noch keine oder eine fehlerhafte App-ID in den Einstellungen festgelegt ist. Bitte legen Sie eine korrekte App-ID in den Einstellung ("Facbook Authentifikation") fest.]]></de>
+        </locale>
+        <locale name="controls.settings.addAccount.info.not_authorized" html="true">
+            <de><![CDATA[Sie sind z.Z. bei Facebook eingeloggt, haben QUIQQER aber noch nicht autorisiert, ihr Facebook-Konto für den Authentifizierungs-Prozess zu benutzen. Wenn Sie das Facebook-Konto, mit welchem sie aktuell eingeloggt sind, für den Authentifizierungs-Prozess verwenden möchten, klicken Sie bitte auf "QUIQQER autorisieren". Möchten Sie ein anderes Facebook-Konto für die Authentifizierung verwenden, besuchen Sie bitte <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> und loggen sich dort zunächst aus.]]></de>
         </locale>
 
         <!-- Control: Settings -->

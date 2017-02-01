@@ -21,7 +21,7 @@ class Settings extends Control
     public function getBody()
     {
         return '<div class="quiqqer-auth-facebook-settings"     
-                  data-qui="package/quiqqer/facebook/bin/controls/Settings">
+                  data-qui="package/quiqqer/authfacebook/bin/controls/Settings">
             </div>';
     }
 }

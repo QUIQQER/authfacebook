@@ -29,7 +29,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
     //'css!package/quiqqer/authfacebook/bin/controls/Settings.css'
 
 ], function (QUIControl, QUIConfirm, QUIButton, QUILoader, Grid, Facebook, Mustache,
-             QUIAjax, QUILocale, keyDataTemplate) {
+             QUIAjax, QUILocale) {
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
@@ -126,11 +126,11 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                 //onDblClick: function () {
                 //    self.$showKey(self.$Grid.selected[0]);
                 //},
-                onClick   : function () {
+                onClick  : function () {
                     var TableButtons = self.$Grid.getAttribute('buttons');
                     TableButtons.delete.enable();
                 },
-                onRefresh : this.refresh
+                onRefresh: this.refresh
             });
 
             return this.$Elm;
@@ -211,8 +211,8 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                 title             : QUILocale.get(
                     lg, 'controls.settings.addAccount.title'
                 ),
-                maxHeight         : 200,
-                maxWidth          : 350,
+                maxHeight         : 500,
+                maxWidth          : 600,
                 icon              : 'fa fa-plus',
                 backgroundClosable: true,
 
@@ -222,14 +222,50 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                 content         : false,
                 events          : {
                     onOpen  : function () {
-                        Popup.getContent().set(
+                        var Content = Popup.getContent();
+
+                        Content.set(
                             'html',
                             '<div class="quiqqer-auth-facebook-settings-addaccount-info"></div>' +
                             '<div class="quiqqer-auth-facebook-settings-addaccount-btns"></div>'
                         );
 
-                        Facebook.getStatus().then(function(status) {
-                            console.log(status);
+                        Popup.Loader.show();
+
+                        var infoText;
+                        var BtnsElm = Content.getElement(
+                            '.quiqqer-auth-facebook-settings-addaccount-btns'
+                        );
+
+                        Facebook.getStatus().then(function (status) {
+                            switch (status) {
+                                case 'connected':
+                                    Facebook.getAuthData().then(function (authData) {
+                                        console.log(authData);
+                                    });
+                                    break;
+
+                                case 'not_authorized':
+                                    infoText = QUILocale.get(
+                                        lg,
+                                        'controls.settings.addAccount.info.not_authorized'
+                                    );
+
+                                    Facebook.getLoginButton().inject(BtnsElm);
+                                    break;
+
+                                default:
+
+                            }
+
+                            Content.getElement(
+                                '.quiqqer-auth-facebook-settings-addaccount-info'
+                            ).set(
+                                'html',
+                                infoText
+                            );
+
+                            Popup.Loader.hide();
                         });
 
                         //var Input = Popup.getContent().getElement('input');

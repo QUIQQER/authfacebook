@@ -43,9 +43,8 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
             this.parent(options);
             this.$loginStatus = false;
+            this.$authData    = false;
             this.$loaded      = false;
-
-
         },
 
         /**
@@ -82,11 +81,60 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                 }
             });
 
-            this.$load().then(function() {
+            this.$load().then(function () {
                 LoginBtn.enable();
             });
 
             return LoginBtn;
+        },
+
+        /**
+         * Get Logout Button
+         *
+         * @return {Object} - qui/controls/buttons/Button
+         */
+        getLogoutButton: function () {
+            var self = this;
+
+            var LogoutBtn = new QUIButton({
+                'class'  : 'quiqqer-auth-facebook-login-btn',
+                disabled : true,
+                textimage: 'fa fa-sign-out',
+                text     : QUILocale.get(lg, 'classes.facebook.logout.btn.text'),
+                events   : {
+                    onClick: function () {
+                        console.log(self.$authData);
+
+                        //FB.logout(function (response) {
+                        //    self.$loginStatus = 'unknown';
+                        //    self.$authData    = false;
+                        //
+                        //    self.fireEvent('logout', [self]);
+                        //}, {
+                        //
+                        //});
+                    }
+                }
+            });
+
+            this.$load().then(function () {
+                LogoutBtn.enable();
+            });
+
+            return LogoutBtn;
+        },
+
+        /**
+         * Get auth data of currently connected Facebook account
+         *
+         * @return {Promise}
+         */
+        getAuthData: function () {
+            var self = this;
+
+            return this.$load().then(function () {
+                return self.$authData
+            });
         },
 
         /**
@@ -95,8 +143,10 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
          * @return {Promise}
          */
         getStatus: function () {
+            var self = this;
+
             return this.$load().then(function () {
-                return this.$loginStatus
+                return self.$loginStatus
             });
         },
 
@@ -113,17 +163,37 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             var self = this;
 
             return new Promise(function (resolve, reject) {
-                this.$getAppId().then(function (appId) {
+                self.$getAppId().then(function (appId) {
+                    if (!appId) {
+                        QUI.getMessageHandler().then(function (MH) {
+                            MH.addAttention(
+                                QUILocale.get(lg, 'classes.facebook.warn.no.appId')
+                            )
+                        });
+
+                        return;
+                    }
+
                     // Initialize Facebook JavaScript SDK
                     window.fbAsyncInit = function () {
-                        FB.init({
-                            appId  : appId,
-                            version: 'v2.8' // @todo put in config
-                        });
+                        try {
+                            FB.init({
+                                appId  : appId,
+                                status : true,
+                                version: 'v2.8' // @todo put in config
+                            });
+                        } catch (Exception) {
+                            console.log(Exception);
+                        }
 
                         FB.getLoginStatus(function (response) {
                             self.$loginStatus = response.status;
                             self.$loaded      = true;
+
+                            if (response.authResponse) {
+                                self.$authData = response.authResponse;
+                            }
+
                             self.fireEvent('loaded', [self]);
                             resolve();
                         });

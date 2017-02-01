@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiqqer>
+    <settings>
+
+        <config>
+            <section name="apiSettings">
+                <conf name="appId">
+                    <type><![CDATA[string]]></type>
+                </conf>
+            </section>
+        </config>
+
+        <window>
+            <title>
+                <locale group="quiqqer/authfacebook" var="settings.title" />
+            </title>
+            <params>
+                <icon>fa fa-facebook</icon>
+            </params>
+
+            <categories>
+                <category name="settings">
+                    <text>
+                        <locale group="quiqqer/authfacebook" var="settings.category.settings.title" />
+                    </text>
+                    <icon>fa fa-cogs</icon>
+
+                    <settings title="apiSettings" name="apiSettings">
+                        <title>
+                            <locale group="quiqqer/authfacebook" var="settings.apiSettings.title" />
+                        </title>
+
+                        <input conf="apiSettings.appId" type="text">
+                            <text>
+                                <locale group="quiqqer/authfacebook" var="settings.apiSettings.appId.title" />
+                            </text>
+                            <description>
+                                <locale group="quiqqer/authfacebook" var="settings.apiSettings.appId.description" />
+                            </description>
+                        </input>
+                    </settings>
+
+                </category>
+            </categories>
+        </window>
+
+    </settings>
+</quiqqer>

@@ -55,7 +55,20 @@ class Auth implements AuthInterface
             $Locale = QUI::getLocale();
         }
 
-        return $Locale->get('quiqqer/authgoogle2fa', 'google2fa.title');
+        return $Locale->get('quiqqer/authfacebook', 'authfacebook.title');
+    }
+
+    /**
+     * @param null|\QUI\Locale $Locale
+     * @return string
+     */
+    public function getDescription($Locale = null)
+    {
+        if (is_null($Locale)) {
+            $Locale = QUI::getLocale();
+        }
+
+        return $Locale->get('quiqqer/authfacebook', 'authfacebook.description');
     }
 
     /**
@@ -71,13 +84,13 @@ class Auth implements AuthInterface
             || !isset($authData['code'])
         ) {
             throw new Google2FaException(array(
-                'quiqqer/authgoogle2fa',
+                'quiqqer/authfacebook',
                 'exception.auth.wrong.auth.code'
             ));
         }
 
         $authCode    = $authData['code'];
-        $authSecrets = json_decode($this->User->getAttribute('quiqqer.auth.google2fa.secrets'), true);
+        $authSecrets = json_decode($this->User->getAttribute('quiqqer.auth.authfacebook.secrets'), true);
 
         // if no secret keys have been generated -> automatically authenticate the user
         if (empty($authSecrets)) {
@@ -110,7 +123,7 @@ class Auth implements AuthInterface
                 $secretData['recoveryKeys'][$k2] = $recoveryKeyData;
                 $authSecrets[$k]                 = $secretData;
 
-                $this->User->setAttribute('quiqqer.auth.google2fa.secrets', json_encode($authSecrets));
+                $this->User->setAttribute('quiqqer.auth.authfacebook.secrets', json_encode($authSecrets));
                 $this->User->save(QUI::getUsers()->getSystemUser());
 
                 return;
@@ -118,7 +131,7 @@ class Auth implements AuthInterface
         }
 
         throw new Google2FaException(array(
-            'quiqqer/authgoogle2fa',
+            'quiqqer/authfacebook',
             'exception.auth.wrong.auth.code'
         ));
     }

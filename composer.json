@@ -17,6 +17,7 @@
     "url": "http://www.pcsg.de"
   },
   "require": {
+    "facebook/graph-sdk": "~5.0"
   },
   "autoload": {
     "psr-4": {

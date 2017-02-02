@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locales>
     <groups name="quiqqer/authfacebook" datatype="js,php">
-        <locale name="google2fa.title">
+        <locale name="authfacebook.title">
             <de><![CDATA[Facebook Login]]></de>
+        </locale>
+        <locale name="authfacebook.description">
+            <de><![CDATA[QUIQQER Authentifikation mittels Facebook Login]]></de>
         </locale>
 
         <!-- Package -->
@@ -67,6 +70,9 @@
         <locale name="message.ajax.regenerateRecoveryKeys.success">
             <de><![CDATA[Die Einmal-Login-Codes wurden neu generiert. Die bisherigen Codes sind ab jetzt nicht mehr gültig.]]></de>
         </locale>
+        <locale name="exception.ajax.operation.only.allowed.by.own.user">
+            <de><![CDATA[Diese Abfrage darf nur vom übergebenen Benutzer selbst durchgeführt werden.]]></de>
+        </locale>
 
         <!-- Class: Auth -->
         <locale name="exception.auth.no.username.found">
@@ -103,9 +109,6 @@
         </locale>
         <locale name="classes.facebook.warn.no.appId">
             <de><![CDATA[Die Facebook Authentifikation kann nicht verwendet werden, da noch keine oder eine fehlerhafte App-ID in den Einstellungen festgelegt ist. Bitte legen Sie eine korrekte App-ID in den Einstellung ("Facbook Authentifikation") fest.]]></de>
-        </locale>
-        <locale name="controls.settings.addAccount.info.not_authorized" html="true">
-            <de><![CDATA[Sie sind z.Z. bei Facebook eingeloggt, haben QUIQQER aber noch nicht autorisiert, ihr Facebook-Konto für den Authentifizierungs-Prozess zu benutzen. Wenn Sie das Facebook-Konto, mit welchem sie aktuell eingeloggt sind, für den Authentifizierungs-Prozess verwenden möchten, klicken Sie bitte auf "QUIQQER autorisieren". Möchten Sie ein anderes Facebook-Konto für die Authentifizierung verwenden, besuchen Sie bitte <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> und loggen sich dort zunächst aus.]]></de>
         </locale>
 
         <!-- Control: Settings -->
@@ -160,6 +163,21 @@
         </locale>
         <locale name="controls.settings.showkey.regenerate.warning">
             <de><![CDATA[Sind Sie sicher, dass Sie die Einmal-Login-Codes neu generieren wollen? Alle alten Codes sind danach nicht mehr gültig und es können nur die neuen Codes verwendet werden.]]></de>
+        </locale>
+        <locale name="controls.settings.addAccount.info.not_authorized" html="true">
+            <de><![CDATA[Sie sind z.Z. bei Facebook eingeloggt, haben QUIQQER aber noch nicht autorisiert, ihr Facebook-Konto für den Authentifizierungs-Prozess zu benutzen. Wenn Sie das Facebook-Konto, mit welchem sie aktuell eingeloggt sind, für den Authentifizierungs-Prozess verwenden möchten, klicken Sie bitte auf "QUIQQER autorisieren". Möchten Sie ein anderes Facebook-Konto für die Authentifizierung verwenden, besuchen Sie bitte <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> und loggen sich dort zunächst aus.]]></de>
+        </locale>
+        <locale name="controls.settings.addAccount.info.connected" html="true">
+            <de><![CDATA[Sie sind mit dem Facebook-Konto <b>[name]</b> ([email]) eingeloggt. Wenn Sie dieses Facebook-Konto mit diesem Benutzer verknüpfen möchten, um sich in Zukunft mit Ihrem Facebook-Login bei QUIQQER zu authentifizieren, klicken Sie bitte auf <b>Jetzt verknüpfen</b>.]]></de>
+        </locale>
+        <locale name="controls.settings.addAccount.email.unknown">
+            <de><![CDATA[Sie sind mit dem Facebook-Konto <b>[name]</b> ([email]) eingeloggt, haben QUIQQER jedoch nicht autorisiert, Ihre mit dem Facebook-Konto verknüpfte E-Mail-Adresse abzurufen. Dies ist jedoch notwendig, um Ihr Facebook-Konto zur Authentifizierung mit QUIQQER benutzen zu können. Klicken Sie auf <b>QUIQQER autorisieren</b>, um QUIQQER den Zugriff auf Ihre E-Mail-Adresse bei Facebook zu geben.]]></de>
+        </locale>
+        <locale name="controls.settings.addAccount.info.unknown">
+            <de><![CDATA[Sie sind z.Z. nicht bei Facebook eingeloggt. Bitte loggen Sie sich ein, um mit der Konto-Verknüpfung fortzufahren.]]></de>
+        </locale>
+        <locale name="controls.settings.wrong.user.info">
+            <de><![CDATA[Die Verknüpfung mit einem Facebook-Konto kann nur der Benutzer selbst verwalten.]]></de>
         </locale>
 
     </groups>

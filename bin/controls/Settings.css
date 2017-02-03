@@ -1,8 +1,16 @@
-.quiqqer-auth-facebook-settings-addaccount-info {
+.quiqqer-auth-facebook-settings {
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+
+.quiqqer-auth-facebook-settings-info {
     float: left;
     width: 100%;
 }
 
-.quiqqer-auth-facebook-settings-addaccount-btns {
-    margin: auto;
+.quiqqer-auth-facebook-settings-btns {
+    float: left;
+    margin-top: 10px;
+    width: 100%;
 }

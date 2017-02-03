@@ -7,6 +7,9 @@
                 <conf name="appId">
                     <type><![CDATA[string]]></type>
                 </conf>
+                <conf name="appSecret">
+                    <type><![CDATA[string]]></type>
+                </conf>
             </section>
         </config>
 
@@ -36,6 +39,15 @@
                             </text>
                             <description>
                                 <locale group="quiqqer/authfacebook" var="settings.apiSettings.appId.description" />
+                            </description>
+                        </input>
+
+                        <input conf="apiSettings.appSecret" type="text">
+                            <text>
+                                <locale group="quiqqer/authfacebook" var="settings.apiSettings.appSecret.title" />
+                            </text>
+                            <description>
+                                <locale group="quiqqer/authfacebook" var="settings.apiSettings.appSecret.description" />
                             </description>
                         </input>
                     </settings>

@@ -1,7 +1,7 @@
 /**
  * Registration of codes for Google Authenticator QUIQQER plugin
  *
- * @module package/quiqqer/authfacebook/bin/controls/Settings
+ * @module package/quiqqer/authfacebook/bin/controls/Register
  * @author www.pcsg.de (Patrick Müller)
  *
  * @require qui/QUI
@@ -9,10 +9,10 @@
  * @require qui/controls/buttons/Button
  * @requrie Ajax
  * @require Locale
- * @require css!package/quiqqer/authfacebook/bin/controls/Settings.css
+ * @require css!package/quiqqer/authfacebook/bin/controls/Register.css
  *
  */
-define('package/quiqqer/authfacebook/bin/controls/Settings', [
+define('package/quiqqer/authfacebook/bin/controls/Register', [
 
     'qui/controls/Control',
     'qui/controls/windows/Confirm',
@@ -25,7 +25,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
     'Ajax',
     'Locale',
 
-    'css!package/quiqqer/authfacebook/bin/controls/Settings.css'
+    'css!package/quiqqer/authfacebook/bin/controls/Register.css'
 
 ], function (QUIControl, QUIConfirm, QUIButton, QUILoader, Facebook, Mustache,
              QUIAjax, QUILocale) {
@@ -35,7 +35,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'package/quiqqer/authfacebook/bin/controls/Settings',
+        Type   : 'package/quiqqer/authfacebook/bin/controls/Register',
 
         Binds: [
             '$onInject',
@@ -95,42 +95,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
          * Event: onInject
          */
         $onInject: function () {
-            var self   = this;
-            var userId = this.getAttribute('uid');
-
-            this.Loader.show();
-
-            // check if user is allowed to edit facebook account connection
-            QUIAjax.get(
-                'package_quiqqer_authfacebook_ajax_isEditUserSessionUser',
-                function (result) {
-                    if (!result) {
-                        self.$Elm.set(
-                            'html',
-                            QUILocale.get(lg, 'controls.settings.wrong.user.info')
-                        );
-
-                        self.Loader.hide();
-                        return;
-                    }
-
-                    Facebook.getAccountByQuiqqerUserId(userId).then(function (Account) {
-                        self.Loader.hide();
-
-                        if (!Account) {
-                            self.$showConnectionInfo();
-                            return;
-                        }
-
-                        self.$showAccountInfo(Account);
-                    }, function (Exception) {
-                        console.log(Exception.getCode());
-                    });
-                }, {
-                    'package': 'quiqqer/authfacebook',
-                    userId   : userId
-                }
-            );
+            this.$showRegisterInfo();
         },
 
         /**
@@ -174,6 +139,58 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
             }).inject(
                 this.$Elm
             );
+        },
+
+        /**
+         * Show registration info
+         */
+        $showRegisterInfo: function() {
+            var self = this;
+
+            this.Loader.show();
+
+            Facebook.getStatus().then(function(status) {
+                switch (status) {
+                    case 'connected':
+
+                        break;
+
+                    case 'not_authorized':
+                        self.Loader.hide();
+
+                        self.$InfoElm.set(
+                            'html',
+                            QUILocale.get(lg, 'controls.register.step.authorize')
+                        );
+
+                        Facebook.getLoginButton().inject(self.$BtnsElm);
+                        Facebook.addEvents({
+                            onLogin: function() {
+                                self.Loader.show();
+
+                                self.$checkProfilePermissions().then(function() {
+                                    // @todo Abbruch und Mitteilung, dass E-Mail-Adresse übergeben werden MUSS!
+                                })
+                            }
+                        });
+                        break;
+                }
+            });
+        },
+
+        /**
+         * Check if the Facebook permissions given to QUIQQER
+         * are sufficient for the registration process
+         *
+         * @return {Promise}
+         */
+        $checkProfilePermissions: function()
+        {
+            return new Promise(function(resolve, reject) {
+                Facebook.getProfileInfo().then(function(Profile) {
+                    resolve(typeof Profile.email !== 'undefined');
+                });
+            });
         },
 
         /**

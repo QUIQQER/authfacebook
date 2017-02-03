@@ -17,7 +17,7 @@ QUI::$Ajax->registerFunction(
             throw new QUI\Permissions\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',
-                    'exception.ajax.operation.only.allowed.by.own.user'
+                    'exception.operation.only.allowed.by.own.user'
                 ),
                 401
             );

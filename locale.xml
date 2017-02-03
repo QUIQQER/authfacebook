@@ -32,6 +32,34 @@
         <locale name="settings.apiSettings.appId.description" html="true">
             <de><![CDATA[App-ID des Facebook Developer Accounts bzw. der Facebook App, über die die API-Kommunikation zur Authentifizierung stattfindet. Siehe <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></de>
         </locale>
+        <locale name="settings.apiSettings.appSecret.title">
+            <de><![CDATA[App-Geheimcode]]></de>
+        </locale>
+        <locale name="settings.apiSettings.appSecret.description" html="true">
+            <de><![CDATA[App-Geheimcode des Facebook Developer Accounts bzw. der Facebook App, über die die API-Kommunikation zur Authentifizierung stattfindet. Siehe <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></de>
+        </locale>
+
+        <!-- Control: Login -->
+        <locale name="controls.login.status.not_authorized">
+            <de><![CDATA[Mit ihrem Facebook-Konto ist kein QUIQQER-Benutzerkonto verknüpft.]]></de>
+        </locale>
+        <locale name="controls.login.register.btn.text">
+            <de><![CDATA[Jetzt registrieren]]></de>
+        </locale>
+
+        <!-- Class: Facebook -->
+        <locale name="classes.facebook.logout.btn.text">
+            <de><![CDATA[Facebook Logout]]></de>
+        </locale>
+        <locale name="classes.facebook.login.btn.text">
+            <de><![CDATA[Facebook Login]]></de>
+        </locale>
+        <locale name="classes.facebook.login.btn.authorize.text">
+            <de><![CDATA[QUIQQER autorisieren]]></de>
+        </locale>
+        <locale name="classes.facebook.warn.no.appId">
+            <de><![CDATA[Die Facebook Authentifikation kann nicht verwendet werden, da noch keine oder eine fehlerhafte App-ID in den Einstellungen festgelegt ist. Bitte legen Sie eine korrekte App-ID in den Einstellung ("Facbook Authentifikation") fest.]]></de>
+        </locale>
     </groups>
 
     <groups name="quiqqer/authfacebook" datatype="php">
@@ -70,19 +98,42 @@
         <locale name="message.ajax.regenerateRecoveryKeys.success">
             <de><![CDATA[Die Einmal-Login-Codes wurden neu generiert. Die bisherigen Codes sind ab jetzt nicht mehr gültig.]]></de>
         </locale>
-        <locale name="exception.ajax.operation.only.allowed.by.own.user">
+        <locale name="exception.operation.only.allowed.by.own.user">
             <de><![CDATA[Diese Abfrage darf nur vom übergebenen Benutzer selbst durchgeführt werden.]]></de>
+        </locale>
+        <locale name="message.ajax.connectAccount.error">
+            <de><![CDATA[Bei der Verknüpfung des Facebook-Kontos mit dem QUIQQER-Benutzerkonto ist ein Fehler aufgetreten:<br/><br/>[error]]]></de>
+        </locale>
+        <locale name="message.ajax.connectAccount.success">
+            <de><![CDATA[Das Facebook-Konto "[fbAccount]" wurde erfolgreich mit dem QUIQQER-Benutzerkonto "[qUserName]" (#[qUserId]) verknüpft. Der Facebook-Login kann nun für die Authentifizierung mit QUIQQER verwendet werden.]]></de>
+        </locale>
+        <locale name="message.ajax.disconnectAccount.error">
+            <de><![CDATA[Beim Aufheben der Verknüpfung des Facebook-Kontos mit dem QUIQQER-Benutzerkonto ist ein Fehler aufgetreten:<br/><br/>[error]]]></de>
+        </locale>
+        <locale name="message.ajax.disconnectAccount.success" html="true">
+            <de><![CDATA[Die Verknüpfung des Facebook-Kontos mit dem QUIQQER-Benutzerkonto "[qUserName]" (#[qUserId]) wurde erfolgreich gelöscht. Der Facebook-Login kann nun <b>nicht</b> mehr für die Authentifizierung mit QUIQQER verwendet werden.]]></de>
         </locale>
 
         <!-- Class: Auth -->
-        <locale name="exception.auth.no.username.found">
-            <de><![CDATA[Es wurde kein Authentifizierungs-Benutzer gefunden.]]></de>
+        <locale name="exception.auth.wrong.data">
+            <de><![CDATA[Die zur Authentifizierung übermittelten Daten sind nicht korrekt.]]></de>
         </locale>
-        <locale name="exception.auth.no.authkeys.found">
-            <de><![CDATA[Es wurde noch kein Authentifizierungs-Schlüssel für den Benutzer "[user]" registriert.]]></de>
+        <locale name="exception.auth.no.account.connected">
+            <de><![CDATA[Mit diesem Facebook-Konto ist kein QUIQQER-Benutzerkonto verknüpft.]]></de>
         </locale>
-        <locale name="exception.auth.wrong.auth.code">
-            <de><![CDATA[Falscher Authentifizierungs-Code.]]></de>
+        <locale name="exception.auth.wrong.account.for.user">
+            <de><![CDATA[Dieses Facebook-Konto ist nicht mit dem übergebenen QUIQQER-Benutzerkonto verknüpft.]]></de>
+        </locale>
+
+        <!-- Class: Facebook -->
+        <locale name="exception.facebook.api.error">
+            <de><![CDATA[Bei Verwendung der Facebook API ist ein unerwarteter Fehler aufgetreten. Bitte wenden Sie sich an einen Administrator.]]></de>
+        </locale>
+        <locale name="exception.facebook.invalid.token">
+            <de><![CDATA[Ungültiges Facebook Zugriffs-Token.]]></de>
+        </locale>
+        <locale name="exception.facebook.account.already.connected">
+            <de><![CDATA[Das QUIQQER-Benutzerkonto "[userName]" (#[userId]) ist bereits mit einem Facebook-Konto verknüpft.]]></de>
         </locale>
 
         <!-- Login -->
@@ -96,20 +147,6 @@
     </groups>
 
     <groups name="quiqqer/authfacebook" datatype="js">
-
-        <!-- Class: Facebook -->
-        <locale name="classes.facebook.login.btn.text">
-            <de><![CDATA[Facebook Logout]]></de>
-        </locale>
-        <locale name="classes.facebook.login.btn.text">
-            <de><![CDATA[Facebook Login]]></de>
-        </locale>
-        <locale name="classes.facebook.login.btn.authorize.text">
-            <de><![CDATA[QUIQQER autorisieren]]></de>
-        </locale>
-        <locale name="classes.facebook.warn.no.appId">
-            <de><![CDATA[Die Facebook Authentifikation kann nicht verwendet werden, da noch keine oder eine fehlerhafte App-ID in den Einstellungen festgelegt ist. Bitte legen Sie eine korrekte App-ID in den Einstellung ("Facbook Authentifikation") fest.]]></de>
-        </locale>
 
         <!-- Control: Settings -->
         <locale name="controls.settings.generatekey.title">
@@ -171,13 +208,30 @@
             <de><![CDATA[Sie sind mit dem Facebook-Konto <b>[name]</b> ([email]) eingeloggt. Wenn Sie dieses Facebook-Konto mit diesem Benutzer verknüpfen möchten, um sich in Zukunft mit Ihrem Facebook-Login bei QUIQQER zu authentifizieren, klicken Sie bitte auf <b>Jetzt verknüpfen</b>.]]></de>
         </locale>
         <locale name="controls.settings.addAccount.email.unknown">
-            <de><![CDATA[Sie sind mit dem Facebook-Konto <b>[name]</b> ([email]) eingeloggt, haben QUIQQER jedoch nicht autorisiert, Ihre mit dem Facebook-Konto verknüpfte E-Mail-Adresse abzurufen. Dies ist jedoch notwendig, um Ihr Facebook-Konto zur Authentifizierung mit QUIQQER benutzen zu können. Klicken Sie auf <b>QUIQQER autorisieren</b>, um QUIQQER den Zugriff auf Ihre E-Mail-Adresse bei Facebook zu geben.]]></de>
+            <de><![CDATA[Sie sind mit dem Facebook-Konto <b>[name]</b> eingeloggt, haben QUIQQER jedoch nicht autorisiert, Ihre mit dem Facebook-Konto verknüpfte E-Mail-Adresse abzurufen. Dies ist jedoch notwendig, um Ihr Facebook-Konto zur Authentifizierung mit QUIQQER benutzen zu können. Klicken Sie auf <b>QUIQQER autorisieren</b>, um QUIQQER den Zugriff auf Ihre E-Mail-Adresse bei Facebook zu geben.]]></de>
         </locale>
         <locale name="controls.settings.addAccount.info.unknown">
-            <de><![CDATA[Sie sind z.Z. nicht bei Facebook eingeloggt. Bitte loggen Sie sich ein, um mit der Konto-Verknüpfung fortzufahren.]]></de>
+            <de><![CDATA[Dieses QUIQQER-Benutzerkonto ist z.Z. nicht mit einem Facebook-Konto verknüpft. Bitte loggen Sie sich bei Facebook ein, um mit eine Konto-Verknüpfung zu erstellen.]]></de>
         </locale>
         <locale name="controls.settings.wrong.user.info">
             <de><![CDATA[Die Verknüpfung mit einem Facebook-Konto kann nur der Benutzer selbst verwalten.]]></de>
+        </locale>
+        <locale name="controls.settings.showAccountInfo.text">
+            <de><![CDATA[Dieses QUIQQER-Benutzerkonto ist mit dem Facebook-Konto <b>[name]</b> ([email]) verknüpft und kann zur Authentifizierung für diesen Benutzer verwendet werden. Wenn Sie diese Verknüpfung aufheben möchten, klicken Sie bitte auf <b>Verknüpfung aufheben</b>.]]></de>
+        </locale>
+        <locale name="controls.settings.addAccount.btn.connect">
+            <de><![CDATA[Jetzt verknüpfen]]></de>
+        </locale>
+        <locale name="controls.settings.showAccountInfo.btn.disconnect">
+            <de><![CDATA[Verknüpfung aufheben]]></de>
+        </locale>
+        <locale name="controls.settings.wrong.user.info">
+            <de><![CDATA[Die Verknüpfung mit einem Facebook-Konto kann nur der Benutzer selbst verwalten.]]></de>
+        </locale>
+
+        <!-- Control: Register -->
+        <locale name="controls.register.step.authorize">
+            <de><![CDATA[Um ein QUIQQER-Benutzerkonto mit Facebook zu registrieren, benötigt QUIQQER Zugriff auf Ihr Facebook-Profil (nur Name) und die dort hinterlegte E-Mail-Adresse. Bitte klicken Sie auf <b>QUIQQER autorisieren</b>.]]></de>
         </locale>
 
     </groups>

@@ -12,7 +12,7 @@
  * @require css!package/quiqqer/authfacebook/bin/classes/Facebook.css
  *
  * @event onLoaded [this] - Fires if everything has loaded
- * @event onLogin [this, authResponse] - Fires if the user successfully authenticates with Facebook
+ * @event onLogin [authResponse, this] - Fires if the user successfully authenticates with Facebook
  */
 define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
@@ -44,7 +44,6 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             var self = this;
 
             this.parent(options);
-            this.$loginStatus = false;
             this.$authData    = false;
             this.$loaded      = false;
         },
@@ -68,7 +67,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                             self.$authData = response.authResponse;
 
                             if (response.authResponse) {
-                                self.fireEvent('login', [self, response.authResponse]);
+                                self.fireEvent('login', [response.authResponse, self]);
                             }
                         }, {
                             scope: 'public_profile,email'
@@ -181,18 +180,36 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
          *
          * @param {number} userId - QUIQQER User ID
          * @param {string} fbToken - FB Api access token
-         * @param {Object} FbAccountData - Account data
+         * @return {Promise}
          */
-        connectQuiqqerAccount: function (userId, fbToken, FbAccountData) {
+        connectQuiqqerAccount: function (userId, fbToken) {
             return new Promise(function (resolve, reject) {
                 QUIAjax.post(
                     'package_quiqqer_authfacebook_ajax_connectAccount',
                     resolve, {
-                        'package'    : 'quiqqer/authfacebook',
-                        userId       : userId,
-                        fbToken      : fbToken,
-                        fbAccountData: JSON.encode(FbAccountData),
-                        onError      : reject
+                        'package': 'quiqqer/authfacebook',
+                        userId   : userId,
+                        fbToken  : fbToken,
+                        onError  : reject
+                    }
+                )
+            });
+        },
+
+        /**
+         * Connect a facebook account with a quiqqer account
+         *
+         * @param {number} userId - QUIQQER User ID
+         * @return {Promise}
+         */
+        disconnectQuiqqerAccount: function (userId) {
+            return new Promise(function (resolve, reject) {
+                QUIAjax.post(
+                    'package_quiqqer_authfacebook_ajax_disconnectAccount',
+                    resolve, {
+                        'package': 'quiqqer/authfacebook',
+                        userId   : userId,
+                        onError  : reject
                     }
                 )
             });

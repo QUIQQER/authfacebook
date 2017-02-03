@@ -1,5 +1,7 @@
 <?php
 
+use QUI\Auth\Facebook\Facebook;
+
 /**
  * Get google authentication keys for a user
  *
@@ -9,6 +11,6 @@
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_getAppId',
     function () {
-        return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'appId');
+        return Facebook::getAppId();
     }
 );

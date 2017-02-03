@@ -3,11 +3,11 @@
 namespace QUI\Auth\Facebook;
 
 use QUI;
-use PragmaRX\Google2FA\Google2FA;
-use QUI\Users\AuthInterface;
+use QUI\Users\AbstractAuthenticator;
 use QUI\Users\User;
-use QUI\Auth\Google2Fa\Exception as Google2FaException;
+use QUI\Auth\Facebook\Exception as FacebookException;
 use QUI\Security;
+use QUI\Auth\Facebook\Facebook;
 
 /**
  * Class Auth
@@ -16,15 +16,8 @@ use QUI\Security;
  *
  * @package QUI\Authe\Google2Fa
  */
-class Auth implements AuthInterface
+class Auth extends AbstractAuthenticator
 {
-    /**
-     * Google2FA class
-     *
-     * @var Google2FA
-     */
-    protected $Google2FA = null;
-
     /**
      * User that is to be authenticated
      *
@@ -41,8 +34,7 @@ class Auth implements AuthInterface
      */
     public function __construct($user = '')
     {
-        $this->User      = QUI::getUsers()->getUserByName($user);
-        $this->Google2FA = new Google2FA();
+        $this->User = QUI::getUsers()->getUserByName($user);
     }
 
     /**
@@ -76,64 +68,48 @@ class Auth implements AuthInterface
      *
      * @param string|array|integer $authData
      *
-     * @throws QUI\Auth\Google2Fa\Exception
+     * @throws QUI\Auth\Facebook\Exception
      */
     public function auth($authData)
     {
+        \QUI\System\Log::writeRecursive($authData);
+
         if (!is_array($authData)
-            || !isset($authData['code'])
+            || !isset($authData['token'])
         ) {
-            throw new Google2FaException(array(
+            throw new FacebookException(array(
                 'quiqqer/authfacebook',
-                'exception.auth.wrong.auth.code'
-            ));
+                'exception.auth.wrong.data'
+            ), 401);
         }
 
-        $authCode    = $authData['code'];
-        $authSecrets = json_decode($this->User->getAttribute('quiqqer.auth.authfacebook.secrets'), true);
+        $token = $authData['token'];
 
-        // if no secret keys have been generated -> automatically authenticate the user
-        if (empty($authSecrets)) {
-            return;
+        try {
+            Facebook::validateAccessToken($token);
+        } catch (FacebookException $Exception) {
+            throw new FacebookException(array(
+                'quiqqer/authfacebook',
+                'exception.auth.wrong.data'
+            ), 401);
         }
 
-        foreach ($authSecrets as $k => $secretData) {
-            $key = trim(Security::decrypt($secretData['key']));
+        $fbProfile         = Facebook::getProfileData($token);
+        $connectionProfile = Facebook::getConnectedAccountByFacebookUserId($fbProfile['id']);
 
-            if ($this->Google2FA->verifyKey($key, $authCode)) {
-                return;
-            }
-
-            // if key did not work check for recovery keys
-            foreach ($secretData['recoveryKeys'] as $k2 => $recoveryKeyData) {
-                if ($recoveryKeyData['used']) {
-                    continue;
-                }
-
-                $recoveryKey = trim(Security::decrypt($recoveryKeyData['key']));
-
-                if ($recoveryKey != $authCode) {
-                    continue;
-                }
-
-                // set used status of recovery key to true
-                $recoveryKeyData['used']     = true;
-                $recoveryKeyData['usedDate'] = date('Y-m-d H:i:s');
-
-                $secretData['recoveryKeys'][$k2] = $recoveryKeyData;
-                $authSecrets[$k]                 = $secretData;
-
-                $this->User->setAttribute('quiqqer.auth.authfacebook.secrets', json_encode($authSecrets));
-                $this->User->save(QUI::getUsers()->getSystemUser());
-
-                return;
-            }
+        if (empty($connectionProfile)) {
+            throw new FacebookException(array(
+                'quiqqer/authfacebook',
+                'exception.auth.no.account.connected'
+            ), 1001);
         }
 
-        throw new Google2FaException(array(
-            'quiqqer/authfacebook',
-            'exception.auth.wrong.auth.code'
-        ));
+        if ((int)$connectionProfile['userId'] !== (int)$this->User->getId()) {
+            throw new FacebookException(array(
+                'quiqqer/authfacebook',
+                'exception.auth.wrong.account.for.user'
+            ), 401);
+        }
     }
 
     /**
@@ -157,33 +133,11 @@ class Auth implements AuthInterface
     }
 
     /**
-     * Generate 16-bit (encrypted) recovery keys as alternative logins
-     *
-     * @param int $count (optional) - number of key [default: 10]
-     * @return array
-     */
-    public static function generateRecoveryKeys($count = 10)
-    {
-        $recoveryKeys = array();
-        $Google2FA    = new Google2FA();
-
-        for ($i = 0; $i < $count; $i++) {
-            $recoveryKeys[] = array(
-                'key'      => Security::encrypt(md5($Google2FA->generateSecretKey(16))),
-                'used'     => false,
-                'usedDate' => false
-            );
-        }
-
-        return $recoveryKeys;
-    }
-
-    /**
      * @return \QUI\Control
      */
     public static function getLoginControl()
     {
-        return new QUI\Auth\Google2Fa\Controls\Login();
+        return new QUI\Auth\Facebook\Controls\Login();
     }
 
     /**

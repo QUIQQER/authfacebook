@@ -3,27 +3,25 @@
 use QUI\Auth\Facebook\Facebook;
 
 /**
- * Connect QUIQQER account with Facebook account
+ * Disconnect QUIQQER account from Facebook account
  *
  * @param int $userId - QUIQQER user id
- * @param array $fbAccountData - Facebook account data
- * @return array - connection account data
+ * @return bool - success
  *
  * @throws QUI\Permissions\Exception
  */
 QUI::$Ajax->registerFunction(
-    'package_quiqqer_authfacebook_ajax_connectAccount',
-    function ($userId, $fbToken) {
+    'package_quiqqer_authfacebook_ajax_disconnectAccount',
+    function ($userId) {
         $userId = (int)$userId;
 
         try {
-            Facebook::connectQuiqqerAccount($userId, $fbToken);
-            $accountData = Facebook::getConnectedAccountByQuiqqerUserId($userId);
+            Facebook::disconnectAccount($userId);
         } catch (QUI\Auth\Facebook\Exception $Exception) {
             QUI::getMessagesHandler()->addError(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',
-                    'message.ajax.connectAccount.error',
+                    'message.ajax.disconnectAccount.error',
                     array(
                         'error' => $Exception->getMessage()
                     )
@@ -45,17 +43,16 @@ QUI::$Ajax->registerFunction(
         QUI::getMessagesHandler()->addSuccess(
             QUI::getLocale()->get(
                 'quiqqer/authfacebook',
-                'message.ajax.connectAccount.success',
+                'message.ajax.disconnectAccount.success',
                 array(
-                    'fbAccount' => $accountData['name'] . ' (' . $accountData['email'] . ')',
-                    'qUserName' => QUI::getUsers()->get($accountData['userId'])->getUsername(),
-                    'qUserId'   => $accountData['userId']
+                    'qUserName' => QUI::getUsers()->get($userId)->getUsername(),
+                    'qUserId'   => $userId
                 )
             )
         );
 
-        return $accountData;
+        return true;
     },
-    array('userId', 'fbToken'),
+    array('userId'),
     'Permission::checkAdminUser'
 );

@@ -56,6 +56,5 @@ QUI::$Ajax->registerFunction(
 
         return $accountData;
     },
-    array('userId', 'fbToken'),
-    'Permission::checkAdminUser'
+    array('userId', 'fbToken')
 );

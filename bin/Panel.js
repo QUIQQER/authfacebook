@@ -18,7 +18,7 @@
 define('package/quiqqer/authfacebook/bin/Panel', [
 
     'qui/controls/desktop/Panel',
-    'package/quiqqer/authfacebook/bin/controls/FacebookLogin'
+    'package/quiqqer/authfacebook/bin/controls/Register'
 
 ], function (QUIPanel, Settings) {
     "use strict";

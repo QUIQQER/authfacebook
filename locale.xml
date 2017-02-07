@@ -113,6 +113,12 @@
         <locale name="message.ajax.disconnectAccount.success" html="true">
             <de><![CDATA[Die Verknüpfung des Facebook-Kontos mit dem QUIQQER-Benutzerkonto "[qUserName]" (#[qUserId]) wurde erfolgreich gelöscht. Der Facebook-Login kann nun <b>nicht</b> mehr für die Authentifizierung mit QUIQQER verwendet werden.]]></de>
         </locale>
+        <locale name="message.ajax.createAccount.error">
+            <de><![CDATA[Bei Erstellung des QUIQQER-Benutzerkontos ist ein Fehler aufgetreten:<br/><br/>[error]]]></de>
+        </locale>
+        <locale name="message.ajax.createAccount.success" html="true">
+            <de><![CDATA[Das QUIQQER-Benutzerkonto <b>[email]</b> wurde erfolgreich erstellt.]]></de>
+        </locale>
 
         <!-- Class: Auth -->
         <locale name="exception.auth.wrong.data">
@@ -134,6 +140,15 @@
         </locale>
         <locale name="exception.facebook.account.already.connected">
             <de><![CDATA[Das QUIQQER-Benutzerkonto "[userName]" (#[userId]) ist bereits mit einem Facebook-Konto verknüpft.]]></de>
+        </locale>
+        <locale name="exception.facebook.email.already.exists">
+            <de><![CDATA[Es existiert bereits ein QUIQQER-Benutzerkonto mit der E-Mail-Adresse "[email]".]]></de>
+        </locale>
+        <locale name="exception.facebook.email.access.mandatory">
+            <de><![CDATA[Für die Erstellung eines QUIQQER-Benutzerkontos ist es erforderlich, dass QUIQQER der Zugriff auf die bei Facebook hinterlegte E-Mail-Adresse gestattet wird.]]></de>
+        </locale>
+        <locale name="exception.facebook.email.incorrect">
+            <de><![CDATA[Die übergebene E-Mail-Adresse entspricht nicht der bei Facebook hinterlegten E-Mail-Adresse.]]></de>
         </locale>
 
         <!-- Login -->
@@ -230,8 +245,43 @@
         </locale>
 
         <!-- Control: Register -->
-        <locale name="controls.register.step.authorize">
+        <locale name="controls.register.status.unknown">
+            <de><![CDATA[Um ein QUIQQER-Benutzerkonto mit Facebook zu registrieren, benötigt QUIQQER Zugriff auf Ihr Facebook-Profil (nur Name) und die dort hinterlegte E-Mail-Adresse. Bitte loggen Sie sich bei Facebook ein.]]></de>
+        </locale>
+        <locale name="controls.register.status.not_authorized">
             <de><![CDATA[Um ein QUIQQER-Benutzerkonto mit Facebook zu registrieren, benötigt QUIQQER Zugriff auf Ihr Facebook-Profil (nur Name) und die dort hinterlegte E-Mail-Adresse. Bitte klicken Sie auf <b>QUIQQER autorisieren</b>.]]></de>
+        </locale>
+        <locale name="controls.register.status.connected.account.exists">
+            <de><![CDATA[Das Facebook-Konto, mit welchem Sie gerade eingeloggt sind, ist bereits mit einem QUIQQER-Benutzerkonto verknüpft und kann daher nicht für eine Registrierung verwendet werden.]]></de>
+        </locale>
+        <locale name="controls.register.registration.profile.not.eligible">
+            <de><![CDATA[Für die Registrierung eines QUIQQER-Benutzerkontos ist es notwendig, dass Sie QUIQQER Zugriff auf Ihre bei Facebook hinterlegte E-Mail-Adresse geben. Bitte klicken Sie dazu auf <b>QUIQQER autorisieren</b>.]]></de>
+        </locale>
+        <locale name="controls.register.registration.confirm" html="true">
+            <de><![CDATA[Bitte bestätigen Sie die Erstellung des QUIQQER-Benutzerkontos <b>[email]</b> mit einem Klick auf <b>Benutzerkonto erstellen</b>.]]></de>
+        </locale>
+        <locale name="controls.register.registration.confirm.btn.text">
+            <de><![CDATA[Benutzerkonto erstellen]]></de>
+        </locale>
+        <locale name="controls.register.registration.error">
+            <de><![CDATA[Bei der Erstellung des QUIQQER-Benutzerkontos ist ein Fehler aufgetreten:<br/><br/>[error]<br/><br/>Es kann kein QUIQQER-Benutzerkonto mit dem Facebook-Konto erstellt werden, mit welchem sie z.Z. eingeloggt sind. Bitte verwenden Sie ein anderes Facebook-Konto oder eine andere Registrierungsmethode.]]></de>
+        </locale>
+        <locale name="controls.register.registration.success">
+            <de><![CDATA[Das QUIQQER-Benutzerkonto <b>[email]</b> wurde erfolgreich erstellt.]]></de>
+        </locale>
+
+        <!-- Control: Login -->
+        <locale name="controls.login.status.unknown">
+            <de><![CDATA[Bitte loggen Sie sich bei Facebook ein, um mit dem Authentifizierungs-Prozess forzufahren.]]></de>
+        </locale>
+        <locale name="controls.login.register.status.connected" html="true">
+            <de><![CDATA[Für die Authentifizierung ist es notwendig, dass Ihr Facebook-Konto mit dem QUIQQER-Benutzerkonto, für welches Sie sich authentifizieren wollen, verknüpft ist. Um mit der Authentifizierung fortzufahren, klicken Sie bitte auf <b>Jetzt verknüpfen</b>.]]></de>
+        </locale>
+        <locale name="controls.login.register.status.not_authorized" html="true">
+            <de><![CDATA[Für die Authentifizierung ist es notwendig, dass Ihr Facebook-Konto mit dem QUIQQER-Benutzerkonto, für welches Sie sich authentifizieren wollen, verknüpft ist. Um mit der Authentifizierung fortzufahren, müssen Sie QUIQQER zunächst autorisieren, auf Ihr Facebook-Profil und die dort hinterlegte E-Mail-Adresse zuzugreifen. Klicken Sie dazu bitte auf <b>QUIQQER autorisieren</b>.]]></de>
+        </locale>
+        <locale name="controls.login.wrong.facebook.user">
+            <de><![CDATA[Das Facebook-Konto, bei welchem Sie z.Z. eingeloggt sind, ist nicht mit dem QUIQQER-Benutzerkonto verknüpft, für welches Sie sich gerade authentifizieren. Bitte loggen Sie sich bei Facebook aus und loggen sich erneut mit dem Facebook-Konto ein, welches zu diesem QUIQQER-Benutzerkonto gehört.]]></de>
         </locale>
 
     </groups>

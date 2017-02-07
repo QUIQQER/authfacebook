@@ -44,8 +44,8 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             var self = this;
 
             this.parent(options);
-            this.$authData    = false;
-            this.$loaded      = false;
+            this.$authData = false;
+            this.$loaded   = false;
         },
 
         /**
@@ -77,19 +77,52 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             });
 
             this.$load().then(function () {
-                self.getStatus().then(function (status) {
-                    if (status == 'not_authorized') {
-                        LoginBtn.setAttribute(
-                            'text',
-                            QUILocale.get(lg, 'classes.facebook.login.btn.authorize.text')
-                        );
-                    }
-
-                    LoginBtn.enable();
-                });
+                LoginBtn.enable();
             });
 
             return LoginBtn;
+        },
+
+        /**
+         * Get Logout Button
+         *
+         * @param {bool} [rerequest] - Re-request facebook permissions
+         * @return {Object} - qui/controls/buttons/Button
+         */
+        getAuthButton: function (rerequest) {
+            var self = this;
+
+            var AuthBtn = new QUIButton({
+                'class'  : 'quiqqer-auth-facebook-login-btn',
+                disabled : true,
+                textimage: 'fa fa-facebook-official',
+                text     : QUILocale.get(lg, 'classes.facebook.login.btn.authorize.text'),
+                events   : {
+                    onClick: function () {
+                        var Options = {
+                            scope: 'public_profile,email'
+                        };
+
+                        if (rerequest) {
+                            Options.auth_type = 'rerequest';
+                        }
+
+                        FB.login(function (response) {
+                            self.$authData = response.authResponse;
+
+                            if (response.authResponse) {
+                                self.fireEvent('login', [response.authResponse, self]);
+                            }
+                        }, Options);
+                    }
+                }
+            });
+
+            this.$load().then(function () {
+                AuthBtn.enable();
+            });
+
+            return AuthBtn;
         },
 
         /**
@@ -106,17 +139,16 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                 textimage: 'fa fa-sign-out',
                 text     : QUILocale.get(lg, 'classes.facebook.logout.btn.text'),
                 events   : {
-                    onClick: function () {
-                        console.log(self.$authData);
+                    onClick: function (Btn) {
+                        Btn.disable();
 
-                        //FB.logout(function (response) {
-                        //    self.$loginStatus = 'unknown';
-                        //    self.$authData    = false;
-                        //
-                        //    self.fireEvent('logout', [self]);
-                        //}, {
-                        //
-                        //});
+                        FB.logout(function (response) {
+                            self.$authData = null;
+                            self.fireEvent('logout', [self]);
+                            Btn.enable();
+                        }, {
+                            accessToken: self.$authData.accessToken
+                        });
                     }
                 }
             });
@@ -228,6 +260,25 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                     resolve, {
                         'package': 'quiqqer/authfacebook',
                         userId   : userId,
+                        onError  : reject
+                    }
+                );
+            });
+        },
+
+        /**
+         * Check if Facebook account is connected to a QUIQQER account
+         *
+         * @param {number} fbUserId
+         * @return {Promise}
+         */
+        isAccountConnectedToQuiqqer: function (fbUserId) {
+            return new Promise(function (resolve, reject) {
+                QUIAjax.get(
+                    'package_quiqqer_authfacebook_ajax_isFacebookAccountConnected',
+                    resolve, {
+                        'package': 'quiqqer/authfacebook',
+                        fbUserId : fbUserId,
                         onError  : reject
                     }
                 );

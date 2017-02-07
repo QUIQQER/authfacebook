@@ -11,9 +11,7 @@ use QUI\Auth\Facebook\Facebook;
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_getAccountByQuiqqerUserId',
     function ($userId) {
-        $SessionUser = QUI::getUserBySession();
-
-        if ($SessionUser->getId() !== $userId) {
+        if ((int)QUI::getSession()->get('uid') !== (int)$userId) {
             throw new QUI\Permissions\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',
@@ -25,6 +23,5 @@ QUI::$Ajax->registerFunction(
 
         return Facebook::getConnectedAccountByQuiqqerUserId($userId);
     },
-    array('userId'),
-    'Permission::checkAdminUser'
+    array('userId')
 );

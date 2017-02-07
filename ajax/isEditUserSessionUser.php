@@ -9,8 +9,7 @@
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_isEditUserSessionUser',
     function ($userId) {
-        return (int)QUI::getUserBySession()->getId() === (int)$userId;
+        return (int)QUI::getSession()->get('uid') === (int)$userId;
     },
-    array('userId'),
-    'Permission::checkAdminUser'
+    array('userId')
 );

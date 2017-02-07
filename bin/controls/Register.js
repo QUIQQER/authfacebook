@@ -1,5 +1,5 @@
 /**
- * Registration of codes for Google Authenticator QUIQQER plugin
+ * Registration of QUIQQER User account via Facebook Login
  *
  * @module package/quiqqer/authfacebook/bin/controls/Register
  * @author www.pcsg.de (Patrick Müller)
@@ -54,8 +54,6 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
         },
 
         initialize: function (options) {
-            this.setAttribute('title', QUILocale.get(lg, 'passwords.panel.title'));
-
             this.parent(options);
 
             this.addEvents({
@@ -74,16 +72,16 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
         create: function () {
             this.$Elm = new Element('div', {
                 'class': 'quiqqer-auth-facebook-register',
-                html   : '<div class="quiqqer-auth-facebook-settings-info"></div>' +
-                '<div class="quiqqer-auth-facebook-settings-btns"></div>'
+                html   : '<div class="quiqqer-auth-facebook-register-info"></div>' +
+                '<div class="quiqqer-auth-facebook-register-btns"></div>'
             });
 
             this.$InfoElm = this.$Elm.getElement(
-                '.quiqqer-auth-facebook-settings-info'
+                '.quiqqer-auth-facebook-register-info'
             );
 
             this.$BtnsElm = this.$Elm.getElement(
-                '.quiqqer-auth-facebook-settings-btns'
+                '.quiqqer-auth-facebook-register-btns'
             );
 
             this.Loader.inject(this.$Elm);
@@ -95,7 +93,15 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
          * Event: onInject
          */
         $onInject: function () {
+            var self = this;
+
             this.$showRegisterInfo();
+
+            Facebook.addEvents({
+                onLogin: function () {
+                    self.$startRegistration();
+                }
+            });
         },
 
         /**
@@ -117,7 +123,7 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
             );
 
             new QUIButton({
-                'class'  : 'quiqqer-auth-facebook-settings-btn',
+                'class'  : 'quiqqer-auth-facebook-register-btn',
                 textimage: 'fa fa-unlink',
                 text     : QUILocale.get(lg, 'controls.settings.showAccountInfo.btn.disconnect'),
                 events   : {
@@ -144,37 +150,146 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
         /**
          * Show registration info
          */
-        $showRegisterInfo: function() {
+        $showRegisterInfo: function () {
             var self = this;
 
             this.Loader.show();
 
-            Facebook.getStatus().then(function(status) {
+            Facebook.getStatus().then(function (status) {
                 switch (status) {
                     case 'connected':
+                        Facebook.getAuthData().then(function (AuthData) {
+                            Facebook.isAccountConnectedToQuiqqer(AuthData.userID).then(function (connected) {
+                                self.Loader.hide();
 
+                                if (connected) {
+                                    self.setInfoText(
+                                        QUILocale.get(lg, 'controls.register.status.connected.account.exists')
+                                    );
+
+                                    return;
+                                }
+
+                                self.$startRegistration();
+                            });
+                        });
                         break;
 
                     case 'not_authorized':
                         self.Loader.hide();
 
-                        self.$InfoElm.set(
-                            'html',
-                            QUILocale.get(lg, 'controls.register.step.authorize')
-                        );
+                        self.setInfoText(QUILocale.get(lg, 'controls.register.status.not_authorized'));
 
+                        Facebook.getAuthButton().inject(self.$BtnsElm);
+                        break;
+
+                    case 'unknown':
+                        self.Loader.hide();
+
+                        self.setInfoText(QUILocale.get(lg, 'controls.register.status.unknown'));
                         Facebook.getLoginButton().inject(self.$BtnsElm);
-                        Facebook.addEvents({
-                            onLogin: function() {
-                                self.Loader.show();
-
-                                self.$checkProfilePermissions().then(function() {
-                                    // @todo Abbruch und Mitteilung, dass E-Mail-Adresse übergeben werden MUSS!
-                                })
-                            }
-                        });
                         break;
                 }
+            });
+        },
+
+        /**
+         * Start registration process
+         */
+        $startRegistration: function () {
+            var self = this;
+
+            self.$BtnsElm.set('html', '');
+
+            this.Loader.show();
+
+            this.$checkProfilePermissions().then(function (profileEligible) {
+                if (!profileEligible) {
+                    self.Loader.hide();
+
+                    self.setInfoText(
+                        QUILocale.get(lg, 'controls.register.registration.profile.not.eligible')
+                    );
+
+                    Facebook.getAuthButton(true).inject(self.$BtnsElm);
+
+                    return;
+                }
+
+                Facebook.getProfileInfo().then(function (Profile) {
+                    self.Loader.hide();
+
+                    self.setInfoText(
+                        QUILocale.get(lg, 'controls.register.registration.confirm', {
+                            name : Profile.first_name + ' ' + Profile.last_name,
+                            email: Profile.email
+                        })
+                    );
+
+                    new QUIButton({
+                        textimage: 'fa fa-user-plus',
+                        text     : QUILocale.get(lg, 'controls.register.registration.confirm.btn.text'),
+                        events   : {
+                            onClick: function (Btn) {
+                                self.Loader.show();
+
+                                self.createAccount(Profile.email).then(function(newUserId) {
+                                    self.Loader.hide();
+                                    Btn.destroy();
+
+                                    self.setInfoText(
+                                        QUILocale.get(lg, 'controls.register.registration.success', {
+                                            email: Profile.email
+                                        })
+                                    );
+                                }, function(Exception) {
+                                    self.Loader.hide();
+                                    Btn.destroy();
+
+                                    self.setInfoText(
+                                        QUILocale.get(lg, 'controls.register.registration.error', {
+                                            error: '<span class="quiqqer-auth-facebook-register-error">'
+                                            + Exception.getMessage() + '</span>'
+                                        })
+                                    );
+                                });
+                            }
+                        }
+                    }).inject(self.$BtnsElm);
+                });
+
+
+            });
+        },
+
+        /**
+         * Set information text
+         *
+         * @param {string} text
+         */
+        setInfoText: function (text) {
+            this.$InfoElm.set('html', text);
+        },
+
+        /**
+         * Create new QUIQQER account with Facebook email adress
+         *
+         * @param {string} email
+         * @return {Promise}
+         */
+        createAccount: function (email) {
+            return new Promise(function (resolve, reject) {
+                Facebook.getAuthData().then(function (AuthData) {
+                    QUIAjax.post(
+                        'package_quiqqer_authfacebook_ajax_createAccount',
+                        resolve, {
+                            'package': 'quiqqer/authfacebook',
+                            email    : email,
+                            fbToken  : AuthData.accessToken,
+                            onError  : reject
+                        }
+                    )
+                });
             });
         },
 
@@ -184,10 +299,9 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
          *
          * @return {Promise}
          */
-        $checkProfilePermissions: function()
-        {
-            return new Promise(function(resolve, reject) {
-                Facebook.getProfileInfo().then(function(Profile) {
+        $checkProfilePermissions: function () {
+            return new Promise(function (resolve, reject) {
+                Facebook.getProfileInfo().then(function (Profile) {
                     resolve(typeof Profile.email !== 'undefined');
                 });
             });
@@ -242,7 +356,7 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
                             );
 
                             new QUIButton({
-                                'class'  : 'quiqqer-auth-facebook-settings-btn',
+                                'class'  : 'quiqqer-auth-facebook-register-btn',
                                 textimage: 'fa fa-link',
                                 text     : QUILocale.get(lg, 'controls.settings.addAccount.btn.connect'),
                                 events   : {

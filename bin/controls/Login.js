@@ -1,16 +1,17 @@
 /**
- * Registration of codes for Google Authenticator QUIQQER plugin
+ * Facebook Authentication for QUIQQER
  *
  * @module package/quiqqer/authfacebook/bin/controls/Login
  * @author www.pcsg.de (Patrick Müller)
  *
- * @require qui/QUI
  * @require qui/controls/Control
+ * @require qui/controls/windows/Confirm
  * @require qui/controls/buttons/Button
+ * @require qui/controls/loader/Loader
+ * @require package/quiqqer/authfacebook/bin/Facebook
  * @requrie Ajax
  * @require Locale
  * @require css!package/quiqqer/authfacebook/bin/controls/Login.css
- *
  */
 define('package/quiqqer/authfacebook/bin/controls/Login', [
 
@@ -24,7 +25,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
     'Ajax',
     'Locale',
 
-    //'css!package/quiqqer/authfacebook/bin/controls/Login.css'
+    'css!package/quiqqer/authfacebook/bin/controls/Login.css'
 
 ], function (QUIControl, QUIConfirm, QUIButton, QUILoader, Facebook,
              QUIAjax, QUILocale) {
@@ -37,19 +38,15 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         Type   : 'package/quiqqer/authfacebook/bin/controls/Login',
 
         Binds: [
-            '$onInject',
-            '$onRefresh',
-            '$onCreate',
-            '$onResize',
-            'refresh',
-            '$listRefresh',
-            '$generateKey',
-            '$showKey',
-            '$deleteKeys'
+            '$onImport',
+            '$login',
+            '$showSettings',
+            '$showLoginBtn',
+            '$getLoginUserId'
         ],
 
         options: {
-            uid: false
+            uid: false  // QUIQQER User ID
         },
 
         initialize: function (options) {
@@ -71,7 +68,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$Elm = new Element('div', {
                 'class': 'quiqqer-auth-facebook-login',
                 'html' : '<div class="quiqqer-auth-facebook-login-info"></div>' +
-                '<div class="quiqqer-auth-facebook-login-btn"></div>'
+                '<div class="quiqqer-auth-facebook-login-btns"></div>'
             });
 
             this.$InfoElm = this.$Elm.getElement(
@@ -79,7 +76,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             );
 
             this.$BtnElm = this.$Elm.getElement(
-                '.quiqqer-auth-facebook-login-btn'
+                '.quiqqer-auth-facebook-login-btns'
             );
 
             this.Loader.inject(this.$Elm);
@@ -97,28 +94,89 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$Input.type = 'hidden';
             this.$Form       = this.$Input.getParent('form');
 
-            var Elm = this.create().inject(this.$Input, 'after');
+            this.create().inject(this.$Input, 'after');
+            this.$login();
+
+            Facebook.addEvents({
+                onLogin: function () {
+                    self.$BtnElm.set('html', '');
+                    self.$login();
+                }
+            });
+
+            Facebook.addEvents({
+                onLogout: function () {
+                    self.$BtnElm.set('html', '');
+                    self.$login();
+                }
+            });
+        },
+
+        /**
+         * Login
+         */
+        $login: function () {
+            var self = this;
 
             this.Loader.show();
 
-            Facebook.getStatus().then(function (status) {
+            Promise.all([
+                Facebook.getStatus(),
+                self.$getLoginUserId()
+            ]).then(function (result) {
+                var status      = result[0];
+                var loginUserId = result[1];
+
                 switch (status) {
                     case 'connected':
                         Facebook.getAuthData().then(function (AuthData) {
-                            self.Loader.hide();
-                            self.$Input.value = AuthData.accessToken;
-                            self.$Form.fireEvent('submit', [self.$Form]);
+                            Facebook.isAccountConnectedToQuiqqer(AuthData.userID).then(function (connected) {
+
+                                if (!connected) {
+                                    if (loginUserId) {
+                                        self.$showSettings(loginUserId, status);
+                                    } else {
+                                        // @todo Primary Login Error
+                                    }
+
+                                    self.Loader.hide();
+                                    return;
+                                }
+
+                                //
+                                // check if login user is facebook user
+                                if (loginUserId) {
+                                    self.$isLoginUserFacebookUser(AuthData.accessToken).then(function(isLoginUser) {
+                                        self.Loader.hide();
+
+                                        if (!isLoginUser) {
+                                            self.$InfoElm.set(
+                                                'html',
+                                                QUILocale.get(lg, 'controls.login.wrong.facebook.user')
+                                            );
+
+                                            Facebook.getLogoutButton().inject(self.$BtnElm);
+                                            return;
+                                        }
+
+                                        self.$Input.value = AuthData.accessToken;
+                                        self.$Form.fireEvent('submit', [self.$Form]);
+                                    });
+                                }
+                            });
                         });
                         break;
 
                     case 'not_authorized':
-                        self.$InfoElm.set(
-                            'html',
-                            QUILocale.get(lg, 'controls.login.status.not_authorized')
-                        );
+                        self.$showSettings(loginUserId, status);
                         break;
 
                     case 'unknown':
+                        self.$InfoElm.set(
+                            'html',
+                            QUILocale.get(lg, 'controls.login.status.unknown')
+                        );
+
                         self.$showLoginBtn();
                         break;
                 }
@@ -128,18 +186,95 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         },
 
         /**
+         * Shows settings control
+         *
+         * @param {number} uid - QUIQQER User ID
+         * @param {string} status - Facebook Login status
+         */
+        $showSettings: function (uid, status) {
+            var self = this;
+
+            this.Loader.show();
+            this.$InfoElm.set('html', '');
+
+            var emailProvided = true;
+
+            require([
+                'package/quiqqer/authfacebook/bin/controls/Settings'
+            ], function (SettingsControl) {
+                self.Loader.hide();
+                var Settings = new SettingsControl({
+                    uid   : uid,
+                    events: {
+                        onAccountConnected: function (Account, Control) {
+                            self.$login();
+                            Control.destroy();
+                        },
+                        onLoaded          : function () {
+                            switch (status) {
+                                case 'connected':
+                                    if (!emailProvided) {
+                                        Settings.setInfoText(
+                                            QUILocale.get(lg, 'controls.login.register.status.not_authorized')
+                                        );
+
+                                        return;
+                                    }
+
+                                    Settings.setInfoText(
+                                        QUILocale.get(lg, 'controls.login.register.status.connected')
+                                    );
+                                    break;
+                            }
+                        },
+                        onAuthWithoutEmail: function () {
+                            emailProvided = false;
+                        }
+                    }
+                }).inject(self.$InfoElm);
+            })
+        },
+
+        /**
          * Show login button
          */
         $showLoginBtn: function () {
-            var self     = this;
-            var LoginBtn = Facebook.getLoginButton().inject(this.$BtnElm);
+            Facebook.getLoginButton().inject(this.$BtnElm);
+        },
 
-            Facebook.addEvents({
-                onLogin: function (Response) {
-                    LoginBtn.destroy();
-                    self.$Input.value = Response.accessToken;
-                    self.$Form.fireEvent('submit', [self.$Form]);
-                }
+        /**
+         * Checks if the current QUIQQER Login user is the Facebook user
+         *
+         * @param {string} fbToken - Facebook API token
+         * @return {Promise}
+         */
+        $isLoginUserFacebookUser: function (fbToken) {
+            return new Promise(function (resolve, reject) {
+                QUIAjax.get(
+                    'package_quiqqer_authfacebook_ajax_isLoginUserFacebookUser',
+                    resolve, {
+                        'package': 'quiqqer/authfacebook',
+                        fbToken  : fbToken,
+                        onError  : reject
+                    }
+                )
+            });
+        },
+
+        /**
+         * Get ID of Login User
+         *
+         * @return {Promise}
+         */
+        $getLoginUserId: function () {
+            return new Promise(function (resolve, reject) {
+                QUIAjax.get(
+                    'package_quiqqer_authfacebook_ajax_getLoginUserId',
+                    resolve, {
+                        'package': 'quiqqer/authfacebook',
+                        onError  : reject
+                    }
+                )
             });
         }
     });

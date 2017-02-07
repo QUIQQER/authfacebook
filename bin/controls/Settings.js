@@ -1,16 +1,26 @@
 /**
- * Registration of codes for Google Authenticator QUIQQER plugin
+ * Settings for Facebook QUIQQER Authentication
  *
  * @module package/quiqqer/authfacebook/bin/controls/Settings
  * @author www.pcsg.de (Patrick Müller)
  *
- * @require qui/QUI
  * @require qui/controls/Control
+ * @require qui/controls/windows/Confirm
  * @require qui/controls/buttons/Button
- * @requrie Ajax
+ * @requrie qui/controls/loader/Loader
+ * @require package/quiqqer/authfacebook/bin/Facebook
+ * @require Mustache
+ * @require Ajax
  * @require Locale
  * @require css!package/quiqqer/authfacebook/bin/controls/Settings.css
  *
+ * @event onLoaded [self] - fires when all information is gathered and control is loaded
+ * @event onAccountConnected [Account, self] - fires if the user connects his QUIQQER account
+ * with his Facebook account
+ * @event onAccountDisconnected [userId, self] - fires if the user disconnects his QUIQQER account from
+ * his Facebook account
+ * @event onAuthWithoutEmail [self] - fires if the user authorizes QUIQQER to use his Facebook account
+ * but explicitly disallows use of Facebook E-Mail address
  */
 define('package/quiqqer/authfacebook/bin/controls/Settings', [
 
@@ -32,6 +42,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
+
     return new Class({
 
         Extends: QUIControl,
@@ -39,28 +50,21 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
 
         Binds: [
             '$onInject',
-            '$onRefresh',
-            '$onCreate',
             '$onResize',
-            'refresh',
-            '$listRefresh',
-            '$generateKey',
-            '$showKey',
-            '$deleteKeys'
+            '$showAccountInfo',
+            'setInfoText',
+            '$showConnectionInfo'
         ],
 
         options: {
-            uid: false
+            uid: false  // QUIQQER User ID
         },
 
         initialize: function (options) {
-            this.setAttribute('title', QUILocale.get(lg, 'passwords.panel.title'));
-
             this.parent(options);
 
             this.addEvents({
-                onInject: this.$onInject,
-                onResize: this.$onResize
+                onInject: this.$onInject
             });
 
             this.Loader   = new QUILoader();
@@ -111,6 +115,8 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                         );
 
                         self.Loader.hide();
+
+                        self.fireEvent('loaded', [self]);
                         return;
                     }
 
@@ -118,11 +124,15 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                         self.Loader.hide();
 
                         if (!Account) {
-                            self.$showConnectionInfo();
+                            self.$showConnectionInfo().then(function() {
+                                self.fireEvent('loaded', [self]);
+                            });
                             return;
                         }
 
-                        self.$showAccountInfo(Account);
+                        self.$showAccountInfo(Account).then(function() {
+                            self.fireEvent('loaded', [self]);
+                        });
                     }, function (Exception) {
                         console.log(Exception.getCode());
                     });
@@ -131,12 +141,19 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                     userId   : userId
                 }
             );
+
+            Facebook.addEvents({
+                'onLogin': function () {
+                    self.$showConnectionInfo();
+                }
+            });
         },
 
         /**
          * Show info of connected facebook account
          *
          * @param {Object} Account - Data of connected Facebook account
+         * @return {Promise}
          */
         $showAccountInfo: function (Account) {
             var self = this;
@@ -151,6 +168,8 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                 )
             );
 
+            var userId = this.getAttribute('uid');
+
             new QUIButton({
                 'class'  : 'quiqqer-auth-facebook-settings-btn',
                 textimage: 'fa fa-unlink',
@@ -160,13 +179,14 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                         self.Loader.show();
 
                         Facebook.disconnectQuiqqerAccount(
-                            self.getAttribute('uid')
+                            userId
                         ).then(function (success) {
                             self.Loader.hide();
 
                             if (success) {
                                 Btn.destroy();
                                 self.$showConnectionInfo();
+                                self.fireEvent('accountDisconnected', [userId, self]);
                             }
                         });
                     }
@@ -174,6 +194,17 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
             }).inject(
                 this.$Elm
             );
+
+            return Promise.resolve();
+        },
+
+        /**
+         * Set information text
+         *
+         * @param {string} text
+         */
+        setInfoText: function(text) {
+            this.$InfoElm.set('html', text);
         },
 
         /**
@@ -186,110 +217,90 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
 
             this.$BtnsElm.set('html', '');
 
-            Facebook.getStatus().then(function (status) {
-                switch (status) {
-                    case 'connected':
-                        Promise.all([
-                            Facebook.getProfileInfo(),
-                            Facebook.getAuthData()
-                        ]).then(function (result) {
-                            var Profile  = result[0];
-                            var AuthData = result[1];
+            return new Promise(function(resolve, reject) {
+                Facebook.getStatus().then(function (status) {
+                    switch (status) {
+                        case 'connected':
+                            Promise.all([
+                                Facebook.getProfileInfo(),
+                                Facebook.getAuthData()
+                            ]).then(function (result) {
+                                resolve(); // fires onLoaded
 
-                            // Check if user provided email
-                            if (typeof Profile.email === 'undefined') {
-                                self.$InfoElm.set(
-                                    'html',
-                                    QUILocale.get(lg, 'controls.settings.addAccount.email.unknown', {
+                                var Profile  = result[0];
+                                var AuthData = result[1];
+
+                                // Check if user provided email
+                                if (typeof Profile.email === 'undefined') {
+                                    self.setInfoText(QUILocale.get(lg, 'controls.settings.addAccount.email.unknown', {
                                         'name': Profile.first_name + ' ' + Profile.last_name
-                                    })
+                                    }));
+
+                                    Facebook.getAuthButton(true).inject(self.$BtnsElm);
+
+                                    self.fireEvent('authWithoutEmail', [self]);
+                                    return;
+                                }
+
+                                self.setInfoText(
+                                    QUILocale.get(
+                                        lg,
+                                        'controls.settings.addAccount.info.connected', {
+                                            'name'     : Profile.first_name + ' ' + Profile.last_name,
+                                            'email'    : Profile.email
+                                        }
+                                    )
                                 );
 
-                                Facebook.getLoginButton().inject(self.$BtnsElm);
-                                return;
-                            }
+                                // "Connect account" Button
+                                new QUIButton({
+                                    'class'  : 'quiqqer-auth-facebook-settings-btn',
+                                    textimage: 'fa fa-link',
+                                    text     : QUILocale.get(lg, 'controls.settings.addAccount.btn.connect'),
+                                    events   : {
+                                        onClick: function () {
+                                            self.Loader.show();
 
-                            var QUser = self.getAttribute('User');
+                                            Facebook.connectQuiqqerAccount(
+                                                self.getAttribute('uid'),
+                                                AuthData.accessToken
+                                            ).then(function (Account) {
+                                                self.Loader.hide();
 
-                            self.$InfoElm.set(
-                                'html',
-                                QUILocale.get(
-                                    lg,
-                                    'controls.settings.addAccount.info.connected', {
-                                        'name'     : Profile.first_name + ' ' + Profile.last_name,
-                                        'email'    : Profile.email,
-                                        'qUserName': QUser.getUsername(),
-                                        'qUserId'  : QUser.getId()
+                                                if (!Account) {
+                                                    return;
+                                                }
+
+                                                self.$showAccountInfo(Account);
+                                                self.fireEvent('accountConnected', [Account, self]);
+                                            });
+                                        }
                                     }
-                                )
+                                }).inject(self.$BtnsElm);
+                            });
+                            break;
+
+                        case 'not_authorized':
+                            self.setInfoText(
+                                QUILocale.get(lg, 'controls.settings.addAccount.info.not_authorized')
                             );
 
-                            new QUIButton({
-                                'class'  : 'quiqqer-auth-facebook-settings-btn',
-                                textimage: 'fa fa-link',
-                                text     : QUILocale.get(lg, 'controls.settings.addAccount.btn.connect'),
-                                events   : {
-                                    onClick: function () {
-                                        self.Loader.show();
+                            Facebook.getAuthButton().inject(self.$BtnsElm);
+                            resolve();
+                            break;
 
-                                        Facebook.connectQuiqqerAccount(
-                                            self.getAttribute('uid'),
-                                            AuthData.accessToken
-                                        ).then(function (Account) {
-                                            self.$showAccountInfo(Account);
-                                            self.Loader.hide();
-                                        });
-                                    }
-                                }
-                            }).inject(self.$BtnsElm);
-                        });
-                        break;
+                        default:
+                            self.setInfoText(
+                                QUILocale.get(lg, 'controls.settings.addAccount.info.unknown')
+                            );
 
-                    case 'not_authorized':
-                        self.$InfoElm.set(
-                            'html',
-                            QUILocale.get(lg, 'controls.settings.addAccount.info.not_authorized')
-                        );
+                            Facebook.getLoginButton().inject(self.$BtnsElm);
+                            resolve();
+                    }
 
-                        Facebook.getLoginButton().inject(self.$BtnsElm);
-                        Facebook.addEvents({
-                            'onLogin': function () {
-                                self.$showConnectionInfo();
-                            }
-                        });
-                        break;
-
-                    default:
-                        self.$InfoElm.set(
-                            'html',
-                            QUILocale.get(lg, 'controls.settings.addAccount.info.unknown')
-                        );
-
-                        Facebook.getLoginButton().inject(self.$BtnsElm);
-                        Facebook.addEvents({
-                            'onLogin': function () {
-                                self.$showConnectionInfo();
-                            }
-                        });
-                }
-
-                self.Loader.hide();
+                    self.Loader.hide();
+                });
             });
-        },
-
-        /**
-         * Event: onResize
-         */
-        $onResize: function () {
-            if (!this.$GridContainer) {
-                return;
-            }
-
-            var size = this.$GridContainer.getSize();
-
-            //this.$Grid.setHeight(size.y);
-            this.$Grid.setHeight(200);  // @todo variable height
-            this.$Grid.resize();
         }
     });
 });

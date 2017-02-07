@@ -4,6 +4,7 @@ namespace QUI\Auth\Facebook;
 
 use QUI;
 use Facebook\Facebook as FacebookApi;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Class Facebook
@@ -34,6 +35,61 @@ class Facebook
     protected static $Api = null;
 
     /**
+     * Create a new QUIQQER account with a Facebook email address
+     *
+     * @param string $email - Facebook email address
+     * @param string $accessToken - Facebook access token
+     * @return QUI\Users\User - Newly created user
+     *
+     * @throws QUI\Auth\Facebook\Exception
+     */
+    public static function createQuiqqerAccount($email, $accessToken)
+    {
+        $Users = QUI::getUsers();
+
+        if ($Users->emailExists($email)) {
+            throw new Exception(array(
+                'quiqqer/authfacebook',
+                'exception.facebook.email.already.exists',
+                array(
+                    'email' => $email
+                )
+            ));
+        }
+
+        self::validateAccessToken($accessToken);
+
+        $profileData = self::getProfileData($accessToken);
+
+        if (!isset($profileData['email'])) {
+            throw new Exception(array(
+                'quiqqer/authfacebook',
+                'exception.facebook.email.access.mandatory'
+            ));
+        }
+
+        if ($profileData['email'] != $email) {
+            throw new Exception(array(
+                'quiqqer/authfacebook',
+                'exception.facebook.email.incorrect'
+            ));
+        }
+
+        $NewUser = $Users->createChild($email, $Users->getSystemUser());
+        $NewUser->setAttribute('email', $email);
+        $NewUser->save($Users->getSystemUser());
+        $NewUser->setPassword(Orthos::getPassword(), $Users->getSystemUser()); // set random password
+        $NewUser->activate(false, $Users->getSystemUser());
+
+        // automatically connect new quiqqer account with fb account
+        QUI::getSession()->set('uid', $NewUser->getId());
+        self::connectQuiqqerAccount($NewUser->getId(), $accessToken);
+        QUI::getSession()->set('uid', false);
+
+        return $NewUser;
+    }
+
+    /**
      * Connect a QUIQQER account with a Facebook account
      *
      * @param int $uid
@@ -46,10 +102,9 @@ class Facebook
     {
         self::checkEditPermission($uid);
 
-        $accountData = self::getConnectedAccountByQuiqqerUserId($uid);
-        $User        = QUI::getUsers()->get($uid);
+        $User = QUI::getUsers()->get($uid);
 
-        if (!empty($accountData)) {
+        if (self::isQuiqqerAcccountConnected($uid)) {
             throw new Exception(array(
                 'quiqqer/authfacebook',
                 'exception.facebook.account.already.connected',
@@ -172,6 +227,18 @@ class Facebook
     }
 
     /**
+     * Checks if a quiqqer account is already connected to a Facebook account
+     *
+     * @param int $userId - QUIQQER User ID
+     * @return bool
+     */
+    public static function isQuiqqerAcccountConnected($userId)
+    {
+        $accountData = self::getConnectedAccountByQuiqqerUserId($userId);
+        return !empty($accountData);
+    }
+
+    /**
      * Get Facebook API Instance
      *
      * @return FacebookApi
@@ -234,7 +301,7 @@ class Facebook
      */
     protected static function checkEditPermission($userId)
     {
-        if ((int)QUI::getUserBySession()->getId() !== (int)$userId
+        if ((int)QUI::getSession()->get('uid') !== (int)$userId
             || !$userId
         ) {
             throw new QUI\Permissions\Exception(

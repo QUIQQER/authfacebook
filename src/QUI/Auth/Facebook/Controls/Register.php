@@ -11,19 +11,19 @@ use QUI\Control;
 /**
  * Class Register
  *
- * Facebook Settings Control
+ * Facebook Registration Control
  *
  * @package QUI\Auth\Facebook
  */
-class Settings extends Control
+class Register extends Control
 {
     /**
      * @return string
      */
     public function getBody()
     {
-        return '<div class="quiqqer-auth-facebook-settings"     
-                  data-qui="package/quiqqer/authfacebook/bin/controls/Settings">
+        return '<div class="quiqqer-auth-facebook-register"     
+                  data-qui="package/quiqqer/authfacebook/bin/controls/Register">
             </div>';
     }
 }

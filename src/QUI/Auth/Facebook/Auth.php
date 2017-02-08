@@ -152,7 +152,7 @@ class Auth extends AbstractAuthenticator
      */
     public static function getRegisterControl()
     {
-        return null;
+        return new QUI\Auth\Facebook\Controls\Register();
     }
 
     /**

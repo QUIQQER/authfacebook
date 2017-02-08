@@ -9,9 +9,11 @@ use QUI;
 use QUI\Control;
 
 /**
- * Class Login
+ * Class Register
  *
- * @package QUI
+ * Facebook Login Control
+ *
+ * @package QUI\Auth\Facebook
  */
 class Login extends Control
 {

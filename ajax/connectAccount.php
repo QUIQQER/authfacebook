@@ -32,6 +32,10 @@ QUI::$Ajax->registerFunction(
 
             return false;
         } catch (\Exception $Exception) {
+            QUI\System\Log::addError(
+                'AJAX :: package_quiqqer_authfacebook_ajax_connectAccount -> ' . $Exception->getMessage()
+            );
+
             QUI::getMessagesHandler()->addError(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',

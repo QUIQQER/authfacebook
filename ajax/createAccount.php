@@ -21,17 +21,7 @@ QUI::$Ajax->registerFunction(
         try {
             $NewUser = Facebook::createQuiqqerAccount($email, $fbToken);
         } catch (QUI\Auth\Facebook\Exception $Exception) {
-//            QUI::getMessagesHandler()->addError(
-//                QUI::getLocale()->get(
-//                    'quiqqer/authfacebook',
-//                    'message.ajax.createAccount.error',
-//                    array(
-//                        'error' => $Exception->getMessage()
-//                    )
-//                )
-//            );
-
-            throw $Exception;
+            throw $Exception; // throw exception to show it in the frontend
         } catch (\Exception $Exception) {
             QUI\System\Log::addError(
                 'AJAX :: package_quiqqer_authfacebook_ajax_createAccount -> ' . $Exception->getMessage()

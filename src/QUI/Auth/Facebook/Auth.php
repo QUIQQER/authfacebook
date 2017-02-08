@@ -34,7 +34,9 @@ class Auth extends AbstractAuthenticator
      */
     public function __construct($user = '')
     {
-        $this->User = QUI::getUsers()->getUserByName($user);
+        if (!empty($user)) {
+            $this->User = QUI::getUsers()->getUserByName($user);
+        }
     }
 
     /**
@@ -72,8 +74,6 @@ class Auth extends AbstractAuthenticator
      */
     public function auth($authData)
     {
-        \QUI\System\Log::writeRecursive($authData);
-
         if (!is_array($authData)
             || !isset($authData['token'])
         ) {
@@ -102,6 +102,13 @@ class Auth extends AbstractAuthenticator
                 'quiqqer/authfacebook',
                 'exception.auth.no.account.connected'
             ), 1001);
+        }
+
+        // if there is no user set, Facebook is used as primary login
+        // and Login user is the user connected to the facebook profile
+        // used in the login process.
+        if (is_null($this->User)) {
+            $this->User = QUI::getUsers()->get($connectionProfile['userId']);
         }
 
         if ((int)$connectionProfile['userId'] !== (int)$this->User->getId()) {

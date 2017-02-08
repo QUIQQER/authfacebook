@@ -4,9 +4,12 @@
  * @module package/quiqqer/authfacebook/bin/controls/Register
  * @author www.pcsg.de (Patrick Müller)
  *
- * @require qui/QUI
  * @require qui/controls/Control
+ * @require qui/controls/windows/Confirm
  * @require qui/controls/buttons/Button
+ * @require qui/controls/loader/Loader
+ * @require package/quiqqer/authfacebook/bin/Facebook
+ * @require Mustache
  * @requrie Ajax
  * @require Locale
  * @require css!package/quiqqer/authfacebook/bin/controls/Register.css
@@ -39,14 +42,7 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
 
         Binds: [
             '$onInject',
-            '$onRefresh',
-            '$onCreate',
-            '$onResize',
-            'refresh',
-            '$listRefresh',
-            '$generateKey',
-            '$showKey',
-            '$deleteKeys'
+            '$onCreate'
         ],
 
         options: {
@@ -57,8 +53,7 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
             this.parent(options);
 
             this.addEvents({
-                onInject: this.$onInject,
-                onResize: this.$onResize
+                onInject: this.$onInject
             });
 
             this.Loader   = new QUILoader();
@@ -406,21 +401,6 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
 
                 self.Loader.hide();
             });
-        },
-
-        /**
-         * Event: onResize
-         */
-        $onResize: function () {
-            if (!this.$GridContainer) {
-                return;
-            }
-
-            var size = this.$GridContainer.getSize();
-
-            //this.$Grid.setHeight(size.y);
-            this.$Grid.setHeight(200);  // @todo variable height
-            this.$Grid.resize();
         }
     });
 });

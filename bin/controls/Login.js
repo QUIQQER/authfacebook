@@ -136,33 +136,55 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                                     if (loginUserId) {
                                         self.$showSettings(loginUserId, status);
                                     } else {
-                                        // @todo Primary Login Error
+                                        self.$InfoElm.set(
+                                            'html',
+                                            QUILocale.get(lg, 'controls.login.no.quiqqer.account')
+                                        );
+
+                                        Facebook.getLogoutButton().inject(self.$BtnElm);
                                     }
 
                                     self.Loader.hide();
                                     return;
                                 }
 
-                                //
-                                // check if login user is facebook user
-                                if (loginUserId) {
-                                    self.$isLoginUserFacebookUser(AuthData.accessToken).then(function(isLoginUser) {
-                                        self.Loader.hide();
+                                // if there is no previous user id in the user session
+                                // Facebook auth is used as a primary authenticator
+                                if (!loginUserId) {
+                                    self.$Input.value = AuthData.accessToken;
+                                    self.$Form.fireEvent('submit', [self.$Form]);
 
-                                        if (!isLoginUser) {
+                                    return;
+                                }
+
+                                // check if login user is facebook user
+                                self.$isLoginUserFacebookUser(AuthData.accessToken).then(function (isLoginUser) {
+                                    self.Loader.hide();
+
+                                    if (!isLoginUser) {
+                                        self.Loader.show();
+
+                                        self.$loginErrorCheck().then(function (maxLoginsExceeded) {
+                                            self.Loader.hide();
+
+                                            if (maxLoginsExceeded) {
+                                                window.location = window.location;
+                                                return;
+                                            }
+
                                             self.$InfoElm.set(
                                                 'html',
                                                 QUILocale.get(lg, 'controls.login.wrong.facebook.user')
                                             );
 
                                             Facebook.getLogoutButton().inject(self.$BtnElm);
-                                            return;
-                                        }
+                                        });
+                                        return;
+                                    }
 
-                                        self.$Input.value = AuthData.accessToken;
-                                        self.$Form.fireEvent('submit', [self.$Form]);
-                                    });
-                                }
+                                    self.$Input.value = AuthData.accessToken;
+                                    self.$Form.fireEvent('submit', [self.$Form]);
+                                });
                             });
                         });
                         break;
@@ -232,7 +254,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         }
                     }
                 }).inject(self.$InfoElm);
-            })
+            });
         },
 
         /**
@@ -270,6 +292,23 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             return new Promise(function (resolve, reject) {
                 QUIAjax.get(
                     'package_quiqqer_authfacebook_ajax_getLoginUserId',
+                    resolve, {
+                        'package': 'quiqqer/authfacebook',
+                        onError  : reject
+                    }
+                )
+            });
+        },
+
+        /**
+         * Check facebook login errors
+         *
+         * @return {Promise}
+         */
+        $loginErrorCheck: function () {
+            return new Promise(function (resolve, reject) {
+                QUIAjax.post(
+                    'package_quiqqer_authfacebook_ajax_loginErrorCheck',
                     resolve, {
                         'package': 'quiqqer/authfacebook',
                         onError  : reject

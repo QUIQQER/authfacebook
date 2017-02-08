@@ -11,6 +11,12 @@
                     <type><![CDATA[string]]></type>
                 </conf>
             </section>
+            <section name="authSettings">
+                <conf name="maxLoginErrors">
+                    <type><![CDATA[integer]]></type>
+                    <defaultvalue>3</defaultvalue>
+                </conf>
+            </section>
         </config>
 
         <window>
@@ -48,6 +54,21 @@
                             </text>
                             <description>
                                 <locale group="quiqqer/authfacebook" var="settings.apiSettings.appSecret.description" />
+                            </description>
+                        </input>
+                    </settings>
+
+                    <settings title="authSettings" name="authSettings">
+                        <title>
+                            <locale group="quiqqer/authfacebook" var="settings.authSettings.title" />
+                        </title>
+
+                        <input conf="authSettings.maxLoginErrors" type="text">
+                            <text>
+                                <locale group="quiqqer/authfacebook" var="settings.authSettings.maxLoginErrors.title" />
+                            </text>
+                            <description>
+                                <locale group="quiqqer/authfacebook" var="settings.authSettings.maxLoginErrors.description" />
                             </description>
                         </input>
                     </settings>

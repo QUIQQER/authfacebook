@@ -26,6 +26,9 @@
         <locale name="settings.apiSettings.title">
             <de><![CDATA[Facebook API]]></de>
         </locale>
+        <locale name="settings.authSettings.title">
+            <de><![CDATA[Authentifizierung]]></de>
+        </locale>
         <locale name="settings.apiSettings.appId.title">
             <de><![CDATA[App-ID]]></de>
         </locale>
@@ -37,6 +40,12 @@
         </locale>
         <locale name="settings.apiSettings.appSecret.description" html="true">
             <de><![CDATA[App-Geheimcode des Facebook Developer Accounts bzw. der Facebook App, über die die API-Kommunikation zur Authentifizierung stattfindet. Siehe <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></de>
+        </locale>
+        <locale name="settings.authSettings.maxLoginErrors.title">
+            <de><![CDATA[Maximale Login-Versuche]]></de>
+        </locale>
+        <locale name="settings.authSettings.maxLoginErrors.description">
+            <de><![CDATA[Maximale Versuche, die ein Benutzer hat, sich beim Login-Prozess mit einem gültigen (d.h.: zu seinem QUIQQER-Benutzerkonto gehörigen) Facebook-Konto anzumelden, bevor ein automatischer Logout stattfindet und der Authentifizierungs-Prozess von vorne gestartet wird.]]></de>
         </locale>
 
         <!-- Control: Login -->
@@ -118,6 +127,9 @@
         </locale>
         <locale name="message.ajax.createAccount.success" html="true">
             <de><![CDATA[Das QUIQQER-Benutzerkonto <b>[email]</b> wurde erfolgreich erstellt.]]></de>
+        </locale>
+        <locale name="message.ajax.loginErrorCheck.force.logout.attention">
+            <de><![CDATA[Sie haben sich zu oft mit dem falschen Facebook-Konto angemeldet. Bitte starten Sie den Login-Vorgang erneut.]]></de>
         </locale>
 
         <!-- Class: Auth -->
@@ -272,7 +284,7 @@
 
         <!-- Control: Login -->
         <locale name="controls.login.status.unknown">
-            <de><![CDATA[Bitte loggen Sie sich bei Facebook ein, um mit dem Authentifizierungs-Prozess forzufahren.]]></de>
+            <de><![CDATA[Bitte loggen Sie sich bei Facebook ein, um sich bei QUIQQER anzumelden.]]></de>
         </locale>
         <locale name="controls.login.register.status.connected" html="true">
             <de><![CDATA[Für die Authentifizierung ist es notwendig, dass Ihr Facebook-Konto mit dem QUIQQER-Benutzerkonto, für welches Sie sich authentifizieren wollen, verknüpft ist. Um mit der Authentifizierung fortzufahren, klicken Sie bitte auf <b>Jetzt verknüpfen</b>.]]></de>
@@ -281,7 +293,10 @@
             <de><![CDATA[Für die Authentifizierung ist es notwendig, dass Ihr Facebook-Konto mit dem QUIQQER-Benutzerkonto, für welches Sie sich authentifizieren wollen, verknüpft ist. Um mit der Authentifizierung fortzufahren, müssen Sie QUIQQER zunächst autorisieren, auf Ihr Facebook-Profil und die dort hinterlegte E-Mail-Adresse zuzugreifen. Klicken Sie dazu bitte auf <b>QUIQQER autorisieren</b>.]]></de>
         </locale>
         <locale name="controls.login.wrong.facebook.user">
-            <de><![CDATA[Das Facebook-Konto, bei welchem Sie z.Z. eingeloggt sind, ist nicht mit dem QUIQQER-Benutzerkonto verknüpft, für welches Sie sich gerade authentifizieren. Bitte loggen Sie sich bei Facebook aus und loggen sich erneut mit dem Facebook-Konto ein, welches zu diesem QUIQQER-Benutzerkonto gehört.]]></de>
+            <de><![CDATA[Das Facebook-Konto, bei welchem Sie z.Z. eingeloggt sind, ist nicht mit dem QUIQQER-Benutzerkonto verknüpft, für welches Sie sich gerade authentifizieren. Bitte loggen Sie sich bei Facebook aus und loggen sich erneut mit dem Facebook-Konto ein, welches zu diesem QUIQQER-Benutzerkonto gehört oder welches sie mit dem QUIQQER-Benutzerkonto verknüpfen möchten.]]></de>
+        </locale>
+        <locale name="controls.login.no.quiqqer.account">
+            <de><![CDATA[Zu dem Facebook-Konto, mit welchem Sie z.Z. eingeloggt sind, existiert kein QUIQQER-Benutzerkonto. Bitte loggen Sie sich mit einem anderen Facebook-Konto ein oder verwenden Sie eine andere Authentifizierungs-Methode.]]></de>
         </locale>
 
     </groups>

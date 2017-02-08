@@ -4,8 +4,7 @@
  * @module package/quiqqer/authfacebook/bin/classes/Facebook
  * @author www.pcsg.de (Patrick Müller)
  *
- * @require qui/QUI
- * @require qui/controls/Control
+ * @require qui/classes/DOM
  * @require qui/controls/buttons/Button
  * @requrie Ajax
  * @require Locale
@@ -13,6 +12,7 @@
  *
  * @event onLoaded [this] - Fires if everything has loaded
  * @event onLogin [authResponse, this] - Fires if the user successfully authenticates with Facebook
+ * @event onLogout [this] - Fires if the user clicks the Logout button
  */
 define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 

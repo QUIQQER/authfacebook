@@ -6,8 +6,6 @@ use QUI;
 use QUI\Users\AbstractAuthenticator;
 use QUI\Users\User;
 use QUI\Auth\Facebook\Exception as FacebookException;
-use QUI\Security;
-use QUI\Auth\Facebook\Facebook;
 
 /**
  * Class Auth

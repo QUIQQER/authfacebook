@@ -129,12 +129,13 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                 switch (status) {
                     case 'connected':
-                        Facebook.getAuthData().then(function (AuthData) {
-                            Facebook.isAccountConnectedToQuiqqer(AuthData.userID).then(function (connected) {
-
+                        Facebook.getToken().then(function (token) {
+                            Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
                                 if (!connected) {
+                                    // user is not connected and uses Facebook login as 2FA
                                     if (loginUserId) {
                                         self.$showSettings(loginUserId, status);
+                                    // user is not connected and uses Facebook login as main auth
                                     } else {
                                         self.$InfoElm.set(
                                             'html',
@@ -151,14 +152,14 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                                 // if there is no previous user id in the user session
                                 // Facebook auth is used as a primary authenticator
                                 if (!loginUserId) {
-                                    self.$Input.value = AuthData.accessToken;
+                                    self.$Input.value = token;
                                     self.$Form.fireEvent('submit', [self.$Form]);
 
                                     return;
                                 }
 
                                 // check if login user is facebook user
-                                self.$isLoginUserFacebookUser(AuthData.accessToken).then(function (isLoginUser) {
+                                self.$isLoginUserFacebookUser(token).then(function (isLoginUser) {
                                     self.Loader.hide();
 
                                     if (!isLoginUser) {
@@ -182,7 +183,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                                         return;
                                     }
 
-                                    self.$Input.value = AuthData.accessToken;
+                                    self.$Input.value = token;
                                     self.$Form.fireEvent('submit', [self.$Form]);
                                 });
                             });

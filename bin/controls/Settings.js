@@ -124,13 +124,13 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                         self.Loader.hide();
 
                         if (!Account) {
-                            self.$showConnectionInfo().then(function() {
+                            self.$showConnectionInfo().then(function () {
                                 self.fireEvent('loaded', [self]);
                             });
                             return;
                         }
 
-                        self.$showAccountInfo(Account).then(function() {
+                        self.$showAccountInfo(Account).then(function () {
                             self.fireEvent('loaded', [self]);
                         });
                     }, function (Exception) {
@@ -203,7 +203,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
          *
          * @param {string} text
          */
-        setInfoText: function(text) {
+        setInfoText: function (text) {
             this.$InfoElm.set('html', text);
         },
 
@@ -217,18 +217,18 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
 
             this.$BtnsElm.set('html', '');
 
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 Facebook.getStatus().then(function (status) {
                     switch (status) {
                         case 'connected':
                             Promise.all([
                                 Facebook.getProfileInfo(),
-                                Facebook.getAuthData()
+                                Facebook.getToken()
                             ]).then(function (result) {
                                 resolve(); // fires onLoaded
 
-                                var Profile  = result[0];
-                                var AuthData = result[1];
+                                var Profile = result[0];
+                                var token   = result[1];
 
                                 // Check if user provided email
                                 if (typeof Profile.email === 'undefined') {
@@ -246,8 +246,8 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                                     QUILocale.get(
                                         lg,
                                         'controls.settings.addAccount.info.connected', {
-                                            'name'     : Profile.first_name + ' ' + Profile.last_name,
-                                            'email'    : Profile.email
+                                            'name' : Profile.first_name + ' ' + Profile.last_name,
+                                            'email': Profile.email
                                         }
                                     )
                                 );
@@ -263,7 +263,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
 
                                             Facebook.connectQuiqqerAccount(
                                                 self.getAttribute('uid'),
-                                                AuthData.accessToken
+                                                token
                                             ).then(function (Account) {
                                                 self.Loader.hide();
 

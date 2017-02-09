@@ -10,9 +10,9 @@ use QUI\Auth\Facebook\Facebook;
  */
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_isFacebookAccountConnected',
-    function ($fbUserId) {
-        $connectedAccount = Facebook::getConnectedAccountByFacebookUserId($fbUserId);
+    function ($fbToken) {
+        $connectedAccount = Facebook::getConnectedAccountByFacebookToken($fbToken);
         return !empty($connectedAccount);
     },
-    array('fbUserId')
+    array('fbToken')
 );

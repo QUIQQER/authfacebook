@@ -35,16 +35,17 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         Type   : 'package/quiqqer/authfacebook/bin/classes/Facebook',
 
         Binds: [
-            'getLoginButton'
+            'login',
+            'logout'
         ],
 
         options: {},
 
         initialize: function (options) {
-            var self = this;
-
             this.parent(options);
-            this.$authData = false;
+
+            this.$AuthData = false;
+            this.$token    = false;    // FB access token
             this.$loaded   = false;
         },
 
@@ -62,15 +63,11 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                 textimage: 'fa fa-facebook-official',
                 text     : QUILocale.get(lg, 'classes.facebook.login.btn.text'),
                 events   : {
-                    onClick: function () {
-                        FB.login(function (response) {
-                            self.$authData = response.authResponse;
+                    onClick: function (Btn) {
+                        Btn.disable();
 
-                            if (response.authResponse) {
-                                self.fireEvent('login', [response.authResponse, self]);
-                            }
-                        }, {
-                            scope: 'public_profile,email'
+                        self.login().then(function () {
+                            Btn.enable();
                         });
                     }
                 }
@@ -81,6 +78,32 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             });
 
             return LoginBtn;
+        },
+
+        /**
+         * Facebook login (opens FB popup and prompts for credentials)
+         *
+         * Must be triggered by user click
+         *
+         * @return {Promise}
+         */
+        login: function () {
+            var self = this;
+
+            return new Promise(function (resolve, reject) {
+                FB.login(function (response) {
+                    self.$AuthData = response.authResponse;
+                    self.$token    = self.$AuthData.accessToken;
+
+                    if (response.authResponse) {
+                        self.fireEvent('login', [response.authResponse, self]);
+                    }
+
+                    resolve();
+                }, {
+                    scope: 'public_profile,email'
+                });
+            });
         },
 
         /**
@@ -98,22 +121,12 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                 textimage: 'fa fa-facebook-official',
                 text     : QUILocale.get(lg, 'classes.facebook.login.btn.authorize.text'),
                 events   : {
-                    onClick: function () {
-                        var Options = {
-                            scope: 'public_profile,email'
-                        };
+                    onClick: function (Btn) {
+                        Btn.disable();
 
-                        if (rerequest) {
-                            Options.auth_type = 'rerequest';
-                        }
-
-                        FB.login(function (response) {
-                            self.$authData = response.authResponse;
-
-                            if (response.authResponse) {
-                                self.fireEvent('login', [response.authResponse, self]);
-                            }
-                        }, Options);
+                        self.auth().then(function () {
+                            Btn.enable();
+                        });
                     }
                 }
             });
@@ -123,6 +136,40 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             });
 
             return AuthBtn;
+        },
+
+        /**
+         * Start authentication process for authenticating QUIQQER with FB account
+         *
+         * Must be triggered by user click
+         *
+         * @param {bool} [rerequest] - set to true if the user should be forced
+         * to confirm Facebook permissions (again)
+         * @return {Promise}
+         */
+        auth: function (rerequest) {
+            var self = this;
+
+            return new Promise(function (resolve, reject) {
+                var Options = {
+                    scope: 'public_profile,email'
+                };
+
+                if (rerequest) {
+                    Options.auth_type = 'rerequest';
+                }
+
+                FB.login(function (response) {
+                    self.$AuthData = response.authResponse;
+                    self.$token    = self.$AuthData.accessToken;
+
+                    if (response.authResponse) {
+                        self.fireEvent('login', [response.authResponse, self]);
+                    }
+
+                    resolve();
+                }, Options);
+            });
         },
 
         /**
@@ -142,12 +189,8 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                     onClick: function (Btn) {
                         Btn.disable();
 
-                        FB.logout(function (response) {
-                            self.$authData = null;
-                            self.fireEvent('logout', [self]);
+                        self.logout().then(function () {
                             Btn.enable();
-                        }, {
-                            accessToken: self.$authData.accessToken
                         });
                     }
                 }
@@ -161,6 +204,29 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         },
 
         /**
+         * Facebook Logout
+         *
+         * Must be triggered by user click and needs Facebook profile permissions
+         *
+         * @return {Promise}
+         */
+        logout: function () {
+            var self = this;
+
+            return new Promise(function (resolve, reject) {
+                FB.logout(function (response) {
+                    self.$AuthData = null;
+                    self.$token    = null;
+
+                    self.fireEvent('logout', [self]);
+                    resolve();
+                }, {
+                    accessToken: self.$token
+                });
+            });
+        },
+
+        /**
          * Get auth data of currently connected Facebook account
          *
          * @return {Promise}
@@ -169,7 +235,20 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             var self = this;
 
             return this.$load().then(function () {
-                return self.$authData
+                return self.$AuthData
+            });
+        },
+
+        /**
+         * Get Facebook access token of currently connected Facebook account
+         *
+         * @return {Promise}
+         */
+        getToken: function() {
+            var self = this;
+
+            return this.$load().then(function () {
+                return self.$token
             });
         },
 
@@ -269,16 +348,16 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         /**
          * Check if Facebook account is connected to a QUIQQER account
          *
-         * @param {number} fbUserId
+         * @param {string} fbToken - Facebook API token
          * @return {Promise}
          */
-        isAccountConnectedToQuiqqer: function (fbUserId) {
+        isAccountConnectedToQuiqqer: function (fbToken) {
             return new Promise(function (resolve, reject) {
                 QUIAjax.get(
                     'package_quiqqer_authfacebook_ajax_isFacebookAccountConnected',
                     resolve, {
                         'package': 'quiqqer/authfacebook',
-                        fbUserId : fbUserId,
+                        fbToken  : fbToken,
                         onError  : reject
                     }
                 );
@@ -325,7 +404,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                             self.$loaded = true;
 
                             if (response.authResponse) {
-                                self.$authData = response.authResponse;
+                                self.$AuthData = response.authResponse;
                             }
 
                             self.fireEvent('loaded', [self]);

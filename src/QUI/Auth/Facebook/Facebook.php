@@ -207,15 +207,19 @@ class Facebook
     /**
      * Get details of a connected Facebook account
      *
-     * @param int $userId - Facebook User ID
+     * @param string $fbToken - Facebook API token
      * @return array|false - details as array or false if no account connected to given Facebook userID
      */
-    public static function getConnectedAccountByFacebookUserId($userId)
+    public static function getConnectedAccountByFacebookToken($fbToken)
     {
+        self::validateAccessToken($fbToken);
+
+        $profile = self::getProfileData($fbToken);
+
         $result = QUI::getDataBase()->fetch(array(
             'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
             'where' => array(
-                'fbUserId' => (int)$userId
+                'fbUserId' => (int)$profile['id']
             )
         ));
 

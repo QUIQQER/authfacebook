@@ -5,7 +5,7 @@
             <de><![CDATA[Facebook Login]]></de>
         </locale>
         <locale name="authfacebook.description">
-            <de><![CDATA[QUIQQER Authentifikation mittels Facebook Login]]></de>
+            <de><![CDATA[QUIQQER Authentifikation mittels Facebook-Konto]]></de>
         </locale>
 
         <!-- Package -->
@@ -13,7 +13,7 @@
             <de><![CDATA[Facebook Login für QUIQQER]]></de>
         </locale>
         <locale name="package.description">
-            <de><![CDATA[QUIQQER Authentifikation mittels Facebook Login]]></de>
+            <de><![CDATA[QUIQQER Authentifikation mittels Facebook-Konto]]></de>
         </locale>
 
         <!-- Settings -->
@@ -120,7 +120,7 @@
             <de><![CDATA[Beim Aufheben der Verknüpfung des Facebook-Kontos mit dem QUIQQER-Benutzerkonto ist ein Fehler aufgetreten:<br/><br/>[error]]]></de>
         </locale>
         <locale name="message.ajax.disconnectAccount.success" html="true">
-            <de><![CDATA[Die Verknüpfung des Facebook-Kontos mit dem QUIQQER-Benutzerkonto "[qUserName]" (#[qUserId]) wurde erfolgreich gelöscht. Der Facebook-Login kann nun <b>nicht</b> mehr für die Authentifizierung mit QUIQQER verwendet werden.]]></de>
+            <de><![CDATA[Die Verknüpfung des Facebook-Kontos mit dem QUIQQER-Benutzerkonto "[qUserName]" (#[qUserId]) wurde erfolgreich gelöscht. Der Facebook-Login kann nun <b>nicht</b> mehr zur Authentifizierung für diesen QUIQQER-Benutzer verwendet werden.]]></de>
         </locale>
         <locale name="message.ajax.createAccount.error">
             <de><![CDATA[Bei Erstellung des QUIQQER-Benutzerkontos ist ein Fehler aufgetreten:<br/><br/>[error]]]></de>

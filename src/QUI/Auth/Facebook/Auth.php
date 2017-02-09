@@ -10,7 +10,7 @@ use QUI\Auth\Facebook\Exception as FacebookException;
 /**
  * Class Auth
  *
- * Authentication handler for Google Authenticator
+ * Authentication handler for Facebook authentication
  *
  * @package QUI\Authe\Google2Fa
  */
@@ -27,8 +27,6 @@ class Auth extends AbstractAuthenticator
      * Auth Constructor.
      *
      * @param string|array|integer $user - name of the user, or user id
-     *
-     * @throws QUI\Auth\Google2Fa\Exception
      */
     public function __construct($user = '')
     {
@@ -92,8 +90,7 @@ class Auth extends AbstractAuthenticator
             ), 401);
         }
 
-        $fbProfile         = Facebook::getProfileData($token);
-        $connectionProfile = Facebook::getConnectedAccountByFacebookUserId($fbProfile['id']);
+        $connectionProfile = Facebook::getConnectedAccountByFacebookToken($token);
 
         if (empty($connectionProfile)) {
             throw new FacebookException(array(

@@ -3,10 +3,9 @@
 use QUI\Auth\Facebook\Facebook;
 
 /**
- * Get google authentication keys for a user
+ * Get Facebook API App-ID from config
  *
- * @param string $title - key title
- * @return array - key data
+ * @return string - App-ID
  */
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_getAppId',

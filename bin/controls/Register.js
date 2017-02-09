@@ -153,8 +153,8 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
             Facebook.getStatus().then(function (status) {
                 switch (status) {
                     case 'connected':
-                        Facebook.getAuthData().then(function (AuthData) {
-                            Facebook.isAccountConnectedToQuiqqer(AuthData.userID).then(function (connected) {
+                        Facebook.getToken().then(function (token) {
+                            Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
                                 self.Loader.hide();
 
                                 if (connected) {
@@ -228,7 +228,7 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
                             onClick: function (Btn) {
                                 self.Loader.show();
 
-                                self.createAccount(Profile.email).then(function(newUserId) {
+                                self.createAccount(Profile.email).then(function (newUserId) {
                                     self.Loader.hide();
                                     Btn.destroy();
 
@@ -237,7 +237,7 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
                                             email: Profile.email
                                         })
                                     );
-                                }, function(Exception) {
+                                }, function (Exception) {
                                     self.Loader.hide();
                                     Btn.destroy();
 
@@ -274,13 +274,13 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
          */
         createAccount: function (email) {
             return new Promise(function (resolve, reject) {
-                Facebook.getAuthData().then(function (AuthData) {
+                Facebook.getToken().then(function (token) {
                     QUIAjax.post(
                         'package_quiqqer_authfacebook_ajax_createAccount',
                         resolve, {
                             'package': 'quiqqer/authfacebook',
                             email    : email,
-                            fbToken  : AuthData.accessToken,
+                            fbToken  : token,
                             onError  : reject
                         }
                     )
@@ -317,10 +317,10 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
                     case 'connected':
                         Promise.all([
                             Facebook.getProfileInfo(),
-                            Facebook.getAuthData()
+                            Facebook.getToken()
                         ]).then(function (result) {
-                            var Profile  = result[0];
-                            var AuthData = result[1];
+                            var Profile = result[0];
+                            var token   = result[1];
 
                             // Check if user provided email
                             if (typeof Profile.email === 'undefined') {
@@ -360,7 +360,7 @@ define('package/quiqqer/authfacebook/bin/controls/Register', [
 
                                         Facebook.connectQuiqqerAccount(
                                             self.getAttribute('uid'),
-                                            AuthData.accessToken
+                                            token
                                         ).then(function (Account) {
                                             self.$showAccountInfo(Account);
                                             self.Loader.hide();

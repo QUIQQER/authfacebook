@@ -2,6 +2,7 @@
 
 namespace QUI\Auth\Facebook;
 
+use Facebook\Exceptions\FacebookSDKException;
 use QUI;
 use Facebook\Facebook as FacebookApi;
 use QUI\Utils\Security\Orthos;
@@ -35,16 +36,35 @@ class Facebook
     protected static $Api = null;
 
     /**
-     * Create a new QUIQQER account with a Facebook email address
+     * Create a new QUIQQER account from a Facebook Access Token
      *
-     * @param string $email - Facebook email address
      * @param string $accessToken - Facebook access token
      * @return QUI\Users\User - Newly created user
      *
-     * @throws QUI\Auth\Facebook\Exception
+     * @throws Exception
+     * @internal param string $email - Facebook email address
      */
-    public static function createQuiqqerAccount($email, $accessToken)
+    public static function createQuiqqerAccount($accessToken)
     {
+        try {
+            $profileData = self::getProfileData($accessToken);
+        } catch (FacebookSDKException $ex) {
+            // Throws error if Access Token is invalid (saves one request when not validating access token)
+            throw new Exception(array(
+                'quiqqer/authfacebook',
+                'exception.facebook.invalid.token'
+            ));
+        }
+
+        if (!isset($profileData['email'])) {
+            throw new Exception(array(
+                'quiqqer/authfacebook',
+                'exception.facebook.email.access.mandatory'
+            ));
+        }
+
+        $email = $profileData['email'];
+
         $Users = QUI::getUsers();
 
         if ($Users->emailExists($email)) {
@@ -54,24 +74,6 @@ class Facebook
                 array(
                     'email' => $email
                 )
-            ));
-        }
-
-        self::validateAccessToken($accessToken);
-
-        $profileData = self::getProfileData($accessToken);
-
-        if (!isset($profileData['email'])) {
-            throw new Exception(array(
-                'quiqqer/authfacebook',
-                'exception.facebook.email.access.mandatory'
-            ));
-        }
-
-        if ($profileData['email'] != $email) {
-            throw new Exception(array(
-                'quiqqer/authfacebook',
-                'exception.facebook.email.incorrect'
             ));
         }
 

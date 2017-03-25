@@ -19,7 +19,7 @@ QUI::$Ajax->registerFunction(
         $email = Orthos::clear($email);
 
         try {
-            $NewUser = Facebook::createQuiqqerAccount($email, $fbToken);
+            $NewUser = Facebook::createQuiqqerAccount($fbToken);
         } catch (QUI\Auth\Facebook\Exception $Exception) {
             throw $Exception; // throw exception to show it in the frontend
         } catch (\Exception $Exception) {

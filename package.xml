@@ -8,9 +8,15 @@
             <locale group="quiqqer/authfacebook" var="package.description"/>
         </description>
 
-       <provider>
-           <auth src="\QUI\Auth\Facebook\Auth" />
-       </provider>
+        <provider>
+            <auth src="\QUI\Auth\Facebook\Auth"/>
+        </provider>
+
+        <support>
+            <email>support@pcsg.de</email>
+            <issues>https://dev.quiqqer.com/quiqqer/authfacebook/issues</issues>
+            <source>https://dev.quiqqer.com/quiqqer/authfacebook</source>
+        </support>
 
     </package>
 </quiqqer>

@@ -13,16 +13,16 @@
         </provider>
 
         <support>
-            <email>support@pcsg.de</email>
-            <forum>https://community.quiqqer.com</forum>
-            <source>https://dev.quiqqer.com/quiqqer/authfacebook</source>
-            <issues>https://dev.quiqqer.com/quiqqer/authfacebook/issues</issues>
-            <wiki>https://dev.quiqqer.com/quiqqer/authfacebook/wikis/home</wiki>
+            <email><![CDATA[support@pcsg.de]]></email>
+            <forum><![CDATA[https://community.quiqqer.com]]></forum>
+            <source><![CDATA[https://dev.quiqqer.com/quiqqer/authfacebook]]></source>
+            <issues><![CDATA[https://dev.quiqqer.com/quiqqer/authfacebook/issues]]></issues>
+            <wiki><![CDATA[https://dev.quiqqer.com/quiqqer/authfacebook/wikis/home]]></wiki>
         </support>
 
         <copyright>
             <name><![CDATA[PCSG - Computer & Internet Service OHG]]></name>
-            <license></license>
+            <license><![CDATA[]]></license>
         </copyright>
     </package>
 </quiqqer>

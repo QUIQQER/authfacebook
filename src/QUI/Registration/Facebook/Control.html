@@ -1,12 +1,12 @@
-<noscript>
-    <p>{locale group="quiqqer/authfacebook" var="registrar.javascript_required"}</p>
-</noscript>
-
 {if $isAuth}
 <div class="">
     {locale group="quiqqer/authfacebook" var="controls.frontend.registrar.already_authenticated"}
 </div>
 {else}
+<noscript>
+    <p>{locale group="quiqqer/authfacebook" var="registrar.javascript_required"}</p>
+</noscript>
+
 <input type="hidden" name="token">
 <div class="quiqqer-authfacebook-registrar-info"></div>
 <div class="quiqqer-authfacebook-registrar-btn">

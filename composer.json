@@ -22,7 +22,8 @@
   },
   "autoload": {
     "psr-4": {
-      "QUI\\Auth\\Facebook\\": "src/QUI/Auth/Facebook"
+      "QUI\\Auth\\Facebook\\": "src/QUI/Auth/Facebook",
+      "QUI\\Registration\\Facebook\\": "src/QUI/Registration/Facebook"
     }
   }
 }

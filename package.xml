@@ -8,10 +8,6 @@
             <locale group="quiqqer/authfacebook" var="package.description"/>
         </description>
 
-        <provider>
-            <auth src="\QUI\Auth\Facebook\Auth"/>
-        </provider>
-
         <support>
             <email><![CDATA[support@pcsg.de]]></email>
             <forum><![CDATA[https://community.quiqqer.com]]></forum>
@@ -24,5 +20,11 @@
             <name><![CDATA[PCSG - Computer & Internet Service OHG]]></name>
             <license><![CDATA[]]></license>
         </copyright>
+
+        <provider>
+            <auth src="\QUI\Auth\Facebook\Auth"/>
+            <registrar src="\QUI\Registration\Facebook\Registrar"/>
+        </provider>
+
     </package>
 </quiqqer>

@@ -75,6 +75,8 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
             this.$load().then(function () {
                 LoginBtn.enable();
+            }, function() {
+                // nothing
             });
 
             return LoginBtn;

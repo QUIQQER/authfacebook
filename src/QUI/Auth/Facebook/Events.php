@@ -20,7 +20,7 @@ class Events
         $connectedAccount = Facebook::getConnectedAccountByQuiqqerUserId($User->getId());
 
         if (!empty($connectedAccount)) {
-            Facebook::disconnectAccount($User->getId());
+            Facebook::disconnectAccount($User->getId(), false);
         }
     }
 }

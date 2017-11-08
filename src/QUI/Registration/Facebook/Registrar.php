@@ -37,11 +37,11 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
         $User->setAttributes(array(
             'email'     => $profileData['email'],
-            'firstname' => empty($profileData['given_name']) ? null : $profileData['given_name'],
-            'lastname'  => empty($profileData['family_name']) ? null : $profileData['family_name'],
+            'firstname' => empty($profileData['first_name']) ? null : $profileData['first_name'],
+            'lastname'  => empty($profileData['last_name']) ? null : $profileData['last_name'],
         ));
 
-        $User->setAttribute(FrontendUsersHandler::USER_ATTR_EMAIL_VERIFIED, boolval($profileData['email_verified']));
+        $User->setAttribute(FrontendUsersHandler::USER_ATTR_EMAIL_VERIFIED, boolval($profileData['verified']));
 
         $User->setPassword(QUI\Security\Password::generateRandom(), $SystemUser);
         $User->save($SystemUser);
@@ -160,7 +160,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         $profileData = Facebook::getProfileData($token);
 
         if (!(int)$settings['allowUnverifiedEmailAddresses']
-            && !(int)$profileData['email_verified']) {
+            && !(int)$profileData['verified']) {
             throw new FrontendUsers\Exception(array(
                 $lg,
                 $lgPrefix . 'email_not_verified'

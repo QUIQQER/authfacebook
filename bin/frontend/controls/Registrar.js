@@ -35,7 +35,8 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             '$showRegistrarBtn',
             '$getRegistrarUserId',
             '$showInfo',
-            '$clearInfo'
+            '$clearInfo',
+            '$showGeneralError'
         ],
 
         options: {
@@ -70,10 +71,15 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
             this.$Form       = this.$Elm.getParent('form');
             this.$TokenInput = this.$Elm.getElement('input[name="token"]');
-            this.$BtnElm     = this.$Elm.getElement('.quiqqer-authfacebook-registrar-btn');
-            this.$InfoElm    = this.$Elm.getElement('.quiqqer-authfacebook-registrar-info');
 
-            this.$login();
+            if (!this.$TokenInput) {
+                return;
+            }
+
+            this.$BtnElm  = this.$Elm.getElement('.quiqqer-authfacebook-registrar-btn');
+            this.$InfoElm = this.$Elm.getElement('.quiqqer-authfacebook-registrar-info');
+
+            self.$login();
 
             Facebook.addEvents({
                 onLogin: function () {
@@ -105,9 +111,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     RegistrationBtn.inject(self.$BtnElm);
                 }, function () {
                     self.$clearButtons();
-                    self.$showInfo(
-                        QUILocale.get(lg, 'controls.frontend.registrar.general_error')
-                    );
+                    self.$showGeneralError();
                 });
 
                 self.Loader.hide();
@@ -121,20 +125,24 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                 Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
                     if (connected) {
                         self.$clearButtons();
-                        self.Loader.show();
-                        self.$showLoginInfo();
+                        self.$showAlreadyConnectedInfo();
 
                         return;
                     }
 
                     self.$TokenInput.value = token;
                     self.$Form.submit();
-                }, function () {
-                    self.$showInfo(
-                        QUILocale.get(lg, 'controls.frontend.registrar.general_error')
-                    );
-                });
-            });
+                }, self.$showGeneralError);
+            }, self.$showGeneralError);
+        },
+
+        /**
+         * Show error msg when Facebook API could not be initialized correctly
+         */
+        $showGeneralError: function () {
+            this.$showInfo(
+                QUILocale.get(lg, 'controls.frontend.registrar.general_error')
+            );
         },
 
         /**
@@ -142,47 +150,28 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
          *
          * This is shown if the user visits the registration page
          * and a QUIQQER account is already registered with his Facebook account
-
          */
-        $showLoginInfo: function () {
+        $showAlreadyConnectedInfo: function () {
             var self = this;
 
             this.Loader.show();
 
-            Promise.all([
-                Facebook.getProfileInfo(),
-                self.$checkLoginStatus()
-            ]).then(function (result) {
+            Facebook.getProfileInfo().then(function (ProfileData) {
                 self.Loader.hide();
 
-                var ProfileData = result[0];
-                var isAuth      = result[1];
-                var msg;
-
-                if (isAuth) {
-                    msg = QUILocale.get(lg,
-                        'controls.frontend.registrar.already_connected_and_authenticated', {
-                            email: ProfileData.email
-                        });
-                } else {
-                    msg = QUILocale.get(lg,
-                        'controls.frontend.registrar.already_connected', {
-                            email: ProfileData.email
-                        });
-                }
+                var msg = QUILocale.get(lg,
+                    'controls.frontend.registrar.already_connected', {
+                        email: ProfileData.email
+                    });
 
                 self.$showInfo(msg);
-
-                if (isAuth) {
-                    return;
-                }
 
                 new QUIPopup({
                     icon              : 'fa fa-sign-in',
                     title             : QUILocale.get(lg, 'controls.frontend.registrar.login_popup.title'),
                     buttons           : false,
-                    backgroundClosable: isAuth,
-                    titleCloseButton  : isAuth,
+                    backgroundClosable: false,
+                    titleCloseButton  : true,
                     events            : {
                         onOpen: function (Popup) {
                             Popup.Loader.show();
@@ -192,44 +181,21 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                             Content.set(
                                 'html',
                                 '<p>' + msg + '</p>' +
-                                '<div class="google-logout-btn"></div>' +
-                                '<div class="google-login"></div>'
+                                '<div class="facebook-login"></div>'
                             );
 
                             // Login
-                            new QUILogin().inject(
-                                Content.getElement('.google-login')
-                            );
+                            Facebook.logout().then(function () {
+                                new QUILogin().inject(
+                                    Content.getElement('.facebook-login')
+                                );
 
-                            // Logout
-                            var LogoutButton = Facebook.getLogoutButton();
-
-                            LogoutButton.addEvent('onClick', function () {
-                                Popup.close();
+                                Popup.Loader.hide();
                             });
-
-                            LogoutButton.inject(
-                                Content.getElement('.google-logout-btn')
-                            );
-
-                            Popup.Loader.hide();
                         }
                     }
                 }).open();
-            });
-        },
-
-        /**
-         * Checks if user is currently logged in (QUIQQER)
-         *
-         * @return {Promise}
-         */
-        $checkLoginStatus: function () {
-            return new Promise(function (resolve, reject) {
-                QUIAjax.get('ajax_isAuth', resolve, {
-                    onError: reject
-                })
-            });
+            }, self.$showGeneralError);
         },
 
         /**
@@ -255,25 +221,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
         },
 
         /**
-         * Checks if the current QUIQQER Registrar user is the Facebook user
-         *
-         * @param {string} idToken - Facebook API token
-         * @return {Promise}
-         */
-        $isRegistrarUserFacebookUser: function (idToken) {
-            return new Promise(function (resolve, reject) {
-                QUIAjax.get(
-                    'package_quiqqer_authfacebook_ajax_isRegistrarUserFacebookUser',
-                    resolve, {
-                        'package': 'quiqqer/authfacebook',
-                        idToken  : idToken,
-                        onError  : reject
-                    }
-                )
-            });
-        },
-
-        /**
          * Get ID of Registrar User
          *
          * @return {Promise}
@@ -282,23 +229,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             return new Promise(function (resolve, reject) {
                 QUIAjax.get(
                     'package_quiqqer_authfacebook_ajax_getRegistrarUserId',
-                    resolve, {
-                        'package': 'quiqqer/authfacebook',
-                        onError  : reject
-                    }
-                )
-            });
-        },
-
-        /**
-         * Check Facebook login attempts
-         *
-         * @return {Promise}
-         */
-        $loginAttemptsCheck: function () {
-            return new Promise(function (resolve, reject) {
-                QUIAjax.post(
-                    'package_quiqqer_authfacebook_ajax_loginAttemptsCheck',
                     resolve, {
                         'package': 'quiqqer/authfacebook',
                         onError  : reject

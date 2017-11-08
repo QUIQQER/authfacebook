@@ -195,11 +195,6 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         break;
 
                     case 'unknown':
-                        self.$InfoElm.set(
-                            'html',
-                            QUILocale.get(lg, 'controls.login.status.unknown')
-                        );
-
                         self.$showLoginBtn();
                         break;
                 }

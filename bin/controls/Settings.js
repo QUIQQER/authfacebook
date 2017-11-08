@@ -4,16 +4,6 @@
  * @module package/quiqqer/authfacebook/bin/controls/Settings
  * @author www.pcsg.de (Patrick Müller)
  *
- * @require qui/controls/Control
- * @require qui/controls/windows/Confirm
- * @require qui/controls/buttons/Button
- * @requrie qui/controls/loader/Loader
- * @require package/quiqqer/authfacebook/bin/Facebook
- * @require Mustache
- * @require Ajax
- * @require Locale
- * @require css!package/quiqqer/authfacebook/bin/controls/Settings.css
- *
  * @event onLoaded [self] - fires when all information is gathered and control is loaded
  * @event onAccountConnected [Account, self] - fires if the user connects his QUIQQER account
  * with his Facebook account
@@ -133,8 +123,6 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                         self.$showAccountInfo(Account).then(function () {
                             self.fireEvent('loaded', [self]);
                         });
-                    }, function (Exception) {
-                        console.log(Exception.getCode());
                     });
                 }, {
                     'package': 'quiqqer/authfacebook',
@@ -221,15 +209,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                 Facebook.getStatus().then(function (status) {
                     switch (status) {
                         case 'connected':
-                            Promise.all([
-                                Facebook.getProfileInfo(),
-                                Facebook.getToken()
-                            ]).then(function (result) {
-                                resolve(); // fires onLoaded
-
-                                var Profile = result[0];
-                                var token   = result[1];
-
+                            Facebook.getProfileInfo().then(function (Profile) {
                                 // Check if user provided email
                                 if (typeof Profile.email === 'undefined') {
                                     self.setInfoText(QUILocale.get(lg, 'controls.settings.addAccount.email.unknown', {
@@ -261,22 +241,26 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                                         onClick: function () {
                                             self.Loader.show();
 
-                                            Facebook.connectQuiqqerAccount(
-                                                self.getAttribute('uid'),
-                                                token
-                                            ).then(function (Account) {
-                                                self.Loader.hide();
+                                            Facebook.getToken().then(function(token) {
+                                                Facebook.connectQuiqqerAccount(
+                                                    self.getAttribute('uid'),
+                                                    token
+                                                ).then(function (Account) {
+                                                    self.Loader.hide();
 
-                                                if (!Account) {
-                                                    return;
-                                                }
+                                                    if (!Account) {
+                                                        return;
+                                                    }
 
-                                                self.$showAccountInfo(Account);
-                                                self.fireEvent('accountConnected', [Account, self]);
+                                                    self.$showAccountInfo(Account);
+                                                    self.fireEvent('accountConnected', [Account, self]);
+                                                });
                                             });
                                         }
                                     }
                                 }).inject(self.$BtnsElm);
+
+                                resolve(); // fires onLoaded
                             });
                             break;
 

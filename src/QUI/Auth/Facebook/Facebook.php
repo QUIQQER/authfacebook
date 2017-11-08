@@ -96,30 +96,31 @@ class Facebook
      *
      * @param int $uid
      * @param string $accessToken
+     * @param bool $checkPermission (optional) - check permission to edit quiqqer account [default: true]
      * @return void
      *
      * @throws QUI\Auth\Facebook\Exception
      */
-    public static function connectQuiqqerAccount($uid, $accessToken)
+    public static function connectQuiqqerAccount($uid, $accessToken, $checkPermission = true)
     {
-        self::checkEditPermission($uid);
+        if ($checkPermission !== false) {
+            self::checkEditPermission($uid);
+        }
 
-        $User = QUI::getUsers()->get($uid);
+        $User        = QUI::getUsers()->get($uid);
+        $profileData = self::getProfileData($accessToken);
 
-        if (self::isQuiqqerAcccountConnected($uid)) {
+        if (self::existsQuiqqerAccount($accessToken)) {
             throw new Exception(array(
                 'quiqqer/authfacebook',
-                'exception.facebook.account.already.connected',
+                'exception.facebook.account_already_connected',
                 array(
-                    'userId'   => $uid,
-                    'userName' => $User->getUsername()
+                    'email' => $profileData['email']
                 )
             ));
         }
 
         self::validateAccessToken($accessToken);
-
-        $profileData = self::getProfileData($accessToken);
 
         QUI::getDataBase()->insert(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
@@ -136,10 +137,14 @@ class Facebook
      * Disconnect Facebook account from QUIQQER account
      *
      * @param int $userId - QUIQQER User ID
+     * @param bool $checkPermission (optional) [default: true]
+     * @return void
      */
-    public static function disconnectAccount($userId)
+    public static function disconnectAccount($userId, $checkPermission = true)
     {
-        self::checkEditPermission($userId);
+        if ($checkPermission !== false) {
+            self::checkEditPermission($userId);
+        }
 
         QUI::getDataBase()->delete(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
@@ -178,7 +183,7 @@ class Facebook
      */
     public static function getProfileData($accessToken)
     {
-        $Response = self::getApi()->get('/me?fields=id,name,email', $accessToken);
+        $Response = self::getApi()->get('/me?fields=id,name,first_name,last_name,verified,email', $accessToken);
         $UserData = $Response->getGraphNode();
 
         return $UserData->asArray();
@@ -233,15 +238,24 @@ class Facebook
     }
 
     /**
-     * Checks if a quiqqer account is already connected to a Facebook account
+     * Check if a QUIQQER account exists for a certain access token
      *
-     * @param int $userId - QUIQQER User ID
+     * @param string $token - Facebook API token
      * @return bool
      */
-    public static function isQuiqqerAcccountConnected($userId)
+    public static function existsQuiqqerAccount($token)
     {
-        $accountData = self::getConnectedAccountByQuiqqerUserId($userId);
-        return !empty($accountData);
+        $profile = self::getProfileData($token);
+
+        $result = QUI::getDataBase()->fetch(array(
+            'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
+            'where' => array(
+                'fbUserId' => $profile['id']
+            ),
+            'limit' => 1
+        ));
+
+        return !empty($result);
     }
 
     /**
@@ -294,6 +308,16 @@ class Facebook
     protected static function getAppSecret()
     {
         return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'appSecret');
+    }
+
+    /**
+     * Get version string for Facebook API
+     *
+     * @return string
+     */
+    public static function getApiVersion()
+    {
+        return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'apiVersion');
     }
 
     /**

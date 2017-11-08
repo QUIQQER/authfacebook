@@ -1,5 +1,9 @@
 .quiqqer-auth-facebook-login-btn,
-.quiqqer-auth-facebook-login-btn:hover {
+.quiqqer-auth-facebook-login-btn:disabled,
+.quiqqer-auth-facebook-login-btn:hover,
+.quiqqer-auth-facebook-registration-btn,
+.quiqqer-auth-facebook-registration-btn:disabled,
+.quiqqer-auth-facebook-registration-btn:hover {
     background-color: #3a5794;
     color: #FFF;
 }

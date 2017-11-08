@@ -53,6 +53,14 @@
             <de><![CDATA[App-Geheimcode des Facebook Developer Accounts bzw. der Facebook App, über die die API-Kommunikation zur Authentifizierung stattfindet. Siehe <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></de>
             <en><![CDATA[App Secret of the Facebook App via which the API communication for authentication takes place. See <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></en>
         </locale>
+        <locale name="settings.apiSettings.apiVersion.title">
+            <de><![CDATA[Graph API Version]]></de>
+            <en><![CDATA[Graph API Version]]></en>
+        </locale>
+        <locale name="settings.apiSettings.apiVersion.description" html="true">
+            <de><![CDATA[Gültiger Versions-String für die Facebook Graph API. Für verfügbare Versionen siehe <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></de>
+            <en><![CDATA[Valid version string for Facebook Graph API. For available versions see <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></en>
+        </locale>
         <locale name="settings.authSettings.maxLoginErrors.title">
             <de><![CDATA[Maximale Login-Versuche]]></de>
             <en><![CDATA[Maximum no. of login attempts]]></en>
@@ -60,6 +68,14 @@
         <locale name="settings.authSettings.maxLoginErrors.description">
             <de><![CDATA[Maximale Versuche, die ein Benutzer hat, sich beim Login-Prozess mit einem gültigen (d.h.: zu seinem QUIQQER-Benutzerkonto gehörigen) Facebook-Konto anzumelden, bevor ein automatischer Logout stattfindet und der Authentifizierungs-Prozess von vorne gestartet wird.]]></de>
             <en><![CDATA[Maximal number of attempts for logging in with a valid (meaning: linked to a QUIQQER Account) Facebook Account before the user session is terminated and the authentication process starts over.]]></en>
+        </locale>
+        <locale name="settings.registration.allowUnverifiedEmailAddresses.title">
+            <de><![CDATA[Nicht-verifizierte Facebook-Konten erlauben]]></de>
+            <en><![CDATA[Allow unverified Facebook accounts]]></en>
+        </locale>
+        <locale name="settings.registration.allowUnverifiedEmailAddresses.description">
+            <de><![CDATA[Facebook-Konten zur Registrierung zulassen, deren E-Mail-Adresse noch nicht bestätigt wurde]]></de>
+            <en><![CDATA[Allow Facebook accounts to register whose email address has not yet been verified]]></en>
         </locale>
 
         <!-- Control: Login -->
@@ -88,6 +104,44 @@
         <locale name="classes.facebook.warn.no.appId">
             <de><![CDATA[Die Facebook Authentifikation kann nicht verwendet werden, da noch keine oder eine fehlerhafte App-ID in den Einstellungen festgelegt ist. Bitte legen Sie eine korrekte App-ID in den Einstellung ("Facbook Authentifikation") fest.]]></de>
             <en><![CDATA[Facebook cannot be used because there is no or a wrong App-ID set in the settings. Please set a correct App-ID in the settings ("Facebook authentication").]]></en>
+        </locale>
+
+        <!-- Registrar -->
+        <locale name="registrar.title">
+            <de><![CDATA[Registrierung per Facebook-Konto]]></de>
+            <en><![CDATA[Registration via Facebook account]]></en>
+        </locale>
+        <locale name="registrar.description">
+            <de><![CDATA[Registrierung über Verknüpfung des QUIQQER Benutzerkontos mit einem Facebook-Konto.]]></de>
+            <en><![CDATA[Registration via linking a QUIQQER account with a Facebook account.]]></en>
+        </locale>
+        <locale name="registrar.javascript_required">
+            <de><![CDATA[JavaScript ist in Ihrem Browser deaktiviert. Für die Registrierung mit Ihrem Facebook-Konto aktivieren Sie bitte JavaScript.]]></de>
+            <en><![CDATA[JavaScript is disabled in your browser. To register with your Facebook Account, please enable JavaScript.]]></en>
+        </locale>
+        <locale name="controls.frontend.registrar.registration_button">
+            <de><![CDATA[Jetzt mit Facebook registrieren]]></de>
+            <en><![CDATA[Register now with Facebook]]></en>
+        </locale>
+        <locale name="controls.frontend.registrar.already_authenticated" html="true">
+            <de><![CDATA[Sie sind z.Z. eingeloggt. Bitte loggen Sie sich aus, um mit Facebook ein Benutzerkonto zu registrieren.]]></de>
+            <en><![CDATA[You are currently logged in. Please log out to registrer an account via Facebook.]]></en>
+        </locale>
+        <locale name="message.registrar.registration_success_manual">
+            <de><![CDATA[Die Registrierung war erfolgreich. Bevor Sie sich einloggen können, muss ein Administrator Ihr Benutzerkonto aktivieren.]]></de>
+            <en><![CDATA[The registration was successful. Before you can log in, an administrator must activate your user account.]]></en>
+        </locale>
+        <locale name="message.registrar.registration_success_auto">
+            <de><![CDATA[Die Registrierung war erfolgreich. Ihr Benutzerkonto wurde automatisch aktiviert.]]></de>
+            <en><![CDATA[The registration was successful. Your user account has been activated automatically.]]></en>
+        </locale>
+        <locale name="message.registrar.registration_success_mail">
+            <de><![CDATA[Ihr Benutzerkonto wurde erfolgreich aktiviert.]]></de>
+            <en><![CDATA[Your user account has been activated successfully.]]></en>
+        </locale>
+        <locale name="message.registrar.registration_pending">
+            <de><![CDATA[Die Registrierung war erfolgreich! Bevor Sie sich einloggen können, müssen sie noch Ihr Benutzerkonto aktivieren. Bitte klicken Sie dazu auf den Aktivierungslink, der Ihnen per E-Mail an Ihre Facebook Mail-Adresse zugesandt wurde.]]></de>
+            <en><![CDATA[The registration was successful! Before you can log in, you must activate your user account. Please click on the activation link, which was sent to you by e-mail to your Facebook Mail address.]]></en>
         </locale>
     </groups>
 
@@ -154,9 +208,9 @@
             <de><![CDATA[Ungültiges Facebook Zugriffs-Token.]]></de>
             <en><![CDATA[Invalid Facebook Access Token.]]></en>
         </locale>
-        <locale name="exception.facebook.account.already.connected">
-            <de><![CDATA[Das QUIQQER-Benutzerkonto "[userName]" (#[userId]) ist bereits mit einem Facebook-Konto verknüpft.]]></de>
-            <en><![CDATA[The QUIQQER Account "[userName]" (#[userId]) is already linked to a Facebook Account.]]></en>
+        <locale name="exception.facebook.account_already_connected">
+            <de><![CDATA[Das Facebook-Konto "[email]" ist bereits mit einem Benutzerkonto verknüpft.]]></de>
+            <en><![CDATA[The Facebook account "[email]" is already connected to a user account.]]></en>
         </locale>
         <locale name="exception.facebook.email.already.exists">
             <de><![CDATA[Es existiert bereits ein QUIQQER-Benutzerkonto mit der E-Mail-Adresse "[email]".]]></de>
@@ -171,6 +225,23 @@
             <en><![CDATA[The submitted email address does not correspond to the Facebook email address.]]></en>
         </locale>
 
+        <!-- Class: Registrar -->
+        <locale name="exception.registrar.token_invalid">
+            <de><![CDATA[Bei der Überprüfung Ihres Facebook-Kontos ist ein Fehler aufgetreten. Bitte wenden Sie sich an einen Administrator.]]></de>
+            <en><![CDATA[There was an error checking your Facebook account. Please contact an administrator.]]></en>
+        </locale>
+        <locale name="exception.registrar.email_address_empty">
+            <de><![CDATA[Ihre E-Mail-Adresse konnte nicht aus Ihrem Facebook-Profil abgerufen werden. Bitte autorisieren Sie den Zugriff auf Ihre E-Mail-Adresse.]]></de>
+            <en><![CDATA[Your email address could not be retrieved from your Facebook profile. Please authorize access to your e-mail address.]]></en>
+        </locale>
+        <locale name="exception.registrar.email_already_exists">
+            <de><![CDATA[Es existiert bereits ein Benutzerkonto mit Ihrer bei Facebook hinterlegten E-Mail-Adresse.]]></de>
+            <en><![CDATA[There is already a user account with your Facebook e-mail address.]]></en>
+        </locale>
+        <locale name="exception.registrar.email_not_verified">
+            <de><![CDATA[Ihre bei Facebook hinterlegte E-Mail-Adresse ist noch nicht verifiziert. Bitte verifizieren Sie Ihre E-Mail-Adresse bei Facebook, um sich zu registrieren.]]></de>
+            <en><![CDATA[Your Facebook e-mail address is not yet verified. Please verify your e-mail address at Facebook to register.]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/authfacebook" datatype="js">
@@ -263,6 +334,24 @@
         <locale name="controls.login.no.quiqqer.account">
             <de><![CDATA[Zu dem Facebook-Konto, mit welchem Sie z.Z. eingeloggt sind, existiert kein QUIQQER-Benutzerkonto. Bitte loggen Sie sich mit einem anderen Facebook-Konto ein oder verwenden Sie eine andere Authentifizierungs-Methode.]]></de>
             <en><![CDATA[The Facebook Account you are currently logged in with is not linked to the QUIQQER Account you are trying wo authenticate for. Please log in with another Facebook Account or use another authentication method.]]></en>
+        </locale>
+        <locale name="controls.login.general_error">
+            <de><![CDATA[Facebook-Login kann z.Z. nicht verwendet werden.]]></de>
+            <en><![CDATA[Facebook Login is not available at the moment.]]></en>
+        </locale>
+
+        <!-- Control: frontend/controls/Registrar -->
+        <locale name="controls.frontend.registrar.already_connected" html="true">
+            <de><![CDATA[Das Facebook-Konto <b>[email]</b> ist bereits mit einem Benutzerkonto verknüpft. Bitte loggen Sie sich mit diesem Benutzerkonto ein oder schließen Sie dieses Fenster, um sich ggf. mit einem anderen Facebook-Konto zu registrieren.]]></de>
+            <en><![CDATA[The Facebook account <b>[email]</b> is already linked to a user account. Please log in with this account or close this window to sign up with a different Facebook account.]]></en>
+        </locale>
+        <locale name="controls.frontend.registrar.general_error">
+            <de><![CDATA[Die Registrierung per Facebook-Konto kann z.Z. nicht verwendet werden. Bitte wenden Sie sich an einen Administrator.]]></de>
+            <en><![CDATA[The registration via Facebook account is not available at the moment. Please contact an administrator.]]></en>
+        </locale>
+        <locale name="controls.frontend.registrar.login_popup.title">
+            <de><![CDATA[Mit Facebook einloggen]]></de>
+            <en><![CDATA[Sign in with Facebook]]></en>
         </locale>
 
     </groups>

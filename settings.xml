@@ -10,11 +10,21 @@
                 <conf name="appSecret">
                     <type><![CDATA[string]]></type>
                 </conf>
+                <conf name="apiVersion">
+                    <type><![CDATA[string]]></type>
+                    <defaultvalue><![CDATA[v2.9]]></defaultvalue>
+                </conf>
             </section>
             <section name="authSettings">
                 <conf name="maxLoginErrors">
                     <type><![CDATA[integer]]></type>
                     <defaultvalue>3</defaultvalue>
+                </conf>
+            </section>
+            <section name="registration">
+                <conf name="allowUnverifiedEmailAddresses">
+                    <type><![CDATA[bool]]></type>
+                    <defaultvalue>1</defaultvalue>
                 </conf>
             </section>
         </config>
@@ -54,6 +64,30 @@
                             </text>
                             <description>
                                 <locale group="quiqqer/authfacebook" var="settings.apiSettings.appSecret.description" />
+                            </description>
+                        </input>
+
+                        <input conf="apiSettings.apiVersion" type="text">
+                            <text>
+                                <locale group="quiqqer/authfacebook" var="settings.apiSettings.apiVersion.title" />
+                            </text>
+                            <description>
+                                <locale group="quiqqer/authfacebook" var="settings.apiSettings.apiVersion.description" />
+                            </description>
+                        </input>
+                    </settings>
+
+                    <settings title="registration" name="registration">
+                        <title>
+                            <locale group="quiqqer/authfacebook" var="settings.registration.title" />
+                        </title>
+
+                        <input conf="registration.allowUnverifiedEmailAddresses" type="checkbox">
+                            <text>
+                                <locale group="quiqqer/authfacebook" var="settings.registration.allowUnverifiedEmailAddresses.title" />
+                            </text>
+                            <description>
+                                <locale group="quiqqer/authfacebook" var="settings.registration.allowUnverifiedEmailAddresses.description" />
                             </description>
                         </input>
                     </settings>

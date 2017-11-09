@@ -108,8 +108,8 @@
 
         <!-- Registrar -->
         <locale name="registrar.title">
-            <de><![CDATA[Registrierung per Facebook-Konto]]></de>
-            <en><![CDATA[Registration via Facebook account]]></en>
+            <de><![CDATA[Registrierung per Facebook]]></de>
+            <en><![CDATA[Registration via Facebook]]></en>
         </locale>
         <locale name="registrar.description">
             <de><![CDATA[Registrierung über Verknüpfung des QUIQQER Benutzerkontos mit einem Facebook-Konto.]]></de>

@@ -67,15 +67,18 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
             this.$Elm = this.getElm();
 
+            var RegistrarForm = this.$Elm.getElement('.quiqqer-authfacebook-registrar-form');
+
+            if (!RegistrarForm) {
+                return;
+            }
+
+            RegistrarForm.removeClass('quiqqer-authfacebook__hidden');
+
             this.Loader.inject(this.$Elm);
 
             this.$Form       = this.$Elm.getParent('form');
             this.$TokenInput = this.$Elm.getElement('input[name="token"]');
-
-            if (!this.$TokenInput) {
-                return;
-            }
-
             this.$BtnElm  = this.$Elm.getElement('.quiqqer-authfacebook-registrar-btn');
             this.$InfoElm = this.$Elm.getElement('.quiqqer-authfacebook-registrar-info');
 

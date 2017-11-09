@@ -253,7 +253,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             if (!this.$loggedIn) {
                 return Promise.resolve();
             }
-            
+
             var self = this;
 
             return new Promise(function (resolve, reject) {
@@ -269,7 +269,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                     }, {
                         accessToken: self.$token
                     });
-                } catch(e) {
+                } catch (e) {
                     reject('Facebook logout failed.');
                 }
             });
@@ -296,7 +296,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         getToken: function () {
             var self = this;
 
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 self.$load().then(self.login, reject).then(function () {
                     resolve(self.$token);
                 }, reject);
@@ -309,12 +309,14 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
          * @return {Promise}
          */
         getStatus: function () {
-            return this.$load().then(function () {
-                return new Promise(function (resolve, reject) {
+            var self = this;
+
+            return new Promise(function (resolve, reject) {
+                self.$load().then(function () {
                     FB.getLoginStatus(function (response) {
                         resolve(response.status);
                     });
-                });
+                }, reject);
             });
         },
 
@@ -327,7 +329,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             var self = this;
 
             return new Promise(function (resolve, reject) {
-                self.$load().then(function() {
+                self.$load().then(function () {
                     try {
                         FB.api(
                             '/me', {

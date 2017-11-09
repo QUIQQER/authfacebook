@@ -2,3 +2,7 @@
     float: left;
     width: 100%;
 }
+
+.quiqqer-authfacebook__hidden {
+    display: none;
+}

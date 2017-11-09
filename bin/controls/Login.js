@@ -200,6 +200,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                 }
 
                 self.Loader.hide();
+            }, function() {
+                console.log(123123);
             });
         },
 

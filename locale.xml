@@ -242,6 +242,12 @@
             <de><![CDATA[Ihre bei Facebook hinterlegte E-Mail-Adresse ist noch nicht verifiziert. Bitte verifizieren Sie Ihre E-Mail-Adresse bei Facebook, um sich zu registrieren.]]></de>
             <en><![CDATA[Your Facebook e-mail address is not yet verified. Please verify your e-mail address at Facebook to register.]]></en>
         </locale>
+
+        <!-- Class: Login -->
+        <locale name="login.javascript_required">
+            <de><![CDATA[JavaScript ist in Ihrem Browser deaktiviert. Um sich mit Facebook einzuloggen, aktivieren Sie bitte JavaScript.]]></de>
+            <en><![CDATA[JavaScript is disabled in your browser. To sign in with Facebook please enable JavaScript.]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/authfacebook" datatype="js">

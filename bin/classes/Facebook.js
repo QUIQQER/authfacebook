@@ -63,6 +63,8 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
                         self.login().then(function () {
                             Btn.enable();
+                        }, function () {
+                            Btn.enable();
                         });
                     }
                 }
@@ -118,6 +120,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
          */
         login: function () {
             if (this.$loggedIn) {
+                //this.fireEvent('login', [this.$AuthData, this]);
                 return Promise.resolve();
             }
 
@@ -444,6 +447,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                             )
                         });
 
+                        reject('Facebook API missing credentials.');
                         return;
                     }
 
@@ -464,6 +468,11 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
                             if (response.authResponse) {
                                 self.$AuthData = response.authResponse;
+                                self.$token    = self.$AuthData.accessToken;
+                            }
+
+                            if (response.status === 'connected') {
+                                self.$loggedIn = true;
                             }
 
                             self.fireEvent('loaded', [self]);
@@ -484,6 +493,22 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
+
+                    // wait for load
+                    var waitTime  = 0;
+                    var loadTimer = setInterval(function () {
+                        waitTime += 200;
+
+                        if (self.$loaded) {
+                            clearInterval(loadTimer);
+                            return;
+                        }
+
+                        if (waitTime >= 3000) {
+                            clearInterval(loadTimer);
+                            reject('Facebook API initialization failed.');
+                        }
+                    }, 200);
                 });
             });
         },

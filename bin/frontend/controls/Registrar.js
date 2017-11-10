@@ -79,8 +79,8 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
             this.$Form       = this.$Elm.getParent('form');
             this.$TokenInput = this.$Elm.getElement('input[name="token"]');
-            this.$BtnElm  = this.$Elm.getElement('.quiqqer-authfacebook-registrar-btn');
-            this.$InfoElm = this.$Elm.getElement('.quiqqer-authfacebook-registrar-info');
+            this.$BtnElm     = this.$Elm.getElement('.quiqqer-authfacebook-registrar-btn');
+            this.$InfoElm    = this.$Elm.getElement('.quiqqer-authfacebook-registrar-info');
 
             self.$login();
 
@@ -110,14 +110,14 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
             if (!self.$signedIn) {
                 Facebook.getRegistrationButton().then(function (RegistrationBtn) {
+                    self.Loader.hide();
+
                     self.$clearButtons();
                     RegistrationBtn.inject(self.$BtnElm);
                 }, function () {
-                    self.$clearButtons();
+                    self.Loader.hide();
                     self.$showGeneralError();
                 });
-
-                self.Loader.hide();
 
                 return;
             }
@@ -143,6 +143,8 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
          * Show error msg when Facebook API could not be initialized correctly
          */
         $showGeneralError: function () {
+            this.$clearButtons();
+
             this.$showInfo(
                 QUILocale.get(lg, 'controls.frontend.registrar.general_error')
             );

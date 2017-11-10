@@ -41,8 +41,9 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             '$onImport',
             '$login',
             '$showSettings',
-            '$showLoginBtn',
-            '$getLoginUserId'
+            '$onConnected',
+            '$getLoginUserId',
+            '$showGeneralError'
         ],
 
         options: {
@@ -93,6 +94,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$Input      = this.getElm();
             this.$Input.type = 'hidden';
             this.$Form       = this.$Input.getParent('form');
+            this.$loginStart = false;
 
             this.create().inject(this.$Input, 'after');
             this.$login();
@@ -129,65 +131,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                 switch (status) {
                     case 'connected':
-                        Facebook.getToken().then(function (token) {
-                            Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
-                                if (!connected) {
-                                    // user is not connected and uses Facebook login as 2FA
-                                    if (loginUserId) {
-                                        self.$showSettings(loginUserId, status);
-                                    // user is not connected and uses Facebook login as main auth
-                                    } else {
-                                        self.$InfoElm.set(
-                                            'html',
-                                            QUILocale.get(lg, 'controls.login.no.quiqqer.account')
-                                        );
-
-                                        Facebook.getLogoutButton().inject(self.$BtnElm);
-                                    }
-
-                                    self.Loader.hide();
-                                    return;
-                                }
-
-                                // if there is no previous user id in the user session
-                                // Facebook auth is used as a primary authenticator
-                                if (!loginUserId) {
-                                    self.$Input.value = token;
-                                    self.$Form.fireEvent('submit', [self.$Form]);
-
-                                    return;
-                                }
-
-                                // check if login user is facebook user
-                                self.$isLoginUserFacebookUser(token).then(function (isLoginUser) {
-                                    self.Loader.hide();
-
-                                    if (!isLoginUser) {
-                                        self.Loader.show();
-
-                                        self.$loginErrorCheck().then(function (maxLoginsExceeded) {
-                                            self.Loader.hide();
-
-                                            if (maxLoginsExceeded) {
-                                                window.location = window.location;
-                                                return;
-                                            }
-
-                                            self.$InfoElm.set(
-                                                'html',
-                                                QUILocale.get(lg, 'controls.login.wrong.facebook.user')
-                                            );
-
-                                            Facebook.getLogoutButton().inject(self.$BtnElm);
-                                        });
-                                        return;
-                                    }
-
-                                    self.$Input.value = token;
-                                    self.$Form.fireEvent('submit', [self.$Form]);
-                                });
-                            });
-                        });
+                        self.$onConnected(loginUserId);
                         break;
 
                     case 'not_authorized':
@@ -195,13 +139,114 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         break;
 
                     case 'unknown':
-                        self.$showLoginBtn();
+                        var LoginButton = Facebook.getLoginButton();
+
+                        LoginButton.addEvent('onClick', function () {
+                            self.$loginStart = true;
+                        });
+
+                        LoginButton.inject(self.$BtnElm);
                         break;
                 }
 
                 self.Loader.hide();
-            }, function() {
-                console.log(123123);
+            }, function () {
+                self.Loader.hide();
+                self.$showGeneralError();
+            });
+        },
+
+        /**
+         * Show general error msg on Facebook API failure
+         */
+        $showGeneralError: function() {
+            this.$InfoElm.set('html', QUILocale.get(lg,
+                'controls.login.general_error'
+            ));
+        },
+
+        /**
+         * If the user is connected to FB and has authorized QUIQQER
+         *
+         * @param {Number} loginUserId - ID of the QUIQQER user that tries to log in (only used for 2FA)
+         */
+        $onConnected: function (loginUserId) {
+            var self = this;
+
+            Facebook.getToken().then(function (token) {
+                Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
+                    if (!connected) {
+                        // user is not connected and uses Facebook login as 2FA
+                        if (loginUserId) {
+                            self.$showSettings(loginUserId, status);
+                            // user is not connected and uses Facebook login as main auth
+                        } else {
+                            self.$InfoElm.set(
+                                'html',
+                                QUILocale.get(lg, 'controls.login.no.quiqqer.account')
+                            );
+
+                            Facebook.getLogoutButton().inject(self.$BtnElm);
+                        }
+
+                        self.Loader.hide();
+                        return;
+                    }
+
+                    // if there is no previous user id in the user session
+                    // Facebook auth is used as a primary authenticator
+                    if (!loginUserId) {
+                        if (self.$loginStart) {
+                            self.$Input.value = token;
+                            self.$Form.fireEvent('submit', [self.$Form]);
+
+                            return;
+                        }
+
+                        var LoginButton = Facebook.getLoginButton();
+                        var OnClick     = function () {
+                            self.$loginStart = true;
+                        };
+
+                        LoginButton.addEvent('onClick', OnClick);
+                        LoginButton.inject(self.$BtnElm);
+
+                        return;
+                    }
+
+                    // check if login user is facebook user
+                    self.$isLoginUserFacebookUser(token).then(function (isLoginUser) {
+                        self.Loader.hide();
+
+                        if (!isLoginUser) {
+                            self.Loader.show();
+
+                            self.$loginErrorCheck().then(function (maxLoginsExceeded) {
+                                self.Loader.hide();
+
+                                if (maxLoginsExceeded) {
+                                    window.location = window.location;
+                                    return;
+                                }
+
+                                self.$InfoElm.set(
+                                    'html',
+                                    QUILocale.get(lg, 'controls.login.wrong.facebook.user')
+                                );
+
+                                Facebook.getLogoutButton().inject(self.$BtnElm);
+                            });
+                            return;
+                        }
+
+                        self.$Input.value = token;
+                        self.$Form.fireEvent('submit', [self.$Form]);
+                    });
+                }, function () {
+                    self.$showGeneralError();
+                });
+            }, function () {
+                self.$showGeneralError();
             });
         },
 
@@ -253,13 +298,6 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     }
                 }).inject(self.$InfoElm);
             });
-        },
-
-        /**
-         * Show login button
-         */
-        $showLoginBtn: function () {
-            Facebook.getLoginButton().inject(this.$BtnElm);
         },
 
         /**

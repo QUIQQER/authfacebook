@@ -43,7 +43,9 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             '$showSettings',
             '$onConnected',
             '$getLoginUserId',
-            '$showGeneralError'
+            '$showGeneralError',
+            '$showMsg',
+            '$clearMsg'
         ],
 
         options: {
@@ -68,7 +70,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         create: function () {
             this.$Elm = new Element('div', {
                 'class': 'quiqqer-auth-facebook-login',
-                'html' : '<div class="quiqqer-auth-facebook-login-info"></div>' +
+                'html' : '<div class="quiqqer-auth-facebook-login-info" style="display: none;"></div>' +
                 '<div class="quiqqer-auth-facebook-login-btns"></div>'
             });
 
@@ -159,8 +161,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         /**
          * Show general error msg on Facebook API failure
          */
-        $showGeneralError: function() {
-            this.$InfoElm.set('html', QUILocale.get(lg,
+        $showGeneralError: function () {
+            this.$showMsg(QUILocale.get(lg,
                 'controls.login.general_error'
             ));
         },
@@ -181,11 +183,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                             self.$showSettings(loginUserId, status);
                             // user is not connected and uses Facebook login as main auth
                         } else {
-                            self.$InfoElm.set(
-                                'html',
-                                QUILocale.get(lg, 'controls.login.no.quiqqer.account')
-                            );
-
+                            self.$showMsg(QUILocale.get(lg, 'controls.login.no.quiqqer.account'));
                             Facebook.getLogoutButton().inject(self.$BtnElm);
                         }
 
@@ -229,10 +227,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                                     return;
                                 }
 
-                                self.$InfoElm.set(
-                                    'html',
-                                    QUILocale.get(lg, 'controls.login.wrong.facebook.user')
-                                );
+                                self.$showMsg(QUILocale.get(lg, 'controls.login.wrong.facebook.user'));
 
                                 Facebook.getLogoutButton().inject(self.$BtnElm);
                             });
@@ -260,7 +255,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             var self = this;
 
             this.Loader.show();
-            this.$InfoElm.set('html', '');
+            this.$clearMsg();
 
             var emailProvided = true;
 
@@ -298,6 +293,23 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     }
                 }).inject(self.$InfoElm);
             });
+        },
+
+        /**
+         * Show info message
+         *
+         * @param {String} msg
+         */
+        $showMsg: function (msg) {
+            this.$InfoElm.setStyle('display', '');
+            this.$InfoElm.set('html', msg);
+        },
+
+        /**
+         * Clear info message
+         */
+        $clearMsg: function() {
+            this.$InfoElm.setStyle('display', 'none');
         },
 
         /**

@@ -81,6 +81,10 @@
             <de><![CDATA[Bei der Verbindung zur Facebook API ist ein Fehler aufgetreten. Bitte überprüfen Sie die Einstellungen des "Facebook Registrierung / Login"-Moduls.]]></de>
             <en><![CDATA[An error occurred while connecting to the Facebook API. Please check the settings of the "Facebook registration / authentication" module.]]></en>
         </locale>
+        <locale name="settings.registration.title">
+            <de><![CDATA[Registrierung]]></de>
+            <en><![CDATA[Registration]]></en>
+        </locale>
 
         <!-- Control: Login -->
         <locale name="controls.login.status.not_authorized">

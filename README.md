@@ -1,40 +1,39 @@
-authfacebook
+QUIQQER Facebook authentication and registration
 ========
 
-QUIQQER Authentication via Facebook Login
+This module provides a registrar (registration option) for the `quiqqer/frontend-users` module. Users can sign up using their Facebook account.
 
-Paketname:
+This module further provides an authentication for QUIQQER. Users can sign in using their Facebook account.
+
+Package Name:
 
     quiqqer/authfacebook
 
 
-Features (Funktionen)
+Features
 --------
-QUIQQER Authentication via Facebook Login
+* Registration via Facebook account (requires `quiqqer/frontend-users`)
+* Authentication via Facebook account
 
 Installation
 ------------
+The Package Name is: quiqqer/authfacebook
 
-Der Paketname ist: quiqqer/authfacebook
 
-
-Mitwirken
+Contribute
 ----------
-
-- Issue Tracker: 
-- Source Code: 
+- Project: https://dev.quiqqer.com/quiqqer/authfacebook
+- Issue Tracker: https://dev.quiqqer.com/quiqqer/authfacebook/issues
+- Source Code: https://dev.quiqqer.com/quiqqer/authfacebook/tree/master
 
 
 Support
 -------
+If you have found errors, wishes or suggestions for improvement,
+you can contact us by email at support@pcsg.de.
 
-Falls Sie einen Fehler gefunden haben oder Verbesserungen wünschen,
-senden Sie bitte eine E-Mail an support@pcsg.de.
+We will transfer your message to the responsible developers.
 
-
-Lizenz
+License
 -------
-
-
-Entwickler
---------
+GPL-3.0+

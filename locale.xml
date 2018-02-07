@@ -22,8 +22,8 @@
 
         <!-- Settings -->
         <locale name="settings.title">
-            <de><![CDATA[Facebook Authentifikation]]></de>
-            <en><![CDATA[Facebook authentication]]></en>
+            <de><![CDATA[Facebook Registrierung / Login]]></de>
+            <en><![CDATA[Facebook registration / authentication]]></en>
         </locale>
         <locale name="settings.category.settings.title">
             <de><![CDATA[Einstellungen]]></de>
@@ -76,6 +76,10 @@
         <locale name="settings.registration.allowUnverifiedEmailAddresses.description">
             <de><![CDATA[Facebook-Konten zur Registrierung zulassen, deren E-Mail-Adresse noch nicht bestätigt wurde]]></de>
             <en><![CDATA[Allow Facebook accounts to register whose email address has not yet been verified]]></en>
+        </locale>
+        <locale name="controls.settings.api_error">
+            <de><![CDATA[Bei der Verbindung zur Facebook API ist ein Fehler aufgetreten. Bitte überprüfen Sie die Einstellungen des "Facebook Registrierung / Login"-Moduls.]]></de>
+            <en><![CDATA[An error occurred while connecting to the Facebook API. Please check the settings of the "Facebook registration / authentication" module.]]></en>
         </locale>
 
         <!-- Control: Login -->

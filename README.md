@@ -1,3 +1,5 @@
+![QUIQQER Auth Facebook](bin/images/Readme.jpg)
+
 QUIQQER Facebook authentication and registration
 ========
 

@@ -480,8 +480,6 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                             }
 
                             self.fireEvent('loaded', [self]);
-
-                            console.log("resolve");
                             resolve();
                         });
                     };

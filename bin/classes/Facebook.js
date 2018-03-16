@@ -316,12 +316,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         getStatus: function () {
             var self = this;
 
-            console.log("getStatus");
-
             return new Promise(function (resolve, reject) {
-
-                console.log("$load");
-
                 self.$load().then(function () {
                     FB.getLoginStatus(function (response) {
                         resolve(response.status);

@@ -50,13 +50,14 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                 onImport: this.$onImport
             });
 
-            this.$signedIn   = false;
-            this.$TokenInput = null;
-            this.$Form       = null;
-            this.$InfoElm    = null;
-            this.$BtnElm     = null;
-            this.Loader      = new QUILoader();
-            this.$Elm        = null;
+            this.$signedIn           = false;
+            this.$TokenInput         = null;
+            this.$Form               = null;
+            this.$InfoElm            = null;
+            this.$BtnElm             = null;
+            this.Loader              = new QUILoader();
+            this.$Elm                = null;
+            this.$registerBtnClicked = false;
         },
 
         /**
@@ -87,7 +88,11 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             Facebook.addEvents({
                 onLogin: function () {
                     self.$signedIn = true;
-                    self.$login();
+
+                    if (self.$registerBtnClicked) {
+                        self.$registerBtnClicked = false;
+                        self.$login();
+                    }
                 }
             });
 
@@ -114,6 +119,9 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
                     self.$clearButtons();
                     RegistrationBtn.inject(self.$BtnElm);
+                    RegistrationBtn.addEvent('onClick', function() {
+                        self.$registerBtnClicked = true;
+                    });
                 }, function () {
                     self.Loader.hide();
                     self.$showGeneralError();

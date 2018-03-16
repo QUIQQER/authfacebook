@@ -316,7 +316,12 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         getStatus: function () {
             var self = this;
 
+            console.log("getStatus");
+
             return new Promise(function (resolve, reject) {
+
+                console.log("$load");
+
                 self.$load().then(function () {
                     FB.getLoginStatus(function (response) {
                         resolve(response.status);
@@ -429,13 +434,37 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         },
 
         /**
+         * Get Facebook login status
+         *
+         * @return {Promise}
+         */
+        $getLoginStatus: function() {
+            var self = this;
+
+            return new Promise(function(resolve, reject) {
+                FB.getLoginStatus(function (response) {
+                    self.$loaded = true;
+
+                    if (response.authResponse) {
+                        self.$AuthData = response.authResponse;
+                        self.$token    = self.$AuthData.accessToken;
+                    }
+
+                    self.$loggedIn = response.status === 'connected';
+                    self.fireEvent('loaded', [self]);
+                    resolve();
+                });
+            });
+        },
+
+        /**
          * Load Facebook JavaScript SDK
          *
          * @return {Promise}
          */
         $load: function () {
-            if (this.$loaded) {
-                return Promise.resolve();
+            if (this.$fbInitialized) {
+                return this.$getLoginStatus();
             }
 
             var self = this;
@@ -466,24 +495,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                         }
 
                         self.$fbInitialized = true;
-
-                        FB.getLoginStatus(function (response) {
-                            self.$loaded = true;
-
-                            if (response.authResponse) {
-                                self.$AuthData = response.authResponse;
-                                self.$token    = self.$AuthData.accessToken;
-                            }
-
-                            if (response.status === 'connected') {
-                                self.$loggedIn = true;
-                            }
-
-                            self.fireEvent('loaded', [self]);
-
-                            console.log("resolve");
-                            resolve();
-                        });
+                        self.$load().then(resolve, reject);
                     };
 
                     if (!self.$scriptLoaded) {

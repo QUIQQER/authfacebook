@@ -39,7 +39,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
         Binds: [
             '$onImport',
-            '$login',
+            '$init',
             '$showSettings',
             '$onConnected',
             '$getLoginUserId',
@@ -59,9 +59,10 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                 onImport: this.$onImport
             });
 
-            this.Loader   = new QUILoader();
-            this.$InfoElm = null;
-            this.$BtnElm  = null;
+            this.Loader    = new QUILoader();
+            this.$InfoElm  = null;
+            this.$BtnElm   = null;
+            this.$loggedIn = false;
         },
 
         /**
@@ -99,19 +100,21 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$loginStart = false;
 
             this.create().inject(this.$Input, 'after');
-            this.$login();
+            this.$init();
 
             Facebook.addEvents({
                 onLogin: function () {
-                    self.$BtnElm.set('html', '');
-                    self.$login();
+                    self.$loggedIn = true;
+                    //self.$BtnElm.set('html', '');
+                    self.$init();
                 }
             });
 
             Facebook.addEvents({
                 onLogout: function () {
-                    self.$BtnElm.set('html', '');
-                    self.$login();
+                    self.$loggedIn = false;
+                    //self.$BtnElm.set('html', '');
+                    //self.$init();
                 }
             });
         },
@@ -119,7 +122,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         /**
          * Login
          */
-        $login: function () {
+        $init: function () {
             var self = this;
 
             this.Loader.show();
@@ -134,6 +137,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                 switch (status) {
                     case 'connected':
                         self.$onConnected(loginUserId);
+                        self.$loggedIn = true;
                         break;
 
                     case 'not_authorized':
@@ -204,6 +208,10 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         var LoginButton = Facebook.getLoginButton();
                         var OnClick     = function () {
                             self.$loginStart = true;
+
+                            if (self.$loggedIn) {
+                                self.$init();
+                            }
                         };
 
                         LoginButton.addEvent('onClick', OnClick);
@@ -267,7 +275,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     uid   : uid,
                     events: {
                         onAccountConnected: function (Account, Control) {
-                            self.$login();
+                            self.$init();
                             Control.destroy();
                         },
                         onLoaded          : function () {
@@ -308,7 +316,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         /**
          * Clear info message
          */
-        $clearMsg: function() {
+        $clearMsg: function () {
             this.$InfoElm.setStyle('display', 'none');
         },
 

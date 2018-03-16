@@ -31,12 +31,13 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
         Binds: [
             '$onImport',
-            '$login',
+            '$init',
             '$showRegistrarBtn',
             '$getRegistrarUserId',
             '$showInfo',
             '$clearInfo',
-            '$showGeneralError'
+            '$showGeneralError',
+            '$register'
         ],
 
         options: {
@@ -58,6 +59,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             this.Loader              = new QUILoader();
             this.$Elm                = null;
             this.$registerBtnClicked = false;
+            this.$initialized        = false;
         },
 
         /**
@@ -83,7 +85,9 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             this.$BtnElm     = this.$Elm.getElement('.quiqqer-authfacebook-registrar-btn');
             this.$InfoElm    = this.$Elm.getElement('.quiqqer-authfacebook-registrar-info');
 
-            self.$login();
+            this.Loader.show();
+
+            self.$init();
 
             Facebook.addEvents({
                 onLogin: function () {
@@ -91,7 +95,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
                     if (self.$registerBtnClicked) {
                         self.$registerBtnClicked = false;
-                        self.$login();
+                        self.$register();
                     }
                 }
             });
@@ -99,7 +103,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             Facebook.addEvents({
                 onLogout: function () {
                     self.$signedIn = false;
-                    self.$login();
+                    self.$init();
                 }
             });
         },
@@ -107,34 +111,54 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
         /**
          * Start login process
          */
-        $login: function () {
+        $init: function () {
             var self = this;
 
             this.Loader.show();
             this.$clearInfo();
 
-            if (!self.$signedIn) {
+            Facebook.getStatus().then(function (fbStatus) {
+                self.Loader.hide();
+
+                if (fbStatus === 'connected') {
+                    self.$signedIn = true;
+                }
+
                 Facebook.getRegistrationButton().then(function (RegistrationBtn) {
                     self.Loader.hide();
 
                     self.$clearButtons();
                     RegistrationBtn.inject(self.$BtnElm);
-                    RegistrationBtn.addEvent('onClick', function() {
+                    RegistrationBtn.addEvent('onClick', function () {
                         self.$registerBtnClicked = true;
+
+                        if (self.$signedIn) {
+                            self.$register();
+                        }
                     });
                 }, function () {
                     self.Loader.hide();
                     self.$showGeneralError();
                 });
+            });
+        },
 
-                return;
-            }
+        /**
+         * Start registration process
+         *
+         * @return {Promise}
+         */
+        $register: function () {
+            var self = this;
 
-            Facebook.getToken().then(function (token) {
+            this.Loader.show();
+
+            return Facebook.getToken().then(function (token) {
                 self.$token = token;
 
                 Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
                     if (connected) {
+                        self.Loader.hide();
                         self.$clearButtons();
                         self.$showAlreadyConnectedInfo();
 

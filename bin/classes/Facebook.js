@@ -38,10 +38,12 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         initialize: function (options) {
             this.parent(options);
 
-            this.$AuthData = false;
-            this.$token    = false;    // FB access token
-            this.$loaded   = false;
-            this.$loggedIn = false;
+            this.$AuthData      = false;
+            this.$token         = false;    // FB access token
+            this.$loaded        = false;
+            this.$loggedIn      = false;
+            this.$scriptLoaded  = false;
+            this.$fbInitialized = false;
         },
 
         /**
@@ -427,13 +429,37 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         },
 
         /**
+         * Get Facebook login status
+         *
+         * @return {Promise}
+         */
+        $getLoginStatus: function() {
+            var self = this;
+
+            return new Promise(function(resolve, reject) {
+                FB.getLoginStatus(function (response) {
+                    self.$loaded = true;
+
+                    if (response.authResponse) {
+                        self.$AuthData = response.authResponse;
+                        self.$token    = self.$AuthData.accessToken;
+                    }
+
+                    self.$loggedIn = response.status === 'connected';
+                    self.fireEvent('loaded', [self]);
+                    resolve();
+                });
+            });
+        },
+
+        /**
          * Load Facebook JavaScript SDK
          *
          * @return {Promise}
          */
         $load: function () {
-            if (this.$loaded) {
-                return Promise.resolve();
+            if (this.$fbInitialized) {
+                return this.$getLoginStatus();
             }
 
             var self = this;
@@ -463,36 +489,27 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                             reject('Facebook API initialization failed.');
                         }
 
-                        FB.getLoginStatus(function (response) {
-                            self.$loaded = true;
-
-                            if (response.authResponse) {
-                                self.$AuthData = response.authResponse;
-                                self.$token    = self.$AuthData.accessToken;
-                            }
-
-                            if (response.status === 'connected') {
-                                self.$loggedIn = true;
-                            }
-
-                            self.fireEvent('loaded', [self]);
-                            resolve();
-                        });
+                        self.$fbInitialized = true;
+                        self.$load().then(resolve, reject);
                     };
 
-                    (function (d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
+                    if (!self.$scriptLoaded) {
+                        (function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
 
-                        if (d.getElementById(id)) {
-                            return;
-                        }
+                            if (d.getElementById(id)) {
+                                return;
+                            }
 
-                        js     = d.createElement(s);
-                        js.id  = id;
-                        js.src = "//connect.facebook.net/en_US/sdk.js";
+                            js     = d.createElement(s);
+                            js.id  = id;
+                            js.src = "//connect.facebook.net/en_US/sdk.js";
 
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));
+
+                        self.$scriptLoaded = true;
+                    }
 
                     // wait for load
                     var waitTime  = 0;
@@ -501,6 +518,10 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
                         if (self.$loaded) {
                             clearInterval(loadTimer);
+
+                            if (self.$fbInitialized) {
+                                resolve();
+                            }
                             return;
                         }
 

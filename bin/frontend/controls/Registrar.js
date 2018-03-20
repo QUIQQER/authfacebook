@@ -8,7 +8,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
     'qui/controls/Control',
     'qui/controls/windows/Popup',
-    'qui/controls/buttons/Button',
     'qui/controls/loader/Loader',
 
     'controls/users/Login',
@@ -19,7 +18,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
     'css!package/quiqqer/authfacebook/bin/frontend/controls/Registrar.css'
 
-], function (QUIControl, QUIPopup, QUIButton, QUILoader, QUILogin, Facebook,
+], function (QUIControl, QUIPopup, QUILoader, QUILogin, Facebook,
              QUIAjax, QUILocale) {
     "use strict";
 
@@ -59,7 +58,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             this.Loader              = new QUILoader();
             this.$Elm                = null;
             this.$registerBtnClicked = false;
-            this.$initialized        = false;
+            this.$SubmitBtn          = null;
         },
 
         /**
@@ -84,23 +83,25 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             this.$TokenInput = this.$Elm.getElement('input[name="token"]');
             this.$BtnElm     = this.$Elm.getElement('.quiqqer-authfacebook-registrar-btn');
             this.$InfoElm    = this.$Elm.getElement('.quiqqer-authfacebook-registrar-info');
+            this.$SubmitBtn  = this.$Elm.getElement('button[type="submit"]');
+
+            this.$Form.addEvent('submit', function (event) {
+                event.stop();
+            });
 
             this.Loader.show();
 
             self.$init();
 
             Facebook.addEvents({
-                onLogin: function () {
+                onLogin : function () {
                     self.$signedIn = true;
 
                     if (self.$registerBtnClicked) {
                         self.$registerBtnClicked = false;
                         self.$register();
                     }
-                }
-            });
-
-            Facebook.addEvents({
+                },
                 onLogout: function () {
                     self.$signedIn = false;
                     self.$init();
@@ -140,6 +141,9 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     self.Loader.hide();
                     self.$showGeneralError();
                 });
+            }, function () {
+                self.Loader.hide();
+                self.$showGeneralError();
             });
         },
 
@@ -166,7 +170,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     }
 
                     self.$TokenInput.value = token;
-                    self.$Form.submit();
+                    self.$SubmitBtn.click(); // simulate form submit by button click to trigger form submit event
                 }, self.$showGeneralError);
             }, self.$showGeneralError);
         },
@@ -270,7 +274,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                         'package': 'quiqqer/authfacebook',
                         onError  : reject
                     }
-                )
+                );
             });
         }
     });

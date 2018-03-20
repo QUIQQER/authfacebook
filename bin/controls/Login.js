@@ -112,7 +112,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * Login
          */
         $init: function () {
-            var self = this;
+            var self            = this;
+            var FakeLoginButton = self.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
 
             this.Loader.show();
 
@@ -131,8 +132,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                     case 'not_authorized':
                     case 'unknown':
-                        var LoginButton     = Facebook.getLoginButton();
-                        var FakeLoginButton = self.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
+                        var LoginButton = Facebook.getLoginButton();
 
                         LoginButton.addEvent('onClick', function () {
                             self.$canAuthenticate = true;
@@ -149,6 +149,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                 self.Loader.hide();
             }, function () {
+                FakeLoginButton.destroy();
                 self.Loader.hide();
                 self.$showGeneralError();
             });

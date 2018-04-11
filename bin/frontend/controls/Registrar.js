@@ -163,7 +163,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                 Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
                     if (connected) {
                         self.Loader.hide();
-                        self.$clearButtons();
                         self.$showAlreadyConnectedInfo();
 
                         return;
@@ -200,13 +199,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             Facebook.getProfileInfo().then(function (ProfileData) {
                 self.Loader.hide();
 
-                var msg = QUILocale.get(lg,
-                    'controls.frontend.registrar.already_connected', {
-                        email: ProfileData.email
-                    });
-
-                self.$showInfo(msg);
-
                 new QUIPopup({
                     icon              : 'fa fa-sign-in',
                     title             : QUILocale.get(lg, 'controls.frontend.registrar.login_popup.title'),
@@ -215,23 +207,36 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     titleCloseButton  : true,
                     events            : {
                         onOpen: function (Popup) {
-                            Popup.Loader.show();
-
                             var Content = Popup.getContent();
 
                             Content.set(
                                 'html',
-                                '<p>' + msg + '</p>' +
-                                '<div class="facebook-login"></div>'
+                                '<p>' +
+                                QUILocale.get(lg,
+                                    'controls.frontend.registrar.already_connected', {
+                                        email: ProfileData.email
+                                    }) +
+                                '</p>' +
+                                '<div class="facebook-login">' +
+                                '<p>' +
+                                QUILocale.get(lg,
+                                    'controls.frontend.registrar.already_connected.login.label') +
+                                '</p>' +
+                                '</div>'
                             );
 
                             // Login
-                            Facebook.logout().then(function () {
-                                new QUILogin().inject(
-                                    Content.getElement('.facebook-login')
-                                );
+                            new QUILogin({
+                                authenticators: ['QUI\\Auth\\Facebook\\Auth']
+                            }).inject(
+                                Content.getElement('.facebook-login')
+                            );
+                        },
+                        onClose: function() {
+                            self.Loader.show();
 
-                                Popup.Loader.hide();
+                            Facebook.logout().then(function() {
+                                self.Loader.hide();
                             });
                         }
                     }

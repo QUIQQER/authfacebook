@@ -1,0 +1,13 @@
+.quiqqer-authfacebook-registrar-form {
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+
+.facebook-login p {
+    text-align: center;
+}
+
+.facebook-login button {
+    margin-top: 20px !important;
+}

@@ -8,7 +8,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
     'qui/controls/Control',
     'qui/controls/windows/Popup',
-    'qui/controls/buttons/Button',
     'qui/controls/loader/Loader',
 
     'controls/users/Login',
@@ -19,7 +18,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
     'css!package/quiqqer/authfacebook/bin/frontend/controls/Registrar.css'
 
-], function (QUIControl, QUIPopup, QUIButton, QUILoader, QUILogin, Facebook,
+], function (QUIControl, QUIPopup, QUILoader, QUILogin, Facebook,
              QUIAjax, QUILocale) {
     "use strict";
 
@@ -31,12 +30,13 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
 
         Binds: [
             '$onImport',
-            '$login',
+            '$init',
             '$showRegistrarBtn',
             '$getRegistrarUserId',
             '$showInfo',
             '$clearInfo',
-            '$showGeneralError'
+            '$showGeneralError',
+            '$register'
         ],
 
         options: {
@@ -58,6 +58,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             this.Loader              = new QUILoader();
             this.$Elm                = null;
             this.$registerBtnClicked = false;
+            this.$SubmitBtn          = null;
         },
 
         /**
@@ -82,24 +83,28 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             this.$TokenInput = this.$Elm.getElement('input[name="token"]');
             this.$BtnElm     = this.$Elm.getElement('.quiqqer-authfacebook-registrar-btn');
             this.$InfoElm    = this.$Elm.getElement('.quiqqer-authfacebook-registrar-info');
+            this.$SubmitBtn  = this.$Elm.getElement('button[type="submit"]');
 
-            self.$login();
+            this.$Form.addEvent('submit', function (event) {
+                event.stop();
+            });
+
+            this.Loader.show();
+
+            self.$init();
 
             Facebook.addEvents({
-                onLogin: function () {
+                onLogin : function () {
                     self.$signedIn = true;
 
                     if (self.$registerBtnClicked) {
                         self.$registerBtnClicked = false;
-                        self.$login();
+                        self.$register();
                     }
-                }
-            });
-
-            Facebook.addEvents({
+                },
                 onLogout: function () {
                     self.$signedIn = false;
-                    self.$login();
+                    self.$init();
                 }
             });
         },
@@ -107,42 +112,64 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
         /**
          * Start login process
          */
-        $login: function () {
+        $init: function () {
             var self = this;
 
             this.Loader.show();
             this.$clearInfo();
 
-            if (!self.$signedIn) {
+            Facebook.getStatus().then(function (fbStatus) {
+                self.Loader.hide();
+
+                if (fbStatus === 'connected') {
+                    self.$signedIn = true;
+                }
+
                 Facebook.getRegistrationButton().then(function (RegistrationBtn) {
                     self.Loader.hide();
 
                     self.$clearButtons();
                     RegistrationBtn.inject(self.$BtnElm);
-                    RegistrationBtn.addEvent('onClick', function() {
+                    RegistrationBtn.addEvent('onClick', function () {
                         self.$registerBtnClicked = true;
+
+                        if (self.$signedIn) {
+                            self.$register();
+                        }
                     });
                 }, function () {
                     self.Loader.hide();
                     self.$showGeneralError();
                 });
+            }, function () {
+                self.Loader.hide();
+                self.$showGeneralError();
+            });
+        },
 
-                return;
-            }
+        /**
+         * Start registration process
+         *
+         * @return {Promise}
+         */
+        $register: function () {
+            var self = this;
 
-            Facebook.getToken().then(function (token) {
+            this.Loader.show();
+
+            return Facebook.getToken().then(function (token) {
                 self.$token = token;
 
                 Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
                     if (connected) {
-                        self.$clearButtons();
+                        self.Loader.hide();
                         self.$showAlreadyConnectedInfo();
 
                         return;
                     }
 
                     self.$TokenInput.value = token;
-                    self.$Form.submit();
+                    self.$SubmitBtn.click(); // simulate form submit by button click to trigger form submit event
                 }, self.$showGeneralError);
             }, self.$showGeneralError);
         },
@@ -172,13 +199,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             Facebook.getProfileInfo().then(function (ProfileData) {
                 self.Loader.hide();
 
-                var msg = QUILocale.get(lg,
-                    'controls.frontend.registrar.already_connected', {
-                        email: ProfileData.email
-                    });
-
-                self.$showInfo(msg);
-
                 new QUIPopup({
                     icon              : 'fa fa-sign-in',
                     title             : QUILocale.get(lg, 'controls.frontend.registrar.login_popup.title'),
@@ -187,23 +207,36 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     titleCloseButton  : true,
                     events            : {
                         onOpen: function (Popup) {
-                            Popup.Loader.show();
-
                             var Content = Popup.getContent();
 
                             Content.set(
                                 'html',
-                                '<p>' + msg + '</p>' +
-                                '<div class="facebook-login"></div>'
+                                '<p>' +
+                                QUILocale.get(lg,
+                                    'controls.frontend.registrar.already_connected', {
+                                        email: ProfileData.email
+                                    }) +
+                                '</p>' +
+                                '<div class="facebook-login">' +
+                                '<p>' +
+                                QUILocale.get(lg,
+                                    'controls.frontend.registrar.already_connected.login.label') +
+                                '</p>' +
+                                '</div>'
                             );
 
                             // Login
-                            Facebook.logout().then(function () {
-                                new QUILogin().inject(
-                                    Content.getElement('.facebook-login')
-                                );
+                            new QUILogin({
+                                authenticators: ['QUI\\Auth\\Facebook\\Auth']
+                            }).inject(
+                                Content.getElement('.facebook-login')
+                            );
+                        },
+                        onClose: function() {
+                            self.Loader.show();
 
-                                Popup.Loader.hide();
+                            Facebook.logout().then(function() {
+                                self.Loader.hide();
                             });
                         }
                     }
@@ -246,7 +279,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                         'package': 'quiqqer/authfacebook',
                         onError  : reject
                     }
-                )
+                );
             });
         }
     });

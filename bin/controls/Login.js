@@ -3,21 +3,11 @@
  *
  * @module package/quiqqer/authfacebook/bin/controls/Login
  * @author www.pcsg.de (Patrick Müller)
- *
- * @require qui/controls/Control
- * @require qui/controls/windows/Confirm
- * @require qui/controls/buttons/Button
- * @require qui/controls/loader/Loader
- * @require package/quiqqer/authfacebook/bin/Facebook
- * @requrie Ajax
- * @require Locale
- * @require css!package/quiqqer/authfacebook/bin/controls/Login.css
  */
 define('package/quiqqer/authfacebook/bin/controls/Login', [
 
+    'qui/QUI',
     'qui/controls/Control',
-    'qui/controls/windows/Confirm',
-    'qui/controls/buttons/Button',
     'qui/controls/loader/Loader',
 
     'package/quiqqer/authfacebook/bin/Facebook',
@@ -27,11 +17,11 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
     'css!package/quiqqer/authfacebook/bin/controls/Login.css'
 
-], function (QUIControl, QUIConfirm, QUIButton, QUILoader, Facebook,
-             QUIAjax, QUILocale) {
+], function (QUI, QUIControl, QUILoader, Facebook, QUIAjax, QUILocale) {
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
+
     return new Class({
 
         Extends: QUIControl,
@@ -59,10 +49,11 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                 onImport: this.$onImport
             });
 
-            this.Loader    = new QUILoader();
-            this.$InfoElm  = null;
-            this.$BtnElm   = null;
-            this.$loggedIn = false;
+            this.Loader           = new QUILoader();
+            this.$InfoElm         = null;
+            this.$BtnElm          = null;
+            this.$loggedIn        = false;
+            this.$canAuthenticate = false;
         },
 
         /**
@@ -94,27 +85,25 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         $onImport: function () {
             var self = this;
 
-            this.$Input      = this.getElm();
-            this.$Input.type = 'hidden';
-            this.$Form       = this.$Input.getParent('form');
-            this.$loginStart = false;
+            this.$Input           = this.getElm();
+            this.$Input.type      = 'hidden';
+            this.$Form            = this.$Input.getParent('form');
+            this.$canAuthenticate = false;
 
             this.create().inject(this.$Input, 'after');
             this.$init();
 
             Facebook.addEvents({
-                onLogin: function () {
+                onLogin : function () {
                     self.$loggedIn = true;
-                    //self.$BtnElm.set('html', '');
-                    self.$init();
-                }
-            });
 
-            Facebook.addEvents({
+                    if (self.$canAuthenticate) {
+                        self.$authenticate();
+                    }
+                },
                 onLogout: function () {
-                    self.$loggedIn = false;
-                    //self.$BtnElm.set('html', '');
-                    //self.$init();
+                    self.$loggedIn        = false;
+                    self.$canAuthenticate = false;
                 }
             });
         },
@@ -123,7 +112,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * Login
          */
         $init: function () {
-            var self = this;
+            var self            = this;
+            var FakeLoginButton = self.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
 
             this.Loader.show();
 
@@ -141,22 +131,25 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         break;
 
                     case 'not_authorized':
-                        self.$showSettings(loginUserId, status);
-                        break;
-
                     case 'unknown':
                         var LoginButton = Facebook.getLoginButton();
 
                         LoginButton.addEvent('onClick', function () {
-                            self.$loginStart = true;
+                            self.$canAuthenticate = true;
+
+                            if (self.$loggedIn) {
+                                self.$authenticate();
+                            }
                         });
 
+                        FakeLoginButton.destroy();
                         LoginButton.inject(self.$BtnElm);
                         break;
                 }
 
                 self.Loader.hide();
             }, function () {
+                FakeLoginButton.destroy();
                 self.Loader.hide();
                 self.$showGeneralError();
             });
@@ -181,16 +174,9 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
             Facebook.getToken().then(function (token) {
                 Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
-                    if (!connected) {
-                        // user is not connected and uses Facebook login as 2FA
-                        if (loginUserId) {
-                            self.$showSettings(loginUserId, status);
-                            // user is not connected and uses Facebook login as main auth
-                        } else {
-                            self.$showMsg(QUILocale.get(lg, 'controls.login.no.quiqqer.account'));
-                            Facebook.getLogoutButton().inject(self.$BtnElm);
-                        }
-
+                    // user is not connected and uses Facebook login as 2FA
+                    if (!connected && loginUserId) {
+                        self.$showSettings(loginUserId, status);
                         self.Loader.hide();
                         return;
                     }
@@ -198,23 +184,28 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     // if there is no previous user id in the user session
                     // Facebook auth is used as a primary authenticator
                     if (!loginUserId) {
-                        if (self.$loginStart) {
+                        if (self.$canAuthenticate) {
                             self.$Input.value = token;
-                            self.$Form.fireEvent('submit', [self.$Form]);
 
+                            self.$Form.fireEvent('submit', [self.$Form]);
+                            self.$canAuthenticate = false;
                             return;
                         }
 
-                        var LoginButton = Facebook.getLoginButton();
-                        var OnClick     = function () {
-                            self.$loginStart = true;
+                        self.$BtnElm.set('html', '');
+
+                        var LoginButton     = Facebook.getLoginButton();
+                        var FakeLoginButton = self.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
+
+                        LoginButton.addEvent('onClick', function () {
+                            self.$canAuthenticate = true;
 
                             if (self.$loggedIn) {
-                                self.$init();
+                                self.$authenticate();
                             }
-                        };
+                        });
 
-                        LoginButton.addEvent('onClick', OnClick);
+                        FakeLoginButton.destroy();
                         LoginButton.inject(self.$BtnElm);
 
                         return;
@@ -242,14 +233,34 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                             return;
                         }
 
-                        self.$Input.value = token;
-                        self.$Form.fireEvent('submit', [self.$Form]);
+                        if (self.$canAuthenticate) {
+                            self.$authenticate();
+                        }
                     });
                 }, function () {
                     self.$showGeneralError();
                 });
             }, function () {
                 self.$showGeneralError();
+            });
+        },
+
+        /**
+         * Start authentication
+         *
+         * @return {Promise}
+         */
+        $authenticate: function () {
+            var self = this;
+
+            this.Loader.show();
+
+            return Facebook.getToken().then(function (fbToken) {
+                self.$Input.value = fbToken;
+                self.$Form.fireEvent('submit', [self.$Form]);
+                self.$canAuthenticate = false;
+
+                self.Loader.hide();
             });
         },
 
@@ -335,7 +346,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         fbToken  : fbToken,
                         onError  : reject
                     }
-                )
+                );
             });
         },
 
@@ -352,7 +363,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         'package': 'quiqqer/authfacebook',
                         onError  : reject
                     }
-                )
+                );
             });
         },
 
@@ -369,7 +380,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         'package': 'quiqqer/authfacebook',
                         onError  : reject
                     }
-                )
+                );
             });
         }
     });

@@ -59,6 +59,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             this.$Elm                = null;
             this.$registerBtnClicked = false;
             this.$SubmitBtn          = null;
+            this.$RegisterBtn        = null;
         },
 
         /**
@@ -89,8 +90,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                 event.stop();
             });
 
-            this.Loader.show();
-
             self.$init();
 
             Facebook.addEvents({
@@ -115,11 +114,11 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
         $init: function () {
             var self = this;
 
-            this.Loader.show();
+            //this.Loader.show();
             this.$clearInfo();
 
             Facebook.getStatus().then(function (fbStatus) {
-                self.Loader.hide();
+                //self.Loader.hide();
 
                 if (fbStatus === 'connected') {
                     self.$signedIn = true;
@@ -128,9 +127,11 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                 Facebook.getRegistrationButton().then(function (RegistrationBtn) {
                     self.Loader.hide();
 
+                    self.$RegisterBtn = RegistrationBtn;
+
                     self.$clearButtons();
-                    RegistrationBtn.inject(self.$BtnElm);
-                    RegistrationBtn.addEvent('onClick', function () {
+                    self.$RegisterBtn.inject(self.$BtnElm);
+                    self.$RegisterBtn.addEvent('onClick', function () {
                         self.$registerBtnClicked = true;
 
                         if (self.$signedIn) {
@@ -178,11 +179,10 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
          * Show error msg when Facebook API could not be initialized correctly
          */
         $showGeneralError: function () {
-            this.$clearButtons();
-
-            this.$showInfo(
-                QUILocale.get(lg, 'controls.frontend.registrar.general_error')
-            );
+            if (this.$RegisterBtn) {
+                this.$RegisterBtn.setAttribute('title', QUILocale.get(lg, 'controls.frontend.registrar.general_error'));
+                this.$RegisterBtn.disable();
+            }
         },
 
         /**
@@ -206,7 +206,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     backgroundClosable: false,
                     titleCloseButton  : true,
                     events            : {
-                        onOpen: function (Popup) {
+                        onOpen : function (Popup) {
                             var Content = Popup.getContent();
 
                             Content.set(
@@ -232,10 +232,10 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                                 Content.getElement('.facebook-login')
                             );
                         },
-                        onClose: function() {
+                        onClose: function () {
                             self.Loader.show();
 
-                            Facebook.logout().then(function() {
+                            Facebook.logout().then(function () {
                                 self.Loader.hide();
                             });
                         }

@@ -10,6 +10,7 @@
  */
 define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
+    'qui/QUI',
     'qui/classes/DOM',
     'qui/controls/buttons/Button',
 
@@ -18,7 +19,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
     'css!package/quiqqer/authfacebook/bin/classes/Facebook.css'
 
-], function (QDOM, QUIButton, QUIAjax, QUILocale) {
+], function (QUI, QDOM, QUIButton, QUIAjax, QUILocale) {
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
@@ -130,8 +131,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
             return new Promise(function (resolve, reject) {
                 FB.login(function (response) {
-                    if (typeof response.authResponse === 'undefined'
-                        || !response.authResponse) {
+                    if (typeof response.authResponse === 'undefined' || !response.authResponse) {
                         reject('Facebook Login failed.');
 
                         return;
@@ -289,7 +289,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
             var self = this;
 
             return this.$load().then(function () {
-                return self.$AuthData
+                return self.$AuthData;
             });
         },
 
@@ -367,7 +367,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                         fbToken  : fbToken,
                         onError  : reject
                     }
-                )
+                );
             });
         },
 
@@ -386,7 +386,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                         userId   : userId,
                         onError  : reject
                     }
-                )
+                );
             });
         },
 
@@ -459,7 +459,8 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
          */
         $load: function () {
             if (this.$fbInitialized) {
-                return this.$getLoginStatus();
+                return Promise.resolve();
+                //return this.$getLoginStatus();
             }
 
             var self = this;
@@ -470,7 +471,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                         QUI.getMessageHandler().then(function (MH) {
                             MH.addAttention(
                                 QUILocale.get(lg, 'classes.facebook.warn.no.appId')
-                            )
+                            );
                         });
 
                         reject('Facebook API missing credentials.');
@@ -485,12 +486,14 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                                 status : true,
                                 version: Credentials.apiVersion
                             });
+
+                            FB.getLoginStatus(function () {
+                                self.$fbInitialized = true;
+                                resolve();
+                            });
                         } catch (Exception) {
                             reject('Facebook API initialization failed.');
                         }
-
-                        self.$fbInitialized = true;
-                        self.$load().then(resolve, reject);
                     };
 
                     if (!self.$scriptLoaded) {
@@ -516,16 +519,13 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                     var loadTimer = setInterval(function () {
                         waitTime += 200;
 
-                        if (self.$loaded) {
+                        if (self.$fbInitialized) {
                             clearInterval(loadTimer);
-
-                            if (self.$fbInitialized) {
-                                resolve();
-                            }
+                            resolve();
                             return;
                         }
 
-                        if (waitTime >= 3000) {
+                        if (waitTime >= 15000) {
                             clearInterval(loadTimer);
                             reject('Facebook API initialization failed.');
                         }
@@ -547,7 +547,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                         'package': 'quiqqer/authfacebook',
                         onError  : reject
                     }
-                )
+                );
             });
         }
     });

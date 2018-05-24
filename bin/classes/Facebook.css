@@ -5,3 +5,7 @@
     border-color: #3a5794 !important;
     color: #FFF;
 }
+
+.quiqqer-auth-facebook__hidden {
+    display: none !important;
+}

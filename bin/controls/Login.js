@@ -54,6 +54,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$BtnElm          = null;
             this.$loggedIn        = false;
             this.$canAuthenticate = false;
+            this.$FakeLoginButton = null;
+            this.$LoginButton     = null;
         },
 
         /**
@@ -89,6 +91,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$Input.type      = 'hidden';
             this.$Form            = this.$Input.getParent('form');
             this.$canAuthenticate = false;
+            this.$FakeLoginButton = this.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
 
             this.create().inject(this.$Input, 'after');
             this.$init();
@@ -96,7 +99,6 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             Facebook.addEvents({
                 onLogin : function () {
                     self.$loggedIn = true;
-
                     if (self.$canAuthenticate) {
                         self.$authenticate();
                     }
@@ -112,10 +114,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * Login
          */
         $init: function () {
-            var self            = this;
-            var FakeLoginButton = self.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
-
-            this.Loader.show();
+            var self = this;
 
             Promise.all([
                 Facebook.getStatus(),
@@ -132,9 +131,9 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                     case 'not_authorized':
                     case 'unknown':
-                        var LoginButton = Facebook.getLoginButton();
+                        self.$LoginButton = Facebook.getLoginButton();
 
-                        LoginButton.addEvent('onClick', function () {
+                        self.$LoginButton.addEvent('onClick', function () {
                             self.$canAuthenticate = true;
 
                             if (self.$loggedIn) {
@@ -142,14 +141,11 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                             }
                         });
 
-                        FakeLoginButton.destroy();
-                        LoginButton.inject(self.$BtnElm);
+                        self.$FakeLoginButton.destroy();
+                        self.$LoginButton.inject(self.$BtnElm);
                         break;
                 }
-
-                self.Loader.hide();
             }, function () {
-                FakeLoginButton.destroy();
                 self.Loader.hide();
                 self.$showGeneralError();
             });
@@ -159,9 +155,10 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * Show general error msg on Facebook API failure
          */
         $showGeneralError: function () {
-            this.$showMsg(QUILocale.get(lg,
-                'controls.login.general_error'
-            ));
+            if (this.$LoginButton) {
+                this.$LoginButton.setAttribute('title', QUILocale.get(lg, 'controls.login.general_error'));
+                this.$LoginButton.disable();
+            }
         },
 
         /**
@@ -194,10 +191,9 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                         self.$BtnElm.set('html', '');
 
-                        var LoginButton     = Facebook.getLoginButton();
-                        var FakeLoginButton = self.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
+                        self.$LoginButton = Facebook.getLoginButton();
 
-                        LoginButton.addEvent('onClick', function () {
+                        self.$LoginButton.addEvent('onClick', function () {
                             self.$canAuthenticate = true;
 
                             if (self.$loggedIn) {
@@ -205,9 +201,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                             }
                         });
 
-                        FakeLoginButton.destroy();
-                        LoginButton.inject(self.$BtnElm);
-
+                        self.$FakeLoginButton.destroy();
+                        self.$LoginButton.inject(self.$BtnElm);
                         return;
                     }
 

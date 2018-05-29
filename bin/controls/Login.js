@@ -125,9 +125,9 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                 switch (status) {
                     case 'connected':
-                        self.$onConnected(loginUserId);
+                        //self.$onConnected(loginUserId);
                         self.$loggedIn = true;
-                        break;
+                        //break;
 
                     case 'not_authorized':
                     case 'unknown':

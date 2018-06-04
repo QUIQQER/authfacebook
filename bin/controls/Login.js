@@ -90,6 +90,14 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$Input           = this.getElm();
             this.$Input.type      = 'hidden';
             this.$Form            = this.$Input.getParent('form');
+
+            // If the token is already present (i.e. via redirect authentictation)
+            // -> immediately submit login form
+            if (this.$Input.value !== '') {
+                self.$Form.fireEvent('submit', [self.$Form]);
+                return;
+            }
+
             this.$canAuthenticate = false;
             this.$FakeLoginButton = this.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
 

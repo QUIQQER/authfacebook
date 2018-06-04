@@ -16,6 +16,13 @@
                 </conf>
             </section>
             <section name="authSettings">
+                <conf name="useRedirectAuthentication">
+                    <type><![CDATA[bool]]></type>
+                    <defaultvalue>1</defaultvalue>
+                </conf>
+                <conf name="redirectUrl">
+                    <type><![CDATA[string]]></type>
+                </conf>
                 <conf name="maxLoginErrors">
                     <type><![CDATA[integer]]></type>
                     <defaultvalue>3</defaultvalue>
@@ -96,6 +103,24 @@
                         <title>
                             <locale group="quiqqer/authfacebook" var="settings.authSettings.title" />
                         </title>
+
+                        <input conf="authSettings.useRedirectAuthentication" type="checkbox">
+                            <text>
+                                <locale group="quiqqer/authfacebook" var="settings.authSettings.useRedirectAuthentication.title" />
+                            </text>
+                            <description>
+                                <locale group="quiqqer/authfacebook" var="settings.authSettings.useRedirectAuthentication.description" />
+                            </description>
+                        </input>
+
+                        <input conf="authSettings.redirectUrl" type="text">
+                            <text>
+                                <locale group="quiqqer/authfacebook" var="settings.authSettings.redirectUrl.title" />
+                            </text>
+                            <description>
+                                <locale group="quiqqer/authfacebook" var="settings.authSettings.redirectUrl.description" />
+                            </description>
+                        </input>
 
                         <input conf="authSettings.maxLoginErrors" type="text">
                             <text>

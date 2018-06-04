@@ -85,6 +85,30 @@
             <de><![CDATA[Registrierung]]></de>
             <en><![CDATA[Registration]]></en>
         </locale>
+        <locale name="settings.authSettings.useRedirectAuthentication.title">
+            <de><![CDATA[Authentifzierung per Redirect]]></de>
+            <en><![CDATA[Authentication via redirect]]></en>
+        </locale>
+        <locale name="settings.authSettings.useRedirectAuthentication.description">
+            <de><![CDATA[Die Authentifizierung bei Facebook auf der Facebook-Seite selbst und per Rückleitung auf die eigene Website durchführen]]></de>
+            <en><![CDATA[Authentication via Facebook on Facebooks website with redirect to your own website]]></en>
+        </locale>
+        <locale name="settings.authSettings.redirectUrl.title">
+            <de><![CDATA[Weiterleitungs-URL für Authentifizierung per Redirect]]></de>
+            <en><![CDATA[Redirect URL for Authentication via redirect]]></en>
+        </locale>
+        <locale name="settings.authSettings.redirectUrl.description" html="true">
+            <de><![CDATA[Zu dieser URL leitet Facebook Benutzer weiter, die sich bei der <b>Authentifizierung per Redirect</b> auf der Facebook-Seite authentifizieren. Folgende Punkte müssen dabei beachtet werden:
+<ul>
+<li>In den App-Einstellungen unter <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a> muss diese URL (exakte Übereinstimmung!) unter <b>Facebook Login -> Einstellungen -> Gültige OAuth Redirect URIs</b> konfiguriert werden.</li>
+<li>Die URL muss eine Seite ihrer Website sein, auf der sich der Facebook-Login befindet (meist ist dies die Startseite oder eine spezielle Login-Seite).</li>
+</ul>]]></de>
+            <en><![CDATA[This is the URL users are redirected to after authenticating with <b>Authentication via redirect</b> on the Facebook site. The following points have to be considered:
+<ul>
+<li>In the App settings at <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a> this URL (exact match!) has to be configured at <b>Facebook Login -> Settings -> Valid OAuth Redirect URIs</b>.</li>
+<li>This URL has to be a site of your website where the Facebook Login is located (in most cases this will be your start page or a designated login page).</li>
+</ul>]]></en>
+        </locale>
 
         <!-- Control: Login -->
         <locale name="controls.login.status.not_authorized">

@@ -3,6 +3,7 @@
 namespace QUI\Auth\Facebook;
 
 use Facebook\Exceptions\FacebookSDKException;
+use phpseclib\Crypt\Random;
 use QUI;
 use Facebook\Facebook as FacebookApi;
 use QUI\Utils\Security\Orthos;
@@ -50,17 +51,17 @@ class Facebook
             $profileData = self::getProfileData($accessToken);
         } catch (FacebookSDKException $ex) {
             // Throws error if Access Token is invalid (saves one request when not validating access token)
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.invalid.token'
-            ));
+            ]);
         }
 
         if (!isset($profileData['email'])) {
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.email.access.mandatory'
-            ));
+            ]);
         }
 
         $email = $profileData['email'];
@@ -68,13 +69,13 @@ class Facebook
         $Users = QUI::getUsers();
 
         if ($Users->emailExists($email)) {
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.email.already.exists',
-                array(
+                [
                     'email' => $email
-                )
-            ));
+                ]
+            ]);
         }
 
         $NewUser = $Users->createChild($email, $Users->getSystemUser());
@@ -111,25 +112,25 @@ class Facebook
         $profileData = self::getProfileData($accessToken);
 
         if (self::existsQuiqqerAccount($accessToken)) {
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.account_already_connected',
-                array(
+                [
                     'email' => $profileData['email']
-                )
-            ));
+                ]
+            ]);
         }
 
         self::validateAccessToken($accessToken);
 
         QUI::getDataBase()->insert(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
-            array(
+            [
                 'userId'   => $User->getId(),
                 'fbUserId' => $profileData['id'],
                 'email'    => $profileData['email'],
                 'name'     => $profileData['name']
-            )
+            ]
         );
     }
 
@@ -148,9 +149,9 @@ class Facebook
 
         QUI::getDataBase()->delete(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
-            array(
+            [
                 'userId' => (int)$userId,
-            )
+            ]
         );
     }
 
@@ -168,10 +169,10 @@ class Facebook
         $profileData = self::getProfileData($accessToken);
 
         if (empty($profileData) || !isset($profileData['id'])) {
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.invalid.token'
-            ));
+            ]);
         }
     }
 
@@ -197,12 +198,12 @@ class Facebook
      */
     public static function getConnectedAccountByQuiqqerUserId($userId)
     {
-        $result = QUI::getDataBase()->fetch(array(
+        $result = QUI::getDataBase()->fetch([
             'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => array(
+            'where' => [
                 'userId' => (int)$userId
-            )
-        ));
+            ]
+        ]);
 
         if (empty($result)) {
             return false;
@@ -223,12 +224,12 @@ class Facebook
 
         $profile = self::getProfileData($fbToken);
 
-        $result = QUI::getDataBase()->fetch(array(
+        $result = QUI::getDataBase()->fetch([
             'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => array(
+            'where' => [
                 'fbUserId' => (int)$profile['id']
-            )
-        ));
+            ]
+        ]);
 
         if (empty($result)) {
             return false;
@@ -247,13 +248,13 @@ class Facebook
     {
         $profile = self::getProfileData($token);
 
-        $result = QUI::getDataBase()->fetch(array(
+        $result = QUI::getDataBase()->fetch([
             'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => array(
+            'where' => [
                 'fbUserId' => $profile['id']
-            ),
+            ],
             'limit' => 1
-        ));
+        ]);
 
         return !empty($result);
     }
@@ -271,20 +272,20 @@ class Facebook
         }
 
         try {
-            self::$Api = new FacebookApi(array(
+            self::$Api = new FacebookApi([
                 'app_id'                => self::getAppId(),
                 'app_secret'            => self::getAppSecret(),
                 'default_graph_version' => self::GRAPH_VERSION
-            ));
+            ]);
         } catch (\Exception $Exception) {
             QUI\System\Log::addError(
-                self::class . ' :: getApi() -> ' . $Exception->getMessage()
+                self::class.' :: getApi() -> '.$Exception->getMessage()
             );
 
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.api.error'
-            ));
+            ]);
         }
 
         return self::$Api;
@@ -318,6 +319,105 @@ class Facebook
     public static function getApiVersion()
     {
         return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'apiVersion');
+    }
+
+    /**
+     * Get redirect URL for Facebook authentication
+     *
+     * @return string
+     */
+    public static function getRedirectURL()
+    {
+        return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('authSettings', 'redirectUrl');
+    }
+
+    /**
+     * Check if redirect authentication is enabled
+     *
+     * @return bool
+     */
+    public static function isRedirectAuthenticationEnabled()
+    {
+        return boolval(QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('authSettings', 'useRedirectAuthentication'));
+    }
+
+    /**
+     * Get URL for Facebook authentication on Facebook website with redirect
+     *
+     * @return string|false - URL or false on error
+     */
+    public static function getAuthUrl()
+    {
+        $csrfToken = uniqid(microtime(true), true);
+        QUI::getSession()->set('facebook_auth_csrf_token', $csrfToken);
+
+        $redirectUri = self::getRedirectURL();
+
+        if (empty($redirectUri)) {
+            QUI\System\Log::addError(
+                'You configured Facebook authentication via redirect but did not provide'
+                . ' a Redirect URL.'
+            );
+
+            return false;
+        }
+
+        $getParams = [
+            'client_id'    => self::getAppId(),
+            'redirect_uri' => $redirectUri,
+            'state'        => $csrfToken
+        ];
+
+        return 'https://www.facebook.com/v3.0/dialog/oauth?'.http_build_query($getParams);
+    }
+
+    /**
+     * Get Facebook access token from authentication code received from calling the url
+     * in self::getAuthUrl() and successfully returning
+     *
+     * @param string $code
+     * @return bool|string - token or false if token could not be retrieved
+     */
+    public static function getTokenFromAuthRedirectCode($code)
+    {
+        $redirectUri = rtrim(self::getRedirectURL(), '/') . '/';
+
+        $getParams = [
+            'client_id'     => self::getAppId(),
+            'redirect_uri'  => $redirectUri,
+            'client_secret' => self::getAppSecret(),
+            'code'          => $code
+        ];
+
+        $url = 'https://graph.facebook.com/v3.0/oauth/access_token?'.http_build_query($getParams);
+
+        $Curl = curl_init($url);
+        curl_setopt($Curl, CURLOPT_RETURNTRANSFER, true);
+
+        $result = curl_exec($Curl);
+
+        curl_close($Curl);
+
+        if (!$result) {
+            return false;
+        }
+
+        $result = json_decode($result, true);
+
+        if (!empty($result['error'])) {
+            QUI\System\Log::addError(
+                self::class . ' -> Could not retrieve Facebook access_token from authentication code'
+                . ': ' . $result['error']['message']
+            );
+
+            return false;
+        }
+
+        if (empty($result['access_token'])) {
+            return false;
+        }
+
+        return $result['access_token'];
     }
 
     /**

@@ -20,3 +20,11 @@
     text-align: center;
     width: 100%;
 }
+
+.quiqqer-auth-facebook-login-popup {
+    text-align: center;
+}
+
+.quiqqer-auth-facebook-login-popup button {
+    float: none !important;
+}

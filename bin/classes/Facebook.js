@@ -458,6 +458,9 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
          * @return {Promise}
          */
         $load: function () {
+
+            console.log(1);
+
             if (this.$fbInitialized) {
                 return Promise.resolve();
                 //return this.$getLoginStatus();

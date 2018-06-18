@@ -166,7 +166,13 @@ class Facebook
      */
     public static function validateAccessToken($accessToken)
     {
-        $profileData = self::getProfileData($accessToken);
+        $profileData = [];
+
+        try {
+            $profileData = self::getProfileData($accessToken);
+        } catch (\Exception $Exception) {
+            \QUI\System\Log::writeException($Exception);
+        }
 
         if (empty($profileData) || !isset($profileData['id'])) {
             throw new Exception([
@@ -181,6 +187,8 @@ class Facebook
      *
      * @param string $accessToken - access token
      * @return array
+     * @throws \QUI\Exception
+     * @throws \Facebook\Exceptions\FacebookSDKException
      */
     public static function getProfileData($accessToken)
     {
@@ -295,6 +303,7 @@ class Facebook
      * Get App ID for Facebook API
      *
      * @return string
+     * @throws \QUI\Exception
      */
     public static function getAppId()
     {
@@ -305,6 +314,7 @@ class Facebook
      * Get App Secret for Facebook API
      *
      * @return string
+     * @throws \QUI\Exception
      */
     protected static function getAppSecret()
     {
@@ -315,6 +325,7 @@ class Facebook
      * Get version string for Facebook API
      *
      * @return string
+     * @throws \QUI\Exception
      */
     public static function getApiVersion()
     {
@@ -325,6 +336,7 @@ class Facebook
      * Get redirect URL for Facebook authentication
      *
      * @return string
+     * @throws \QUI\Exception
      */
     public static function getRedirectURL()
     {
@@ -335,6 +347,7 @@ class Facebook
      * Check if redirect authentication is enabled
      *
      * @return bool
+     * @throws \QUI\Exception
      */
     public static function isRedirectAuthenticationEnabled()
     {
@@ -345,6 +358,7 @@ class Facebook
      * Get URL for Facebook authentication on Facebook website with redirect
      *
      * @return string|false - URL or false on error
+     * @throws \QUI\Exception
      */
     public static function getAuthUrl()
     {
@@ -377,6 +391,7 @@ class Facebook
      *
      * @param string $code
      * @return bool|string - token or false if token could not be retrieved
+     * @throws \QUI\Exception
      */
     public static function getTokenFromAuthRedirectCode($code)
     {

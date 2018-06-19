@@ -114,7 +114,9 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.create().inject(this.$Input, 'after');
 
             if (localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
-                this.$init();
+                this.$init().catch(function() {
+                    // nothing
+                });
             } else {
                 this.$FakeLoginButton.disabled = false;
             }

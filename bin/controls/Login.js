@@ -6,9 +6,9 @@
  */
 define('package/quiqqer/authfacebook/bin/controls/Login', [
 
-    'qui/QUI',
     'qui/controls/Control',
     'qui/controls/loader/Loader',
+    'qui/controls/windows/Confirm',
 
     'package/quiqqer/authfacebook/bin/Facebook',
 
@@ -17,7 +17,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
     'css!package/quiqqer/authfacebook/bin/controls/Login.css'
 
-], function (QUI, QUIControl, QUILoader, Facebook, QUIAjax, QUILocale) {
+], function (QUIControl, QUILoader, QUIConfirm, Facebook, QUIAjax, QUILocale) {
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
@@ -35,7 +35,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             '$getLoginUserId',
             '$showGeneralError',
             '$showMsg',
-            '$clearMsg'
+            '$clearMsg',
+            '$openLoginPopup'
         ],
 
         options: {
@@ -93,8 +94,30 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$canAuthenticate = false;
             this.$FakeLoginButton = this.$Elm.getParent().getElement('.quiqqer-auth-facebook-login-btn');
 
+            this.$FakeLoginButton.addEvents({
+                click: function (event) {
+                    event.stop();
+                    localStorage.setItem('quiqqer_auth_facebook_autoconnect', true);
+
+                    self.$FakeLoginButton.disabled = true;
+                    self.Loader.show();
+
+                    self.$init().then(function() {
+                        self.Loader.hide();
+                        self.$openLoginPopup();
+                    }, function() {
+                        self.Loader.hide();
+                    });
+                }
+            });
+
             this.create().inject(this.$Input, 'after');
-            this.$init();
+
+            if (localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
+                this.$init();
+            } else {
+                this.$FakeLoginButton.disabled = false;
+            }
 
             Facebook.addEvents({
                 onLogin : function () {
@@ -111,44 +134,97 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         },
 
         /**
-         * Login
+         * Initialize Facebook Login
+         *
+         * This means that a request to the Facebook servers is made
+         * to load the JavaScript SDK (may be relevant for data protection purposes!)
+         *
+         * @return {Promise}
          */
         $init: function () {
             var self = this;
 
-            Promise.all([
-                Facebook.getStatus(),
-                self.$getLoginUserId()
-            ]).then(function (result) {
-                var status      = result[0];
-                var loginUserId = result[1];
+            return new Promise(function(resolve, reject) {
+                Promise.all([
+                    Facebook.getStatus(),
+                    self.$getLoginUserId()
+                ]).then(function (result) {
+                    var status      = result[0];
+                    var loginUserId = result[1];
 
-                switch (status) {
-                    case 'connected':
-                        //self.$onConnected(loginUserId);
-                        self.$loggedIn = true;
+                    switch (status) {
+                        case 'connected':
+                            //self.$onConnected(loginUserId);
+                            self.$loggedIn = true;
                         //break;
 
-                    case 'not_authorized':
-                    case 'unknown':
-                        self.$LoginButton = Facebook.getLoginButton();
+                        case 'not_authorized':
+                        case 'unknown':
+                            self.$LoginButton = Facebook.getLoginButton();
 
-                        self.$LoginButton.addEvent('onClick', function () {
+                            self.$LoginButton.addEvent('onClick', function () {
+                                self.$canAuthenticate = true;
+
+                                if (self.$loggedIn) {
+                                    self.$authenticate();
+                                }
+                            });
+
+                            self.$FakeLoginButton.destroy();
+                            self.$LoginButton.inject(self.$BtnElm);
+                            break;
+                    }
+
+                    resolve();
+                }, function () {
+                    self.Loader.hide();
+                    self.$showGeneralError();
+
+                    reject();
+                });
+            });
+        },
+
+        /**
+         * Opens Popup with a separate Facebook Login button
+         *
+         * This is only needed if the user first has to "agree" to the connection
+         * to Facebook by clicking the original Login button
+         */
+        $openLoginPopup: function () {
+            var self = this;
+
+            new QUIConfirm({
+                'class'  : 'quiqqer-auth-facebook-login-popup',
+                icon     : 'fa fa-facebook-official',
+                title    : 'Facebook Login',
+                maxHeight: 200,
+                maxWidth : 350,
+                buttons  : false,
+                events   : {
+                    onOpen: function (Popup) {
+                        var Content = Popup.getContent();
+
+                        Content.set('html', '');
+
+                        var LoginBtn = Facebook.getLoginButton().inject(Content);
+                        LoginBtn.setAttribute(
+                            'text',
+                            QUILocale.get(lg, 'controls.login.popup.btn.text')
+                        );
+
+                        LoginBtn.addEvent('onClick', function () {
                             self.$canAuthenticate = true;
 
                             if (self.$loggedIn) {
                                 self.$authenticate();
                             }
-                        });
 
-                        self.$FakeLoginButton.destroy();
-                        self.$LoginButton.inject(self.$BtnElm);
-                        break;
+                            Popup.close();
+                        });
+                    }
                 }
-            }, function () {
-                self.Loader.hide();
-                self.$showGeneralError();
-            });
+            }).open();
         },
 
         /**

@@ -95,6 +95,10 @@
             <de><![CDATA[Jetzt registrieren]]></de>
             <en><![CDATA[Register now]]></en>
         </locale>
+        <locale name="controls.login.popup.btn.text">
+            <de><![CDATA[Jetzt mit Facebook einloggen]]></de>
+            <en><![CDATA[Log in now with Facebook]]></en>
+        </locale>
 
         <!-- Class: Facebook -->
         <locale name="classes.facebook.logout.btn.text">
@@ -134,6 +138,14 @@
         <locale name="controls.frontend.registrar.already_authenticated" html="true">
             <de><![CDATA[Sie sind z.Z. eingeloggt. Bitte loggen Sie sich aus, um mit Facebook ein Benutzerkonto zu registrieren.]]></de>
             <en><![CDATA[You are currently logged in. Please log out to registrer an account via Facebook.]]></en>
+        </locale>
+        <locale name="controls.frontend.registrar.popup.btn.text">
+            <de><![CDATA[Jetzt mit Facebook registrieren]]></de>
+            <en><![CDATA[Register now with Facebook]]></en>
+        </locale>
+        <locale name="controls.frontend.registrar.popup.title">
+            <de><![CDATA[Registrierung per Facebook-Konto]]></de>
+            <en><![CDATA[Registration via Facebook account]]></en>
         </locale>
         <locale name="message.registrar.registration_success_manual">
             <de><![CDATA[Die Registrierung war erfolgreich. Bevor Sie sich einloggen können, muss ein Administrator Ihr Benutzerkonto aktivieren.]]></de>

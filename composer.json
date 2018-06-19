@@ -2,7 +2,7 @@
   "name": "quiqqer/authfacebook",
   "type": "quiqqer-module",
   "description": "QUIQQER authentication and registration via Facebook account",
-  "version": "dev-master",
+  "version": "1.1.0",
   "license": "GPL-3.0+",
   "homepage": "https://www.quiqqer.com",
   "authors": [

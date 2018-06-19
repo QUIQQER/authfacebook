@@ -6,7 +6,6 @@
  */
 define('package/quiqqer/authfacebook/bin/controls/Login', [
 
-    'qui/QUI',
     'qui/controls/Control',
     'qui/controls/loader/Loader',
     'qui/controls/windows/Confirm',
@@ -18,7 +17,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
     'css!package/quiqqer/authfacebook/bin/controls/Login.css'
 
-], function (QUI, QUIControl, QUILoader, QUIConfirm, Facebook, QUIAjax, QUILocale) {
+], function (QUIControl, QUILoader, QUIConfirm, Facebook, QUIAjax, QUILocale) {
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
@@ -99,7 +98,16 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                 click: function (event) {
                     event.stop();
                     localStorage.setItem('quiqqer_auth_facebook_autoconnect', true);
-                    self.$init().then(self.$openLoginPopup);
+
+                    self.$FakeLoginButton.disabled = true;
+                    self.Loader.show();
+
+                    self.$init().then(function() {
+                        self.Loader.hide();
+                        self.$openLoginPopup();
+                    }, function() {
+                        self.Loader.hide();
+                    });
                 }
             });
 
@@ -136,38 +144,44 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         $init: function () {
             var self = this;
 
-            return Promise.all([
-                Facebook.getStatus(),
-                self.$getLoginUserId()
-            ]).then(function (result) {
-                var status      = result[0];
-                var loginUserId = result[1];
+            return new Promise(function(resolve, reject) {
+                Promise.all([
+                    Facebook.getStatus(),
+                    self.$getLoginUserId()
+                ]).then(function (result) {
+                    var status      = result[0];
+                    var loginUserId = result[1];
 
-                switch (status) {
-                    case 'connected':
-                        //self.$onConnected(loginUserId);
-                        self.$loggedIn = true;
-                    //break;
+                    switch (status) {
+                        case 'connected':
+                            //self.$onConnected(loginUserId);
+                            self.$loggedIn = true;
+                        //break;
 
-                    case 'not_authorized':
-                    case 'unknown':
-                        self.$LoginButton = Facebook.getLoginButton();
+                        case 'not_authorized':
+                        case 'unknown':
+                            self.$LoginButton = Facebook.getLoginButton();
 
-                        self.$LoginButton.addEvent('onClick', function () {
-                            self.$canAuthenticate = true;
+                            self.$LoginButton.addEvent('onClick', function () {
+                                self.$canAuthenticate = true;
 
-                            if (self.$loggedIn) {
-                                self.$authenticate();
-                            }
-                        });
+                                if (self.$loggedIn) {
+                                    self.$authenticate();
+                                }
+                            });
 
-                        self.$FakeLoginButton.destroy();
-                        self.$LoginButton.inject(self.$BtnElm);
-                        break;
-                }
-            }, function () {
-                self.Loader.hide();
-                self.$showGeneralError();
+                            self.$FakeLoginButton.destroy();
+                            self.$LoginButton.inject(self.$BtnElm);
+                            break;
+                    }
+
+                    resolve();
+                }, function () {
+                    self.Loader.hide();
+                    self.$showGeneralError();
+
+                    reject();
+                });
             });
         },
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file contains QUI\Auth\Google2Fa\Controls\Login
+ * This file contains QUI\Auth\Facebook\Controls\Login
  */
 namespace QUI\Auth\Facebook\Controls;
 

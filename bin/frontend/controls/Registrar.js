@@ -86,7 +86,13 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                 click: function (event) {
                     event.stop();
                     localStorage.setItem('quiqqer_auth_facebook_autoconnect', true);
-                    self.$init().then(self.$openRegistrationPopup);
+
+                    self.Loader.show();
+                    FakeRegisterBtn.disabled = true;
+
+                    self.$init().then(self.$openRegistrationPopup, function () {
+                        self.Loader.hide();
+                    });
                 }
             });
 
@@ -138,34 +144,40 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             //this.Loader.show();
             this.$clearInfo();
 
-            return Facebook.getStatus().then(function (fbStatus) {
-                //self.Loader.hide();
+            return new Promise(function (resolve, reject) {
+                Facebook.getStatus().then(function (fbStatus) {
+                    //self.Loader.hide();
 
-                if (fbStatus === 'connected') {
-                    self.$signedIn = true;
-                }
+                    if (fbStatus === 'connected') {
+                        self.$signedIn = true;
+                    }
 
-                Facebook.getRegistrationButton().then(function (RegistrationBtn) {
-                    self.Loader.hide();
+                    Facebook.getRegistrationButton().then(function (RegistrationBtn) {
+                        self.Loader.hide();
 
-                    self.$RegisterBtn = RegistrationBtn;
+                        self.$RegisterBtn = RegistrationBtn;
 
-                    self.$clearButtons();
-                    self.$RegisterBtn.inject(self.$BtnElm);
-                    self.$RegisterBtn.addEvent('onClick', function () {
-                        self.$registerBtnClicked = true;
+                        self.$clearButtons();
+                        self.$RegisterBtn.inject(self.$BtnElm);
+                        self.$RegisterBtn.addEvent('onClick', function () {
+                            self.$registerBtnClicked = true;
 
-                        if (self.$signedIn) {
-                            self.$register();
-                        }
+                            if (self.$signedIn) {
+                                self.$register();
+                            }
+                        });
+
+                        resolve();
+                    }, function () {
+                        self.Loader.hide();
+                        self.$showGeneralError();
+                        reject();
                     });
                 }, function () {
                     self.Loader.hide();
                     self.$showGeneralError();
+                    reject();
                 });
-            }, function () {
-                self.Loader.hide();
-                self.$showGeneralError();
             });
         },
 

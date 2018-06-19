@@ -11,8 +11,6 @@ use QUI\Utils\Security\Orthos;
  * Class Facebook
  *
  * Facebook Graph API
- *
- * @package QUI\Authe\Google2Fa
  */
 class Facebook
 {

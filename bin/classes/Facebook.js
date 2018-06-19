@@ -458,9 +458,6 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
          * @return {Promise}
          */
         $load: function () {
-
-            console.log(1);
-
             if (this.$fbInitialized) {
                 return Promise.resolve();
                 //return this.$getLoginStatus();
@@ -528,7 +525,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                             return;
                         }
 
-                        if (waitTime >= 15000) {
+                        if (waitTime >= 5000) {
                             clearInterval(loadTimer);
                             reject('Facebook API initialization failed.');
                         }

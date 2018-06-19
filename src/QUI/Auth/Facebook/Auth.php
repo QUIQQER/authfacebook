@@ -11,8 +11,6 @@ use QUI\Auth\Facebook\Exception as FacebookException;
  * Class Auth
  *
  * Authentication handler for Facebook authentication
- *
- * @package QUI\Authe\Google2Fa
  */
 class Auth extends AbstractAuthenticator
 {

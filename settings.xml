@@ -21,12 +21,6 @@
                     <defaultvalue>3</defaultvalue>
                 </conf>
             </section>
-            <section name="registration">
-                <conf name="allowUnverifiedEmailAddresses">
-                    <type><![CDATA[bool]]></type>
-                    <defaultvalue>1</defaultvalue>
-                </conf>
-            </section>
         </config>
 
         <window>
@@ -73,21 +67,6 @@
                             </text>
                             <description>
                                 <locale group="quiqqer/authfacebook" var="settings.apiSettings.apiVersion.description" />
-                            </description>
-                        </input>
-                    </settings>
-
-                    <settings title="registration" name="registration">
-                        <title>
-                            <locale group="quiqqer/authfacebook" var="settings.registration.title" />
-                        </title>
-
-                        <input conf="registration.allowUnverifiedEmailAddresses" type="checkbox">
-                            <text>
-                                <locale group="quiqqer/authfacebook" var="settings.registration.allowUnverifiedEmailAddresses.title" />
-                            </text>
-                            <description>
-                                <locale group="quiqqer/authfacebook" var="settings.registration.allowUnverifiedEmailAddresses.description" />
                             </description>
                         </input>
                     </settings>

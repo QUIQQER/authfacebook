@@ -39,7 +39,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
             'lastname'  => empty($profileData['last_name']) ? null : $profileData['last_name'],
         ));
 
-        $User->setAttribute(FrontendUsersHandler::USER_ATTR_EMAIL_VERIFIED, boolval($profileData['verified']));
+        $User->setAttribute(FrontendUsersHandler::USER_ATTR_EMAIL_VERIFIED, true);
 
         $User->setPassword(QUI\Security\Password::generateRandom(), $SystemUser);
         $User->save($SystemUser);
@@ -136,17 +136,6 @@ class Registrar extends FrontendUsers\AbstractRegistrar
             throw new FrontendUsers\Exception(array(
                 $lg,
                 $lgPrefix . 'email_already_exists'
-            ));
-        }
-
-        $settings    = $this->getRegistrationSettings();
-        $profileData = Facebook::getProfileData($token);
-
-        if (!(int)$settings['allowUnverifiedEmailAddresses']
-            && !(int)$profileData['verified']) {
-            throw new FrontendUsers\Exception(array(
-                $lg,
-                $lgPrefix . 'email_not_verified'
             ));
         }
     }

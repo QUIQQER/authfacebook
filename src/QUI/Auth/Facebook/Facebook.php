@@ -181,7 +181,7 @@ class Facebook
      */
     public static function getProfileData($accessToken)
     {
-        $Response = self::getApi()->get('/me?fields=id,name,first_name,last_name,verified,email', $accessToken);
+        $Response = self::getApi()->get('/me?fields=id,name,first_name,last_name,email', $accessToken);
         $UserData = $Response->getGraphNode();
 
         return $UserData->asArray();

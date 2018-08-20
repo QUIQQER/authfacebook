@@ -69,14 +69,6 @@
             <de><![CDATA[Maximale Versuche, die ein Benutzer hat, sich beim Login-Prozess mit einem gültigen (d.h.: zu seinem QUIQQER-Benutzerkonto gehörigen) Facebook-Konto anzumelden, bevor ein automatischer Logout stattfindet und der Authentifizierungs-Prozess von vorne gestartet wird.]]></de>
             <en><![CDATA[Maximal number of attempts for logging in with a valid (meaning: linked to a QUIQQER Account) Facebook Account before the user session is terminated and the authentication process starts over.]]></en>
         </locale>
-        <locale name="settings.registration.allowUnverifiedEmailAddresses.title">
-            <de><![CDATA[Nicht-verifizierte Facebook-Konten erlauben]]></de>
-            <en><![CDATA[Allow unverified Facebook accounts]]></en>
-        </locale>
-        <locale name="settings.registration.allowUnverifiedEmailAddresses.description">
-            <de><![CDATA[Facebook-Konten zur Registrierung zulassen, deren E-Mail-Adresse noch nicht bestätigt wurde]]></de>
-            <en><![CDATA[Allow Facebook accounts to register whose email address has not yet been verified]]></en>
-        </locale>
         <locale name="controls.settings.api_error">
             <de><![CDATA[Bei der Verbindung zur Facebook API ist ein Fehler aufgetreten. Bitte überprüfen Sie die Einstellungen des "Facebook Registrierung / Login"-Moduls.]]></de>
             <en><![CDATA[An error occurred while connecting to the Facebook API. Please check the settings of the "Facebook registration / authentication" module.]]></en>
@@ -257,10 +249,6 @@
         <locale name="exception.registrar.email_already_exists">
             <de><![CDATA[Es existiert bereits ein Benutzerkonto mit Ihrer bei Facebook hinterlegten E-Mail-Adresse.]]></de>
             <en><![CDATA[There is already a user account with your Facebook e-mail address.]]></en>
-        </locale>
-        <locale name="exception.registrar.email_not_verified">
-            <de><![CDATA[Ihre bei Facebook hinterlegte E-Mail-Adresse ist noch nicht verifiziert. Bitte verifizieren Sie Ihre E-Mail-Adresse bei Facebook, um sich zu registrieren.]]></de>
-            <en><![CDATA[Your Facebook e-mail address is not yet verified. Please verify your e-mail address at Facebook to register.]]></en>
         </locale>
 
         <!-- Class: Login -->

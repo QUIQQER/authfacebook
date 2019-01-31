@@ -33,11 +33,11 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         // set user data
         $profileData = Facebook::getProfileData($token);
 
-        $User->setAttributes(array(
+        $User->setAttributes([
             'email'     => $profileData['email'],
             'firstname' => empty($profileData['first_name']) ? null : $profileData['first_name'],
             'lastname'  => empty($profileData['last_name']) ? null : $profileData['last_name'],
-        ));
+        ]);
 
         $User->setAttribute(FrontendUsersHandler::USER_ATTR_EMAIL_VERIFIED, true);
 
@@ -108,35 +108,35 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         $token = $this->getAttribute('token');
 
         if (empty($token)) {
-            throw new FrontendUsers\Exception(array(
+            throw new FrontendUsers\Exception([
                 $lg,
-                $lgPrefix . 'token_invalid'
-            ));
+                $lgPrefix.'token_invalid'
+            ]);
         }
 
         try {
             Facebook::validateAccessToken($token);
         } catch (\Exception $Exception) {
-            throw new FrontendUsers\Exception(array(
+            throw new FrontendUsers\Exception([
                 $lg,
-                $lgPrefix . 'token_invalid'
-            ));
+                $lgPrefix.'token_invalid'
+            ]);
         }
 
         $email = $this->getUsername();
 
         if (empty($email)) {
-            throw new FrontendUsers\Exception(array(
+            throw new FrontendUsers\Exception([
                 $lg,
-                $lgPrefix . 'email_address_empty'
-            ));
+                $lgPrefix.'email_address_empty'
+            ]);
         }
 
         if (QUI::getUsers()->usernameExists($email)) {
-            throw new FrontendUsers\Exception(array(
+            throw new FrontendUsers\Exception([
                 $lg,
-                $lgPrefix . 'email_already_exists'
-            ));
+                $lgPrefix.'email_already_exists'
+            ]);
         }
     }
 
@@ -148,7 +148,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     public function getInvalidFields()
     {
         // Registration via Facebook account does not use form fields
-        return array();
+        return [];
     }
 
     /**
@@ -201,6 +201,14 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         }
 
         return $Locale->get('quiqqer/authfacebook', 'registrar.description');
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return 'fa fa-facebook';
     }
 
     /**

@@ -24,16 +24,16 @@ QUI::$Ajax->registerFunction(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',
                     'message.ajax.connectAccount.error',
-                    array(
+                    [
                         'error' => $Exception->getMessage()
-                    )
+                    ]
                 )
             );
 
             return false;
         } catch (\Exception $Exception) {
             QUI\System\Log::addError(
-                'AJAX :: package_quiqqer_authfacebook_ajax_connectAccount -> ' . $Exception->getMessage()
+                'AJAX :: package_quiqqer_authfacebook_ajax_connectAccount -> '.$Exception->getMessage()
             );
 
             QUI::getMessagesHandler()->addError(
@@ -50,15 +50,15 @@ QUI::$Ajax->registerFunction(
             QUI::getLocale()->get(
                 'quiqqer/authfacebook',
                 'message.ajax.connectAccount.success',
-                array(
-                    'fbAccount' => $accountData['name'] . ' (' . $accountData['email'] . ')',
+                [
+                    'fbAccount' => $accountData['name'].' ('.$accountData['email'].')',
                     'qUserName' => QUI::getUsers()->get($accountData['userId'])->getUsername(),
                     'qUserId'   => $accountData['userId']
-                )
+                ]
             )
         );
 
         return $accountData;
     },
-    array('userId', 'fbToken')
+    ['userId', 'fbToken']
 );

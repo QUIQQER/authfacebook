@@ -13,5 +13,5 @@ QUI::$Ajax->registerFunction(
     function ($fbToken) {
         return Facebook::existsQuiqqerAccount($fbToken);
     },
-    array('fbToken')
+    ['fbToken']
 );

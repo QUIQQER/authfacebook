@@ -3,6 +3,7 @@
 /**
  * This file contains
  */
+
 namespace QUI\Auth\Facebook\Controls;
 
 use QUI;

@@ -15,7 +15,8 @@ class Events
      * @param \QUI\Users\User $User
      * @return void
      */
-    public static function onUserDelete($User) {
+    public static function onUserDelete($User)
+    {
         // delete connected facebook account
         $connectedAccount = Facebook::getConnectedAccountByQuiqqerUserId($User->getId());
 

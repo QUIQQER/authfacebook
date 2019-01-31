@@ -75,10 +75,10 @@ class Auth extends AbstractAuthenticator
         if (!is_array($authData)
             || !isset($authData['token'])
         ) {
-            throw new FacebookException(array(
+            throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.data'
-            ), 401);
+            ], 401);
         }
 
         $token = $authData['token'];
@@ -86,19 +86,19 @@ class Auth extends AbstractAuthenticator
         try {
             Facebook::validateAccessToken($token);
         } catch (FacebookException $Exception) {
-            throw new FacebookException(array(
+            throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.data'
-            ), 401);
+            ], 401);
         }
 
         $connectionProfile = Facebook::getConnectedAccountByFacebookToken($token);
 
         if (empty($connectionProfile)) {
-            throw new FacebookException(array(
+            throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.no.account.connected'
-            ), 1001);
+            ], 1001);
         }
 
         // if there is no user set, Facebook is used as primary login
@@ -109,10 +109,10 @@ class Auth extends AbstractAuthenticator
         }
 
         if ((int)$connectionProfile['userId'] !== (int)$this->User->getId()) {
-            throw new FacebookException(array(
+            throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.account.for.user'
-            ), 401);
+            ], 401);
         }
     }
 

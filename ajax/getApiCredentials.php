@@ -10,9 +10,9 @@ use QUI\Auth\Facebook\Facebook;
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_getApiCredentials',
     function () {
-        return array(
+        return [
             'appId'      => Facebook::getAppId(),
             'apiVersion' => Facebook::getApiVersion()
-        );
+        ];
     }
 );

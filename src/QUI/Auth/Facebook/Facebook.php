@@ -48,17 +48,17 @@ class Facebook
             $profileData = self::getProfileData($accessToken);
         } catch (FacebookSDKException $ex) {
             // Throws error if Access Token is invalid (saves one request when not validating access token)
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.invalid.token'
-            ));
+            ]);
         }
 
         if (!isset($profileData['email'])) {
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.email.access.mandatory'
-            ));
+            ]);
         }
 
         $email = $profileData['email'];
@@ -66,13 +66,13 @@ class Facebook
         $Users = QUI::getUsers();
 
         if ($Users->emailExists($email)) {
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.email.already.exists',
-                array(
+                [
                     'email' => $email
-                )
-            ));
+                ]
+            ]);
         }
 
         $NewUser = $Users->createChild($email, $Users->getSystemUser());
@@ -109,25 +109,25 @@ class Facebook
         $profileData = self::getProfileData($accessToken);
 
         if (self::existsQuiqqerAccount($accessToken)) {
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.account_already_connected',
-                array(
+                [
                     'email' => $profileData['email']
-                )
-            ));
+                ]
+            ]);
         }
 
         self::validateAccessToken($accessToken);
 
         QUI::getDataBase()->insert(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
-            array(
+            [
                 'userId'   => $User->getId(),
                 'fbUserId' => $profileData['id'],
                 'email'    => $profileData['email'],
                 'name'     => $profileData['name']
-            )
+            ]
         );
     }
 
@@ -146,9 +146,9 @@ class Facebook
 
         QUI::getDataBase()->delete(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
-            array(
+            [
                 'userId' => (int)$userId,
-            )
+            ]
         );
     }
 
@@ -166,10 +166,10 @@ class Facebook
         $profileData = self::getProfileData($accessToken);
 
         if (empty($profileData) || !isset($profileData['id'])) {
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.invalid.token'
-            ));
+            ]);
         }
     }
 
@@ -195,12 +195,12 @@ class Facebook
      */
     public static function getConnectedAccountByQuiqqerUserId($userId)
     {
-        $result = QUI::getDataBase()->fetch(array(
+        $result = QUI::getDataBase()->fetch([
             'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => array(
+            'where' => [
                 'userId' => (int)$userId
-            )
-        ));
+            ]
+        ]);
 
         if (empty($result)) {
             return false;
@@ -221,12 +221,12 @@ class Facebook
 
         $profile = self::getProfileData($fbToken);
 
-        $result = QUI::getDataBase()->fetch(array(
+        $result = QUI::getDataBase()->fetch([
             'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => array(
+            'where' => [
                 'fbUserId' => (int)$profile['id']
-            )
-        ));
+            ]
+        ]);
 
         if (empty($result)) {
             return false;
@@ -245,13 +245,13 @@ class Facebook
     {
         $profile = self::getProfileData($token);
 
-        $result = QUI::getDataBase()->fetch(array(
+        $result = QUI::getDataBase()->fetch([
             'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => array(
+            'where' => [
                 'fbUserId' => $profile['id']
-            ),
+            ],
             'limit' => 1
-        ));
+        ]);
 
         return !empty($result);
     }
@@ -269,20 +269,20 @@ class Facebook
         }
 
         try {
-            self::$Api = new FacebookApi(array(
+            self::$Api = new FacebookApi([
                 'app_id'                => self::getAppId(),
                 'app_secret'            => self::getAppSecret(),
                 'default_graph_version' => self::GRAPH_VERSION
-            ));
+            ]);
         } catch (\Exception $Exception) {
             QUI\System\Log::addError(
-                self::class . ' :: getApi() -> ' . $Exception->getMessage()
+                self::class.' :: getApi() -> '.$Exception->getMessage()
             );
 
-            throw new Exception(array(
+            throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.api.error'
-            ));
+            ]);
         }
 
         return self::$Api;

@@ -22,16 +22,16 @@ QUI::$Ajax->registerFunction(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',
                     'message.ajax.disconnectAccount.error',
-                    array(
+                    [
                         'error' => $Exception->getMessage()
-                    )
+                    ]
                 )
             );
 
             return false;
         } catch (\Exception $Exception) {
             QUI\System\Log::addError(
-                'AJAX :: package_quiqqer_authfacebook_ajax_disconnectAccount -> ' . $Exception->getMessage()
+                'AJAX :: package_quiqqer_authfacebook_ajax_disconnectAccount -> '.$Exception->getMessage()
             );
 
             QUI::getMessagesHandler()->addError(
@@ -48,15 +48,15 @@ QUI::$Ajax->registerFunction(
             QUI::getLocale()->get(
                 'quiqqer/authfacebook',
                 'message.ajax.disconnectAccount.success',
-                array(
+                [
                     'qUserName' => QUI::getUsers()->get($userId)->getUsername(),
                     'qUserId'   => $userId
-                )
+                ]
             )
         );
 
         return true;
     },
-    array('userId'),
+    ['userId'],
     'Permission::checkAdminUser'
 );

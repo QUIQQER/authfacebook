@@ -3,6 +3,7 @@
 /**
  * This file contains QUI\Auth\Facebook\Controls\Login
  */
+
 namespace QUI\Auth\Facebook\Controls;
 
 use QUI;
@@ -22,11 +23,11 @@ class Login extends Control
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->addCSSFile(dirname(__FILE__) . '/Login.css');
+        $this->addCSSFile(dirname(__FILE__).'/Login.css');
     }
 
     /**
@@ -35,6 +36,7 @@ class Login extends Control
     public function getBody()
     {
         $Engine = QUI::getTemplateManager()->getEngine();
-        return $Engine->fetch(dirname(__FILE__) . '/Login.html');
+
+        return $Engine->fetch(dirname(__FILE__).'/Login.html');
     }
 }

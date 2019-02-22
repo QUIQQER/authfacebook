@@ -27,7 +27,9 @@ class Login extends Control
     {
         parent::__construct($attributes);
 
+        $this->addCSSClass('quiqqer-facebook-login');
         $this->addCSSFile(dirname(__FILE__).'/Login.css');
+        $this->setAttribute('icon', 'fa fa-facebook');
     }
 
     /**
@@ -35,7 +37,11 @@ class Login extends Control
      */
     public function getBody()
     {
-        $Engine = QUI::getTemplateManager()->getEngine();
+        try {
+            $Engine = QUI::getTemplateManager()->getEngine();
+        } catch (QUI\Exception $Exception) {
+            return '';
+        }
 
         return $Engine->fetch(dirname(__FILE__).'/Login.html');
     }

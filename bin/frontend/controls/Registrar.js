@@ -109,7 +109,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             });
 
             if (localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
-                this.$init().catch(function() {
+                this.$init().catch(function () {
                     // nothing
                 });
             } else {
@@ -291,8 +291,12 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     buttons           : false,
                     backgroundClosable: false,
                     titleCloseButton  : true,
+                    maxHeight         : 400,
+                    maxWidth          : 600,
                     events            : {
                         onOpen : function (Popup) {
+                            Popup.Loader.show();
+
                             var Content = Popup.getContent();
 
                             Content.set(
@@ -311,12 +315,18 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                                 '</div>'
                             );
 
-                            // Login
-                            new QUILogin({
-                                authenticators: ['QUI\\Auth\\Facebook\\Auth']
-                            }).inject(
-                                Content.getElement('.facebook-login')
-                            );
+                            require([
+                                'package/quiqqer/frontend-users/bin/frontend/controls/login/Login'
+                            ], function (FrontendUsersLogin) {
+                                new FrontendUsersLogin({
+                                    header        : false,
+                                    authenticators: ['QUI\\Auth\\Facebook\\Auth'],
+                                    mail          : false,
+                                    passwordReset : false
+                                }).inject(Content.getElement('.facebook-login'));
+
+                                Popup.Loader.hide();
+                            });
                         },
                         onClose: function () {
                             self.Loader.show();

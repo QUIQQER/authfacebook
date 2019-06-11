@@ -3,9 +3,9 @@
 namespace QUI\Auth\Facebook;
 
 use QUI;
+use QUI\Auth\Facebook\Exception as FacebookException;
 use QUI\Users\AbstractAuthenticator;
 use QUI\Users\User;
-use QUI\Auth\Facebook\Exception as FacebookException;
 
 /**
  * Class Auth
@@ -95,10 +95,28 @@ class Auth extends AbstractAuthenticator
         $connectionProfile = Facebook::getConnectedAccountByFacebookToken($token);
 
         if (empty($connectionProfile)) {
-            throw new FacebookException([
-                'quiqqer/authfacebook',
-                'exception.auth.no.account.connected'
-            ], 1001);
+            /**
+             * Check if a user with the Facebook e-mail address already exists and if so
+             * automatically connect it to the QUIQQER account.
+             */
+            $userData = Facebook::getProfileData($token);
+            $Users    = QUI::getUsers();
+
+            if (!empty($userData['email']) && $Users->emailExists($userData['email'])) {
+                try {
+                    $User = $Users->getUserByMail($userData['email']);
+
+                    Facebook::connectQuiqqerAccount($User->getId(), $token, false);
+                    $connectionProfile = Facebook::getConnectedAccountByFacebookToken($token);
+                } catch (\Exception $Exception) {
+                    QUI\System\Log::writeException($Exception);
+                }
+            } else {
+                throw new FacebookException([
+                    'quiqqer/authfacebook',
+                    'exception.auth.no.account.connected'
+                ], 1001);
+            }
         }
 
         // if there is no user set, Facebook is used as primary login

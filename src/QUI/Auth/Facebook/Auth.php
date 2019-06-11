@@ -110,6 +110,11 @@ class Auth extends AbstractAuthenticator
                     $connectionProfile = Facebook::getConnectedAccountByFacebookToken($token);
                 } catch (\Exception $Exception) {
                     QUI\System\Log::writeException($Exception);
+
+                    throw new FacebookException([
+                        'quiqqer/authfacebook',
+                        'exception.auth.no.account.connected'
+                    ], 1001);
                 }
             } else {
                 throw new FacebookException([

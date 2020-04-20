@@ -429,6 +429,10 @@
             <de><![CDATA[Mit Facebook einloggen]]></de>
             <en><![CDATA[Sign in with Facebook]]></en>
         </locale>
+        <locale name="controls.frontend.registrar.gdpr.popup.content">
+            <de><![CDATA[Um die Facebook-Registrierung zu nutzen, müssen alle Cookies akzeptiert werden. Bitte klicke auf 'Ok' wodurch die Seite neu geladen wird. Anschließend müssen alle Kategorien im erscheinenden Cookie Hinweis akzeptiert werden.]]></de>
+            <en><![CDATA[To use the Facebook registration, all cookies must be accepted. Please click on 'Ok' which will reload the page. Afterwards all categories must be accepted in the appearing cookie hint.]]></en>
+        </locale>
 
     </groups>
 </locales>

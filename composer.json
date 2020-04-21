@@ -21,6 +21,9 @@
         "facebook\/graph-sdk": "~5.0",
         "quiqqer\/frontend-users": "^1.1|dev-master|dev-dev"
     },
+    "suggest": {
+        "quiqqer/gdpr": "Blocks Facebook until the user consented to the correct cookie categories (GDPR-compliance)."
+    },
     "autoload": {
         "psr-4": {
             "QUI\\Auth\\Facebook\\": "src\/QUI\/Auth\/Facebook",

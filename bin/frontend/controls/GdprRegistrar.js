@@ -42,7 +42,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar', [
             var parentImportFunction = self.$constructor.parent.prototype.$onImport;
 
             // If GDPR isn't available or cookies are already accepted there is noting to do here
-            if (!GDPR || (
+            if (typeof GDPR === 'undefined' || (
                 GDPR.isCookieCategoryAccepted('essential') &&
                 GDPR.isCookieCategoryAccepted('preferences') &&
                 GDPR.isCookieCategoryAccepted('statistics') &&

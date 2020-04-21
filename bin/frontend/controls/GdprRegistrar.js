@@ -77,21 +77,8 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar', [
         },
 
         $onRegistrarButtonClick: function () {
-            require([
-                'package/quiqqer/gdpr/bin/CookieManager',
-                'qui/controls/windows/Confirm'
-            ], function (CookieManager, ConfirmControl) {
-                var Confirm = new ConfirmControl({
-                    information: QUILocale.get(lg, 'controls.frontend.registrar.gdpr.popup.content'),
-                    title      : false,
-                    icon       : false,
-                    texticon   : false
-                });
-
-                Confirm.addEvent('submit', function () {
-                    CookieManager.revokeCookies(true);
-                });
-
+            require(['package/quiqqer/authfacebook/bin/controls/GdprConfirm'], function (GdprConfirm) {
+                var Confirm = new GdprConfirm();
                 Confirm.open();
             });
         }

@@ -256,6 +256,64 @@
             <de><![CDATA[JavaScript ist in Ihrem Browser deaktiviert. Um sich mit Facebook einzuloggen, aktivieren Sie bitte JavaScript.]]></de>
             <en><![CDATA[JavaScript is disabled in your browser. To sign in with Facebook please enable JavaScript.]]></en>
         </locale>
+
+        <!-- region Cookies -->
+
+        <locale name="cookie.act.purpose">
+            <de><![CDATA[Wird verwendet, um zwischen zwei Facebook-Sitzungen für denselben Benutzer zu unterscheiden, die zu unterschiedlichen Zeiten erstellt wurden.]]></de>
+            <en><![CDATA[Used to distinguish between two Facebook sessions for the same user, created at different times.]]></en>
+        </locale>
+
+        <locale name="cookie.cuser.purpose">
+            <de><![CDATA[Die Facebook-Benutzer-ID des aktuell angemeldeten Benutzers.]]></de>
+            <en><![CDATA[The Facebook user ID of the currently logged in user.]]></en>
+        </locale>
+
+        <locale name="cookie.datr.purpose">
+            <de><![CDATA[Wird verwendet, um den Webbrowser zu identifizieren, der zur Verbindung mit Facebook unabhängig vom eingeloggten Benutzer verwendet wird. ]]></de>
+            <en><![CDATA[Used to identify the web browser used to connect to Facebook regardless of the user logged in. ]]></en>
+        </locale>
+
+        <locale name="cookie.fblo.purpose">
+            <de><![CDATA[Wird verwendet, um Benutzer über Facebook anzumelden.]]></de>
+            <en><![CDATA[Used to log in users via Facebook.]]></en>
+        </locale>
+
+        <locale name="cookie.fbm.purpose">
+            <de><![CDATA[Wird verwendet, um Benutzer über Facebook anzumelden.]]></de>
+            <en><![CDATA[Used to log in users via Facebook.]]></en>
+        </locale>
+
+        <locale name="cookie.fbp.purpose">
+            <de><![CDATA[Wird von Facebook verwendet, um eine Reihe von Werbeprodukten anzuzeigen, z. B. Echtzeit-Gebote von Drittanbietern.]]></de>
+            <en><![CDATA[Used by Facebook to display a range of advertising products, such as real-time bids from third party advertisers.]]></en>
+        </locale>
+
+        <locale name="cookie.fr.purpose">
+            <de><![CDATA[Wird verwendet, um Anzeigen zu zeigen und zu messen und die Relevanz von Anzeigen zu verbessern (einschließlich der Messung von Konversionen). Bestimmt die Relevanz von Anzeigen auf der Grundlage des Website-Verhaltens und/oder aktueller Suchanfragen.]]></de>
+            <en><![CDATA[Used to show and measure ads and improve the relevance of ads (including measurement of conversions). Determines the relevance of ads based on site behavior and/or current search queries.]]></en>
+        </locale>
+
+        <locale name="cookie.sb.purpose">
+            <de><![CDATA[Wird verwendet, um Anzeigen zu zeigen und zu messen und die Relevanz von Anzeigen zu verbessern (einschließlich der Messung von Konversionen). Bestimmt die Relevanz von Anzeigen auf der Grundlage des Website-Verhaltens und/oder aktueller Suchanfragen.]]></de>
+            <en><![CDATA[Used to show and measure ads and improve the relevance of ads (including measurement of conversions). Determines the relevance of ads based on site behavior and/or current search queries.]]></en>
+        </locale>
+
+        <locale name="cookie.spin.purpose">
+            <de><![CDATA[Wird von Facebook beim Login gesetzt - genaue Verwendung unbekannt.]]></de>
+            <en><![CDATA[Set by Facebook at login - exact usage unknown.]]></en>
+        </locale>
+
+        <locale name="cookie.wd.purpose">
+            <de><![CDATA[Dieses Cookie speichert die Abmessungen des Browserfensters und wird von Facebook verwendet, um die Darstellung der Seite zu optimieren.]]></de>
+            <en><![CDATA[This cookie stores the dimensions of the browser window and is used by Facebook to optimize the display of the page.]]></en>
+        </locale>
+
+        <locale name="cookie.xs.purpose">
+            <de><![CDATA[Dieses Cookie enthält mehrere Informationen über die Sitzung des Benutzers.]]></de>
+            <en><![CDATA[This cookie contains multiple information about the user's session.]]></en>
+        </locale>
+        <!-- endregion -->
     </groups>
 
     <groups name="quiqqer/authfacebook" datatype="js">
@@ -370,6 +428,10 @@
         <locale name="controls.frontend.registrar.login_popup.title">
             <de><![CDATA[Mit Facebook einloggen]]></de>
             <en><![CDATA[Sign in with Facebook]]></en>
+        </locale>
+        <locale name="controls.frontend.registrar.gdpr.confirm.content">
+            <de><![CDATA[Um die Facebook-Anmeldung zu nutzen, müssen alle Cookies akzeptiert werden. Bitte klicke auf 'Ok' wodurch die Seite neu geladen wird. Anschließend müssen alle Kategorien im erscheinenden Cookie Hinweis akzeptiert werden.]]></de>
+            <en><![CDATA[To use the Facebook registration, all cookies must be accepted. Please click on 'Ok' which will reload the page. Afterwards all categories must be accepted in the appearing cookie hint.]]></en>
         </locale>
 
     </groups>

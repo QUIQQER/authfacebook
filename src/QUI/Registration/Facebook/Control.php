@@ -26,7 +26,12 @@ class Control extends QUI\Control
 
         $this->addCSSFile(dirname(__FILE__) . '/Control.css');
         $this->addCSSClass('quiqqer-authfacebook-registrar');
-        $this->setJavaScriptControl('package/quiqqer/authfacebook/bin/frontend/controls/Registrar');
+
+        if (QUI::getPackageManager()->isInstalled('quiqqer/gdpr')) {
+            $this->setJavaScriptControl('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar');
+        } else {
+            $this->setJavaScriptControl('package/quiqqer/authfacebook/bin/frontend/controls/Registrar');
+        }
     }
 
     /**

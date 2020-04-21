@@ -14,5 +14,10 @@
     <input type="hidden"
            name="token"
            class="quiqqer-auth-facebook-login-token"
-           data-qui="package/quiqqer/authfacebook/bin/controls/Login"/>
+           {{if QUI::getPackageManager()->isInstalled('quiqqer/gdpr')}}
+                data-qui="package/quiqqer/authfacebook/bin/controls/GdprLogin"
+            {{else}}
+                data-qui="package/quiqqer/authfacebook/bin/controls/Login"
+            {{/if}}
+    />
 </div>

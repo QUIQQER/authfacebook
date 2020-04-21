@@ -6,9 +6,15 @@
     "homepage": "https:\/\/www.quiqqer.com",
     "authors": [
         {
-            "name": "Patrick M\u00fcller",
+            "name": "Patrick Müller",
             "email": "p.mueller@pcsg.de",
             "homepage": "http:\/\/www.pcsg.de",
+            "role": "Developer"
+        },
+        {
+            "name": "Jan Wennrich",
+            "email": "info@pcsg.de",
+            "homepage": "https:\/\/www.pcsg.de",
             "role": "Developer"
         }
     ],
@@ -20,6 +26,9 @@
         "quiqqer\/quiqqer": ">=1.1|dev-master|dev-dev",
         "facebook\/graph-sdk": "~5.0",
         "quiqqer\/frontend-users": "^1.1|dev-master|dev-dev"
+    },
+    "suggest": {
+        "quiqqer/gdpr": "Blocks Facebook until the user consented to the correct cookie categories (GDPR-compliance)."
     },
     "autoload": {
         "psr-4": {

@@ -31,6 +31,7 @@
         <provider>
             <auth src="\QUI\Auth\Facebook\Auth"/>
             <registrar src="\QUI\Registration\Facebook\Registrar"/>
+            <cookie src="\QUI\Auth\Facebook\CookieProvider"/>
         </provider>
 
     </package>

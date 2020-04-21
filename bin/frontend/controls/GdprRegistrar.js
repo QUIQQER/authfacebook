@@ -38,8 +38,10 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar', [
         $onImport: function () {
             var self = this;
 
+            // The $onImport function of the parent class
             var parentImportFunction = self.$constructor.parent.prototype.$onImport;
 
+            // If GDPR isn't available or cookies are already accepted there is noting to do here
             if (!GDPR || (
                 GDPR.isCookieCategoryAccepted('essential') &&
                 GDPR.isCookieCategoryAccepted('preferences') &&
@@ -47,6 +49,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar', [
                 GDPR.isCookieCategoryAccepted('marketing')
             )
             ) {
+                // Call the parent $inImport function to initialize Facebook login
                 return parentImportFunction.apply(self, arguments);
             }
 
@@ -55,28 +58,37 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar', [
             var RegistrarForm   = Elm.getElement('.quiqqer-authfacebook-registrar-form'),
                 RegistrarButton = Elm.getElement('.quiqqer-auth-facebook-registration-btn');
 
+            // If the form or button aren't available, we can't do anything here
             if (!RegistrarForm || !RegistrarButton) {
                 return;
             }
 
+            // Make the register form visible
             RegistrarForm.removeClass('quiqqer-authfacebook__hidden');
 
+            // Add a click listener to display the GDPR-confirm-popup
             RegistrarButton.addEventListener('click', self.$onRegistrarButtonClick);
+
+            // Make the register button clickable
             RegistrarButton.disabled = false;
 
+            // When the required cookies get accepted...
             GDPR.waitForCookieCategoriesAcceptance([
                 'essential',
                 'preferences',
                 'statistics',
                 'marketing'
             ]).then(function () {
+                // ...remove the click listener
                 RegistrarButton.removeEventListener('click', self.$onRegistrarButtonClick);
 
+                // ...call the parent $inImport function to initialize Facebook registration
                 parentImportFunction.apply(self, arguments);
             });
         },
 
         $onRegistrarButtonClick: function () {
+            // Display the GDPR info popup
             require(['package/quiqqer/authfacebook/bin/controls/GdprConfirm'], function (GdprConfirm) {
                 var Confirm = new GdprConfirm();
                 Confirm.open();

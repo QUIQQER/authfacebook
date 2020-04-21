@@ -10,6 +10,12 @@
             "email": "p.mueller@pcsg.de",
             "homepage": "http:\/\/www.pcsg.de",
             "role": "Developer"
+        },
+        {
+            "name": "Jan Wennrich",
+            "email": "info@pcsg.de",
+            "homepage": "https:\/\/www.pcsg.de",
+            "role": "Developer"
         }
     ],
     "support": {

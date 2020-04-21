@@ -38,25 +38,28 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar', [
         $onImport: function () {
             var self = this;
 
-            this.$Elm = this.getElm();
+            var parentImportFunction = self.$constructor.parent.prototype.$onImport;
 
-            var RegistrarForm   = this.$Elm.getElement('.quiqqer-authfacebook-registrar-form'),
-                RegistrarButton = this.$Elm.getElement('.quiqqer-auth-facebook-registration-btn');
+            if (!GDPR || (
+                GDPR.isCookieCategoryAccepted('essential') &&
+                GDPR.isCookieCategoryAccepted('preferences') &&
+                GDPR.isCookieCategoryAccepted('statistics') &&
+                GDPR.isCookieCategoryAccepted('marketing')
+            )
+            ) {
+                return parentImportFunction.apply(self, arguments);
+            }
+
+            var Elm = this.getElm();
+
+            var RegistrarForm   = Elm.getElement('.quiqqer-authfacebook-registrar-form'),
+                RegistrarButton = Elm.getElement('.quiqqer-auth-facebook-registration-btn');
 
             if (!RegistrarForm || !RegistrarButton) {
                 return;
             }
 
             RegistrarForm.removeClass('quiqqer-authfacebook__hidden');
-
-            var parentImportFunction = self.$constructor.parent.prototype.$onImport;
-
-            if (!GDPR || GDPR.isCookieCategoryAccepted('statistics')) {
-                return parentImportFunction.apply(self, arguments);
-            }
-
-            var oldButtonTitle = RegistrarButton.title;
-            RegistrarButton.title = QUILocale.get(lg, 'controls.frontend.registrar.gdpr.button.title');
 
             RegistrarButton.addEventListener('click', self.$onRegistrarButtonClick);
             RegistrarButton.disabled = false;
@@ -67,7 +70,6 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar', [
                 'statistics',
                 'marketing'
             ]).then(function () {
-                RegistrarButton.title = oldButtonTitle;
                 RegistrarButton.removeEventListener('click', self.$onRegistrarButtonClick);
 
                 parentImportFunction.apply(self, arguments);

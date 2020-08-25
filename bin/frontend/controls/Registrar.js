@@ -256,6 +256,8 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     }
 
                     self.$TokenInput.value = token;
+
+                    self.$SubmitBtn.type = 'submit'; // make button submit the registration form
                     self.$SubmitBtn.click(); // simulate form submit by button click to trigger form submit event
                 }, self.$showGeneralError);
             }, self.$showGeneralError);

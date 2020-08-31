@@ -9,3 +9,22 @@
 .quiqqer-auth-facebook__hidden {
     display: none !important;
 }
+
+.quiqqer-auth-facebook-consent-info {
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.quiqqer-auth-facebook-consent-btn button {
+    background-color: #3a5794 !important;
+    border-color: #3a5794 !important;
+    border: none !important;
+    border-radius: 3px !important;
+    color: #FFF !important;
+    display: block;
+    float: none !important;
+    margin: auto;
+    padding: 0 10px;
+}

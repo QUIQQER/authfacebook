@@ -131,10 +131,6 @@
             <de><![CDATA[Sie sind z.Z. eingeloggt. Bitte loggen Sie sich aus, um mit Facebook ein Benutzerkonto zu registrieren.]]></de>
             <en><![CDATA[You are currently logged in. Please log out to registrer an account via Facebook.]]></en>
         </locale>
-        <locale name="controls.frontend.registrar.popup.btn.text">
-            <de><![CDATA[Jetzt mit Facebook registrieren]]></de>
-            <en><![CDATA[Register now with Facebook]]></en>
-        </locale>
         <locale name="controls.frontend.registrar.popup.title">
             <de><![CDATA[Registrierung per Facebook-Konto]]></de>
             <en><![CDATA[Registration via Facebook account]]></en>
@@ -155,6 +151,21 @@
             <de><![CDATA[Die Registrierung war erfolgreich! Bevor Sie sich einloggen können, müssen sie noch Ihr Benutzerkonto aktivieren. Bitte klicken Sie dazu auf den Aktivierungslink, der Ihnen per E-Mail an Ihre Facebook Mail-Adresse zugesandt wurde.]]></de>
             <en><![CDATA[The registration was successful! Before you can log in, you must activate your user account. Please click on the activation link, which was sent to you by e-mail to your Facebook Mail address.]]></en>
         </locale>
+
+        <!-- GDPR consent -->
+        <locale name="gdpr_consent.popup.title">
+            <de><![CDATA[Verbindung zu Facebook genehmigen]]></de>
+            <en><![CDATA[Allow connection to Facebook]]></en>
+        </locale>
+        <locale name="gdpr_consent.popup.info">
+            <de><![CDATA[Mit einem Klick auf "Verbindung zu Facebook genehmigen" erklären Sie sich damit einverstanden, dass eine Verbindung zu Facebook hergestellt wird und Facebook möglicherweise personenbezogene Informationen sammelt, auswertet und/oder an Drittanbieter übermittelt so wie Cookies setzt, die für diese Zwecke nötig sind. Diese Zustimmung gilt auch für zukünftige Besuche auf dieser Website.]]></de>
+            <en><![CDATA[By clicking on "Allow connection to Facebook", you agree to be connected to Facebook and that Facebook may collect, analyze and/or transfer personal information to third parties as well as set cookies that are necessary for these purposes. This consent also applies to future visits to this website.]]></en>
+        </locale>
+        <locale name="gdpr_consent.popup.btn.text">
+            <de><![CDATA[Verbindung zu Facebook genehmigen]]></de>
+            <en><![CDATA[Allow connection to Facebook]]></en>
+        </locale>
+
     </groups>
 
     <groups name="quiqqer/authfacebook" datatype="php">

@@ -102,15 +102,16 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$FakeLoginButton.addEvents({
                 click: function (event) {
                     event.stop();
-                    localStorage.setItem('quiqqer_auth_facebook_autoconnect', true);
 
                     self.$FakeLoginButton.disabled = true;
                     self.Loader.show();
 
-                    self.$init().then(function () {
-                        self.Loader.hide();
-                        self.$openLoginPopup();
+                    Facebook.getGDPRConsent().then(function () {
+                        return self.$init(true);
                     }, function () {
+                        self.$FakeLoginButton.disabled = false;
+                        self.Loader.hide();
+                    }).then(function () {
                         self.Loader.hide();
                     });
                 }
@@ -118,13 +119,13 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
             this.create().inject(this.$Input, 'after');
 
-            if (localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
-                this.$init().catch(function () {
-                    // nothing
-                });
-            } else {
-                this.$FakeLoginButton.disabled = false;
-            }
+            //if (localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
+            //    this.$init().catch(function () {
+            //        // nothing
+            //    });
+            //} else {
+            this.$FakeLoginButton.disabled = false;
+            //}
 
             Facebook.addEvents({
                 onLogin : function () {
@@ -159,10 +160,13 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * This means that a request to the Facebook servers is made
          * to load the JavaScript SDK (may be relevant for data protection purposes!)
          *
+         * @param {Boolean} [autoauthenticate]
          * @return {Promise}
          */
-        $init: function () {
+        $init: function (autoauthenticate) {
             var self = this;
+
+            autoauthenticate = autoauthenticate || false;
 
             return new Promise(function (resolve, reject) {
                 Promise.all([
@@ -197,6 +201,10 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                             break;
                     }
 
+                    if (autoauthenticate) {
+                        self.$authenticate();
+                    }
+
                     resolve();
                 }, function () {
                     self.Loader.hide();
@@ -205,48 +213,6 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     reject();
                 });
             });
-        },
-
-        /**
-         * Opens Popup with a separate Facebook Login button
-         *
-         * This is only needed if the user first has to "agree" to the connection
-         * to Facebook by clicking the original Login button
-         */
-        $openLoginPopup: function () {
-            var self = this;
-
-            new QUIConfirm({
-                'class'  : 'quiqqer-auth-facebook-login-popup',
-                icon     : 'fa fa-facebook-official',
-                title    : 'Facebook Login',
-                maxHeight: 200,
-                maxWidth : 350,
-                buttons  : false,
-                events   : {
-                    onOpen: function (Popup) {
-                        var Content = Popup.getContent();
-
-                        Content.set('html', '');
-
-                        var LoginBtn = Facebook.getLoginButton().inject(Content);
-                        LoginBtn.setAttribute(
-                            'text',
-                            QUILocale.get(lg, 'controls.login.popup.btn.text')
-                        );
-
-                        LoginBtn.addEvent('onClick', function () {
-                            self.$canAuthenticate = true;
-
-                            if (self.$loggedIn) {
-                                self.$authenticate();
-                            }
-
-                            Popup.close();
-                        });
-                    }
-                }
-            }).open();
         },
 
         /**

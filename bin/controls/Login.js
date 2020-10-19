@@ -7,8 +7,8 @@
 define('package/quiqqer/authfacebook/bin/controls/Login', [
 
     'qui/controls/Control',
+    'qui/controls/windows/Popup',
     'qui/controls/loader/Loader',
-    'qui/controls/windows/Confirm',
 
     'package/quiqqer/authfacebook/bin/Facebook',
 
@@ -17,7 +17,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
     'css!package/quiqqer/authfacebook/bin/controls/Login.css'
 
-], function (QUIControl, QUILoader, QUIConfirm, Facebook, QUIAjax, QUILocale) {
+], function (QUIControl, QUIPopup, QUILoader, Facebook, QUIAjax, QUILocale) {
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
@@ -107,6 +107,13 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     self.Loader.show();
 
                     Facebook.getGDPRConsent().then(function () {
+                        return self.$openFacebookLoginHelper();
+                    }).then(function (submit) {
+                        if (!submit) {
+                            self.$FakeLoginBtn.disabled = false;
+                            return;
+                        }
+
                         return self.$init(true);
                     }, function () {
                         self.$FakeLoginButton.disabled = false;
@@ -212,6 +219,71 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                     reject();
                 });
+            });
+        },
+
+        /**
+         * Helper if facebook sdk is not loaded
+         *
+         * @return {Promise}
+         */
+        $openFacebookLoginHelper: function () {
+            if (Facebook.isLoggedIn()) {
+                return Promise.resolve(true);
+            }
+
+            var self = this;
+
+            return new Promise(function (resolve) {
+                new QUIPopup({
+                    icon     : 'fa fa-facebook',
+                    title    : QUILocale.get(lg, 'controls.frontend.registrar.sign_in.popup.title'),
+                    maxWidth : 500,
+                    maxHeight: 300,
+                    buttons  : false,
+                    events   : {
+                        onOpen: function (Win) {
+                            Win.Loader.show();
+                            Win.getContent().setStyles({
+                                'alignItems'    : 'center',
+                                'display'       : 'flex',
+                                'flexDirection' : 'column',
+                                'justifyContent': 'center'
+                            });
+
+                            Facebook.$load().then(function () {
+                                Win.getContent().set(
+                                    'html',
+                                    '<p>' +
+                                    QUILocale.get(lg, 'controls.register.status.unknown') +
+                                    '</p>' +
+                                    '<button class="qui-button quiqqer-auth-facebook-registration-btn qui-utils-noselect">' +
+                                    QUILocale.get(lg, 'controls.frontend.registrar.sign_in.popup.btn') +
+                                    '</button>'
+                                );
+
+                                Win.getContent().getElement('button').addEvent('click', function () {
+                                    Win.Loader.show();
+
+                                    Facebook.login().then(function () {
+                                        self.$signedIn = false;
+                                        resolve(true);
+                                        Win.close();
+                                    }).catch(function () {
+                                        Win.Loader.hide();
+                                    });
+                                });
+
+                                Win.Loader.hide();
+                            });
+                        },
+
+                        onCancel: function () {
+                            self.Loader.hide();
+                            resolve(false);
+                        }
+                    }
+                }).open();
             });
         },
 

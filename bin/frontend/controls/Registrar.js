@@ -35,7 +35,8 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             '$clearInfo',
             '$showGeneralError',
             '$register',
-            '$getGDPRConsent'
+            '$getGDPRConsent',
+            '$openFacebookLoginHelper'
         ],
 
         options: {
@@ -87,6 +88,13 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     FakeRegisterBtn.disabled = true;
 
                     Facebook.getGDPRConsent().then(function () {
+                        return self.$openFacebookLoginHelper();
+                    }).then(function (submit) {
+                        if (!submit) {
+                            FakeRegisterBtn.disabled = false;
+                            return;
+                        }
+
                         return self.$init(true);
                     }, function () {
                         FakeRegisterBtn.disabled = false;
@@ -114,7 +122,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
             //        // nothing
             //    });
             //} else {
-                FakeRegisterBtn.disabled = false;
+            FakeRegisterBtn.disabled = false;
             //}
 
             Facebook.addEvents({
@@ -188,6 +196,71 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     self.$showGeneralError();
                     reject();
                 });
+            });
+        },
+
+        /**
+         * Helper if facebook sdk is not loaded
+         *
+         * @return {Promise}
+         */
+        $openFacebookLoginHelper: function () {
+            if (Facebook.isLoggedIn()) {
+                return Promise.resolve(true);
+            }
+
+            var self = this;
+
+            return new Promise(function (resolve) {
+                new QUIPopup({
+                    icon     : 'fa fa-facebook',
+                    title    : QUILocale.get(lg, 'controls.frontend.registrar.sign_in.popup.title'),
+                    maxWidth : 500,
+                    maxHeight: 300,
+                    buttons  : false,
+                    events   : {
+                        onOpen: function (Win) {
+                            Win.Loader.show();
+                            Win.getContent().setStyles({
+                                'alignItems'    : 'center',
+                                'display'       : 'flex',
+                                'flexDirection' : 'column',
+                                'justifyContent': 'center'
+                            });
+
+                            Facebook.$load().then(function () {
+                                Win.getContent().set(
+                                    'html',
+                                    '<p>' +
+                                    QUILocale.get(lg, 'controls.register.status.unknown') +
+                                    '</p>' +
+                                    '<button class="qui-button quiqqer-auth-facebook-registration-btn qui-utils-noselect">' +
+                                    QUILocale.get(lg, 'controls.frontend.registrar.sign_in.popup.btn') +
+                                    '</button>'
+                                );
+
+                                Win.getContent().getElement('button').addEvent('click', function () {
+                                    Win.Loader.show();
+
+                                    Facebook.login().then(function () {
+                                        self.$signedIn = false;
+                                        resolve(true);
+                                        Win.close();
+                                    }).catch(function () {
+                                        Win.Loader.hide();
+                                    });
+                                });
+
+                                Win.Loader.hide();
+                            });
+                        },
+
+                        onCancel: function () {
+                            self.Loader.hide();
+                            resolve(false);
+                        }
+                    }
+                }).open();
             });
         },
 

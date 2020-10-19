@@ -34,7 +34,8 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
         Binds: [
             'login',
-            'logout'
+            'logout',
+            'isLoggedIn'
         ],
 
         options: {},
@@ -151,6 +152,15 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                     scope: 'public_profile,email'
                 });
             });
+        },
+
+        /**
+         * Check if user is logged in at FB
+         *
+         * @return {Promise}
+         */
+        isLoggedIn: function() {
+            return this.$loggedIn;
         },
 
         /**

@@ -114,7 +114,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         return self.$openFacebookLoginHelper();
                     }).then(function (submit) {
                         if (!submit) {
-                            self.$FakeLoginBtn.disabled = false;
+                            self.$FakeLoginButton.disabled = false;
                             return;
                         }
 

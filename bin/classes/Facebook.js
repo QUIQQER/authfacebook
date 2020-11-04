@@ -476,7 +476,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                                     onClick: function () {
                                         localStorage.setItem('quiqqer_auth_facebook_autoconnect', true);
 
-                                        resolve();
+                                        resolve(true);
                                         Popup.close();
                                     }
                                 }
@@ -484,7 +484,9 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                                 Content.getElement('.quiqqer-auth-facebook-consent-btn')
                             );
                         },
-                        onCancel: reject
+                        onCancel: function() {
+                            resolve(false);
+                        }
                     }
                 }).open();
             });

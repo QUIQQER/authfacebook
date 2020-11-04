@@ -451,7 +451,7 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
          */
         getGDPRConsent: function () {
             if (typeof localStorage !== 'undefined' && localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
-                return Promise.resolve();
+                return Promise.resolve(true);
             }
 
             return new Promise(function (resolve, reject) {

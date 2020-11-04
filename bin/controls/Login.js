@@ -255,7 +255,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                                 Win.getContent().set(
                                     'html',
                                     '<p>' +
-                                    QUILocale.get(lg, 'controls.register.status.unknown') +
+                                    QUILocale.get(lg, 'controls.register.status.login_required') +
                                     '</p>' +
                                     '<button class="qui-button quiqqer-auth-facebook-registration-btn qui-utils-noselect">' +
                                     QUILocale.get(lg, 'controls.frontend.registrar.sign_in.popup.btn') +

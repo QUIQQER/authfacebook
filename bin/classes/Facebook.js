@@ -13,13 +13,16 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
     'qui/QUI',
     'qui/classes/DOM',
     'qui/controls/buttons/Button',
+    'qui/controls/windows/Confirm',
 
     'Ajax',
     'Locale',
+    'Mustache',
 
+    'text!package/quiqqer/authfacebook/bin/classes/GDPRConsent.html',
     'css!package/quiqqer/authfacebook/bin/classes/Facebook.css'
 
-], function (QUI, QDOM, QUIButton, QUIAjax, QUILocale) {
+], function (QUI, QDOM, QUIButton, QUIConfirm, QUIAjax, QUILocale, Mustache, templateGDPRConsent) {
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
@@ -31,7 +34,8 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
 
         Binds: [
             'login',
-            'logout'
+            'logout',
+            'isLoggedIn'
         ],
 
         options: {},
@@ -148,6 +152,15 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
                     scope: 'public_profile,email'
                 });
             });
+        },
+
+        /**
+         * Check if user is logged in at FB
+         *
+         * @return {Promise}
+         */
+        isLoggedIn: function() {
+            return this.$loggedIn;
         },
 
         /**
@@ -429,14 +442,63 @@ define('package/quiqqer/authfacebook/bin/classes/Facebook', [
         },
 
         /**
+         * Opens popup with GDPR-compliant confirmation for a Facebook connection
+         *
+         * This is only needed if the user first has to "agree" to the connection
+         * to Facebook by clicking the original Registration button
+         *
+         * @return {Promise}
+         */
+        getGDPRConsent: function () {
+            if (typeof localStorage !== 'undefined' && localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
+                return Promise.resolve();
+            }
+
+            return new Promise(function (resolve, reject) {
+                new QUIConfirm({
+                    'class'  : 'quiqqer-auth-facebook-registration-popup',
+                    icon     : 'fa fa-facebook-official',
+                    title    : QUILocale.get(lg, 'gdpr_consent.popup.title'),
+                    maxHeight: 350,
+                    maxWidth : 600,
+                    buttons  : false,
+                    events   : {
+                        onOpen  : function (Popup) {
+                            var Content = Popup.getContent();
+
+                            Content.set('html', Mustache.render(templateGDPRConsent, {
+                                connectInfo: QUILocale.get(lg, 'gdpr_consent.popup.info')
+                            }));
+
+                            new QUIButton({
+                                text  : QUILocale.get(lg, 'gdpr_consent.popup.btn.text'),
+                                events: {
+                                    onClick: function () {
+                                        localStorage.setItem('quiqqer_auth_facebook_autoconnect', true);
+
+                                        resolve();
+                                        Popup.close();
+                                    }
+                                }
+                            }).inject(
+                                Content.getElement('.quiqqer-auth-facebook-consent-btn')
+                            );
+                        },
+                        onCancel: reject
+                    }
+                }).open();
+            });
+        },
+
+        /**
          * Get Facebook login status
          *
          * @return {Promise}
          */
-        $getLoginStatus: function() {
+        $getLoginStatus: function () {
             var self = this;
 
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 FB.getLoginStatus(function (response) {
                     self.$loaded = true;
 

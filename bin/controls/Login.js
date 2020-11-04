@@ -7,8 +7,8 @@
 define('package/quiqqer/authfacebook/bin/controls/Login', [
 
     'qui/controls/Control',
+    'qui/controls/windows/Popup',
     'qui/controls/loader/Loader',
-    'qui/controls/windows/Confirm',
 
     'package/quiqqer/authfacebook/bin/Facebook',
 
@@ -17,7 +17,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
     'css!package/quiqqer/authfacebook/bin/controls/Login.css'
 
-], function (QUIControl, QUILoader, QUIConfirm, Facebook, QUIAjax, QUILocale) {
+], function (QUIControl, QUIPopup, QUILoader, Facebook, QUIAjax, QUILocale) {
     "use strict";
 
     var lg = 'quiqqer/authfacebook';
@@ -102,15 +102,23 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             this.$FakeLoginButton.addEvents({
                 click: function (event) {
                     event.stop();
-                    localStorage.setItem('quiqqer_auth_facebook_autoconnect', true);
 
                     self.$FakeLoginButton.disabled = true;
                     self.Loader.show();
 
-                    self.$init().then(function () {
-                        self.Loader.hide();
-                        self.$openLoginPopup();
+                    Facebook.getGDPRConsent().then(function () {
+                        return self.$openFacebookLoginHelper();
+                    }).then(function (submit) {
+                        if (!submit) {
+                            self.$FakeLoginBtn.disabled = false;
+                            return;
+                        }
+
+                        return self.$init(true);
                     }, function () {
+                        self.$FakeLoginButton.disabled = false;
+                        self.Loader.hide();
+                    }).then(function () {
                         self.Loader.hide();
                     });
                 }
@@ -118,13 +126,13 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
             this.create().inject(this.$Input, 'after');
 
-            if (localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
-                this.$init().catch(function () {
-                    // nothing
-                });
-            } else {
-                this.$FakeLoginButton.disabled = false;
-            }
+            //if (localStorage.getItem('quiqqer_auth_facebook_autoconnect')) {
+            //    this.$init().catch(function () {
+            //        // nothing
+            //    });
+            //} else {
+            this.$FakeLoginButton.disabled = false;
+            //}
 
             Facebook.addEvents({
                 onLogin : function () {
@@ -159,10 +167,13 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * This means that a request to the Facebook servers is made
          * to load the JavaScript SDK (may be relevant for data protection purposes!)
          *
+         * @param {Boolean} [autoauthenticate]
          * @return {Promise}
          */
-        $init: function () {
+        $init: function (autoauthenticate) {
             var self = this;
+
+            autoauthenticate = autoauthenticate || false;
 
             return new Promise(function (resolve, reject) {
                 Promise.all([
@@ -197,6 +208,10 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                             break;
                     }
 
+                    if (autoauthenticate) {
+                        self.$authenticate();
+                    }
+
                     resolve();
                 }, function () {
                     self.Loader.hide();
@@ -208,45 +223,68 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         },
 
         /**
-         * Opens Popup with a separate Facebook Login button
+         * Helper if facebook sdk is not loaded
          *
-         * This is only needed if the user first has to "agree" to the connection
-         * to Facebook by clicking the original Login button
+         * @return {Promise}
          */
-        $openLoginPopup: function () {
+        $openFacebookLoginHelper: function () {
+            if (Facebook.isLoggedIn()) {
+                return Promise.resolve(true);
+            }
+
             var self = this;
 
-            new QUIConfirm({
-                'class'  : 'quiqqer-auth-facebook-login-popup',
-                icon     : 'fa fa-facebook-official',
-                title    : 'Facebook Login',
-                maxHeight: 200,
-                maxWidth : 350,
-                buttons  : false,
-                events   : {
-                    onOpen: function (Popup) {
-                        var Content = Popup.getContent();
+            return new Promise(function (resolve) {
+                new QUIPopup({
+                    icon     : 'fa fa-facebook',
+                    title    : QUILocale.get(lg, 'controls.frontend.registrar.sign_in.popup.title'),
+                    maxWidth : 500,
+                    maxHeight: 300,
+                    buttons  : false,
+                    events   : {
+                        onOpen: function (Win) {
+                            Win.Loader.show();
+                            Win.getContent().setStyles({
+                                'alignItems'    : 'center',
+                                'display'       : 'flex',
+                                'flexDirection' : 'column',
+                                'justifyContent': 'center'
+                            });
 
-                        Content.set('html', '');
+                            Facebook.$load().then(function () {
+                                Win.getContent().set(
+                                    'html',
+                                    '<p>' +
+                                    QUILocale.get(lg, 'controls.register.status.unknown') +
+                                    '</p>' +
+                                    '<button class="qui-button quiqqer-auth-facebook-registration-btn qui-utils-noselect">' +
+                                    QUILocale.get(lg, 'controls.frontend.registrar.sign_in.popup.btn') +
+                                    '</button>'
+                                );
 
-                        var LoginBtn = Facebook.getLoginButton().inject(Content);
-                        LoginBtn.setAttribute(
-                            'text',
-                            QUILocale.get(lg, 'controls.login.popup.btn.text')
-                        );
+                                Win.getContent().getElement('button').addEvent('click', function () {
+                                    Win.Loader.show();
 
-                        LoginBtn.addEvent('onClick', function () {
-                            self.$canAuthenticate = true;
+                                    Facebook.login().then(function () {
+                                        self.$signedIn = false;
+                                        resolve(true);
+                                        Win.close();
+                                    }).catch(function () {
+                                        Win.Loader.hide();
+                                    });
+                                });
 
-                            if (self.$loggedIn) {
-                                self.$authenticate();
-                            }
+                                Win.Loader.hide();
+                            });
+                        },
 
-                            Popup.close();
-                        });
+                        onCancel: function () {
+                            self.Loader.hide();
+                            resolve(false);
+                        }
                     }
-                }
-            }).open();
+                }).open();
+            });
         },
 
         /**

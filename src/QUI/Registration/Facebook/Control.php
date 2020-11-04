@@ -20,18 +20,14 @@ class Control extends QUI\Control
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->addCSSFile(dirname(__FILE__) . '/Control.css');
+        $this->addCSSFile(dirname(__FILE__).'/Control.css');
         $this->addCSSClass('quiqqer-authfacebook-registrar');
 
-        if (QUI::getPackageManager()->isInstalled('quiqqer/gdpr')) {
-            $this->setJavaScriptControl('package/quiqqer/authfacebook/bin/frontend/controls/GdprRegistrar');
-        } else {
-            $this->setJavaScriptControl('package/quiqqer/authfacebook/bin/frontend/controls/Registrar');
-        }
+        $this->setJavaScriptControl('package/quiqqer/authfacebook/bin/frontend/controls/Registrar');
     }
 
     /**
@@ -43,6 +39,6 @@ class Control extends QUI\Control
 
         $Engine->assign('isAuth', boolval(QUI::getUserBySession()->getId()));
 
-        return $Engine->fetch(dirname(__FILE__) . '/Control.html');
+        return $Engine->fetch(dirname(__FILE__).'/Control.html');
     }
 }

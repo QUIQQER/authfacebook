@@ -87,7 +87,11 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                     self.Loader.show();
                     FakeRegisterBtn.disabled = true;
 
-                    Facebook.getGDPRConsent().then(function () {
+                    Facebook.getGDPRConsent().then(function (consentGiven) {
+                        if (!consentGiven) {
+                            return Promise.resolve(false);
+                        }
+
                         return self.$openFacebookLoginHelper();
                     }).then(function (submit) {
                         if (!submit) {

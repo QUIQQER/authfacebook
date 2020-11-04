@@ -106,7 +106,11 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     self.$FakeLoginButton.disabled = true;
                     self.Loader.show();
 
-                    Facebook.getGDPRConsent().then(function () {
+                    Facebook.getGDPRConsent().then(function (consentGiven) {
+                        if (!consentGiven) {
+                            return Promise.resolve(false);
+                        }
+
                         return self.$openFacebookLoginHelper();
                     }).then(function (submit) {
                         if (!submit) {

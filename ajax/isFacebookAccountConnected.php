@@ -1,6 +1,7 @@
 <?php
 
 use QUI\Auth\Facebook\Facebook;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Check if a facebook account is connected to a QUIQQER user account
@@ -11,7 +12,7 @@ use QUI\Auth\Facebook\Facebook;
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_isFacebookAccountConnected',
     function ($fbToken) {
-        return Facebook::existsQuiqqerAccount($fbToken);
+        return Facebook::existsQuiqqerAccount(Facebook::getToken(Orthos::clear($fbToken)));
     },
     ['fbToken']
 );

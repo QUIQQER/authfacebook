@@ -2,9 +2,13 @@
 
 namespace QUI\Auth\Facebook;
 
-use Facebook\Exceptions\FacebookSDKException;
+//use Facebook\Exceptions\FacebookSDKException;
 use QUI;
-use Facebook\Facebook as FacebookApi;
+
+//use Facebook\Facebook as FacebookApi;
+use League\OAuth2\Client\Provider\Facebook as FacebookApi;
+use League\OAuth2\Client\Token\AccessToken;
+
 use QUI\Utils\Security\Orthos;
 
 /**
@@ -24,7 +28,7 @@ class Facebook
      *
      * @var string
      */
-    const GRAPH_VERSION = 'v2.8';
+    const GRAPH_VERSION = 'v12.0';
 
     /**
      * Facebook API Object
@@ -36,13 +40,13 @@ class Facebook
     /**
      * Create a new QUIQQER account from a Facebook Access Token
      *
-     * @param string $accessToken - Facebook access token
+     * @param AccessToken $accessToken - Facebook access token
      * @return QUI\Users\User - Newly created user
      *
      * @throws Exception
      * @internal param string $email - Facebook email address
      */
-    public static function createQuiqqerAccount($accessToken)
+    public static function createQuiqqerAccount(AccessToken $accessToken)
     {
         try {
             $profileData = self::getProfileData($accessToken);
@@ -93,13 +97,13 @@ class Facebook
      * Connect a QUIQQER account with a Facebook account
      *
      * @param int $uid
-     * @param string $accessToken
+     * @param AccessToken $accessToken
      * @param bool $checkPermission (optional) - check permission to edit quiqqer account [default: true]
      * @return void
      *
      * @throws QUI\Auth\Facebook\Exception
      */
-    public static function connectQuiqqerAccount($uid, $accessToken, $checkPermission = true)
+    public static function connectQuiqqerAccount($uid, AccessToken $accessToken, $checkPermission = true)
     {
         if ($checkPermission !== false) {
             self::checkEditPermission($uid);
@@ -156,12 +160,12 @@ class Facebook
      * Checks if a Facebook API access token is valid and if the user has provided
      * the necessary information (email)
      *
-     * @param string $accessToken
+     * @param AccessToken $accessToken
      * @return void
      *
      * @throws QUI\Auth\Facebook\Exception
      */
-    public static function validateAccessToken($accessToken)
+    public static function validateAccessToken(AccessToken $accessToken)
     {
         $profileData = self::getProfileData($accessToken);
 
@@ -176,15 +180,15 @@ class Facebook
     /**
      * Get Facebook Profile data
      *
-     * @param string $accessToken - access token
+     * @param AccessToken $accessToken - access token
      * @return array
      */
-    public static function getProfileData($accessToken)
+    public static function getProfileData(AccessToken $accessToken): array
     {
-        $Response = self::getApi()->get('/me?fields=id,name,first_name,last_name,email', $accessToken);
-        $UserData = $Response->getGraphNode();
+//        /me?fields=id,name,first_name,last_name,email'
 
-        return $UserData->asArray();
+        $Response = self::getApi()->getResourceOwner($accessToken);
+        return $Response->toArray();
     }
 
     /**
@@ -212,10 +216,10 @@ class Facebook
     /**
      * Get details of a connected Facebook account
      *
-     * @param string $fbToken - Facebook API token
+     * @param AccessToken $fbToken - Facebook API token
      * @return array|false - details as array or false if no account connected to given Facebook userID
      */
-    public static function getConnectedAccountByFacebookToken($fbToken)
+    public static function getConnectedAccountByFacebookToken(AccessToken $fbToken)
     {
         self::validateAccessToken($fbToken);
 
@@ -238,10 +242,12 @@ class Facebook
     /**
      * Check if a QUIQQER account exists for a certain access token
      *
-     * @param string $token - Facebook API token
+     * @param AccessToken $token - Facebook API token
      * @return bool
+     *
+     * @throws QUI\Exception
      */
-    public static function existsQuiqqerAccount($token)
+    public static function existsQuiqqerAccount(AccessToken $token): bool
     {
         $profile = self::getProfileData($token);
 
@@ -270,8 +276,8 @@ class Facebook
 
         try {
             self::$Api = new FacebookApi([
-                'app_id'                => self::getAppId(),
-                'app_secret'            => self::getAppSecret(),
+                'clientId'              => self::getAppId(),
+                'clientSecret'          => self::getAppSecret(),
                 'default_graph_version' => self::GRAPH_VERSION
             ]);
         } catch (\Exception $Exception) {
@@ -340,5 +346,16 @@ class Facebook
                 401
             );
         }
+    }
+
+    /**
+     * @param string $tokenCode
+     * @return AccessToken
+     */
+    public static function getToken(string $tokenCode)
+    {
+        return self::getApi()->getAccessToken('authorization_code', [
+            'code' => $tokenCode
+        ]);
     }
 }

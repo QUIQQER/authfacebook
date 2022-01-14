@@ -24,7 +24,7 @@
   },
   "require": {
     "quiqqer\/quiqqer": ">=1.1|dev-master|dev-dev",
-    "facebook/php-business-sdk": "^12",
+    "league/oauth2-facebook": "^2",
     "quiqqer\/frontend-users": "^1.1|dev-master|dev-dev"
   },
   "autoload": {

@@ -12,7 +12,7 @@
                 </conf>
                 <conf name="apiVersion">
                     <type><![CDATA[string]]></type>
-                    <defaultvalue><![CDATA[v2.9]]></defaultvalue>
+                    <defaultvalue><![CDATA[v12.0]]></defaultvalue>
                 </conf>
             </section>
             <section name="authSettings">

@@ -81,10 +81,10 @@ class Auth extends AbstractAuthenticator
             ], 401);
         }
 
-        $token = $authData['token'];
+        $Token = Facebook::getToken($authData['token']);
 
         try {
-            Facebook::validateAccessToken($token);
+            Facebook::validateAccessToken($Token);
         } catch (FacebookException $Exception) {
             throw new FacebookException([
                 'quiqqer/authfacebook',
@@ -92,22 +92,22 @@ class Auth extends AbstractAuthenticator
             ], 401);
         }
 
-        $connectionProfile = Facebook::getConnectedAccountByFacebookToken($token);
+        $connectionProfile = Facebook::getConnectedAccountByFacebookToken($Token);
 
         if (empty($connectionProfile)) {
             /**
              * Check if a user with the Facebook e-mail address already exists and if so
              * automatically connect it to the QUIQQER account.
              */
-            $userData = Facebook::getProfileData($token);
+            $userData = Facebook::getProfileData($Token);
             $Users    = QUI::getUsers();
 
             if (!empty($userData['email']) && $Users->emailExists($userData['email'])) {
                 try {
                     $User = $Users->getUserByMail($userData['email']);
 
-                    Facebook::connectQuiqqerAccount($User->getId(), $token, false);
-                    $connectionProfile = Facebook::getConnectedAccountByFacebookToken($token);
+                    Facebook::connectQuiqqerAccount($User->getId(), $Token, false);
+                    $connectionProfile = Facebook::getConnectedAccountByFacebookToken($Token);
                 } catch (\Exception $Exception) {
                     QUI\System\Log::writeException($Exception);
 

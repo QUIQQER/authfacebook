@@ -16,7 +16,7 @@ QUI::$Ajax->registerFunction(
             return false;
         }
 
-        $profileData = Facebook::getProfileData($fbToken);
+        $profileData = Facebook::getProfileData(Facebook::getToken($fbToken));
         $accountData = Facebook::getConnectedAccountByQuiqqerUserId($loginUserId);
 
         if (!$accountData) {

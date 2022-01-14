@@ -23,8 +23,9 @@
     "url": "http:\/\/www.pcsg.de"
   },
   "require": {
+    "php": "^7.4|^8",
     "quiqqer\/quiqqer": ">=1.1|dev-master|dev-dev",
-    "facebook\/graph-sdk": "~5.0",
+    "league/oauth2-facebook": "^2",
     "quiqqer\/frontend-users": "^1.1|dev-master|dev-dev"
   },
   "autoload": {

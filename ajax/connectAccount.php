@@ -1,6 +1,7 @@
 <?php
 
 use QUI\Auth\Facebook\Facebook;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Connect QUIQQER account with Facebook account
@@ -17,8 +18,8 @@ QUI::$Ajax->registerFunction(
         $userId = (int)$userId;
 
         try {
-            Facebook::connectQuiqqerAccount($userId, $fbToken);
-            $accountData = Facebook::getConnectedAccountByQuiqqerUserId($userId);
+            Facebook::connectQuiqqerAccount((int)$userId, Facebook::getToken(Orthos::clear($fbToken)));
+            $accountData = Facebook::getConnectedAccountByQuiqqerUserId((int)$userId);
         } catch (QUI\Auth\Facebook\Exception $Exception) {
             QUI::getMessagesHandler()->addError(
                 QUI::getLocale()->get(

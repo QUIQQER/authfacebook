@@ -21,7 +21,7 @@ QUI::$Ajax->registerFunction(
             );
         }
 
-        return Facebook::getConnectedAccountByQuiqqerUserId($userId);
+        return Facebook::getConnectedAccountByQuiqqerUserId((int)$userId);
     },
     ['userId']
 );

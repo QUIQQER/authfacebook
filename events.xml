@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <events>
     <event on="onUserDelete" fire="\QUI\Auth\Facebook\Events::onUserDelete"/>
+    <event on="onPackageSetup" fire="\QUI\Auth\Facebook\Events::onPackageSetup"/>
     <event on="onQuiqqerFrontendUsersUserDelete" fire="\QUI\Auth\Facebook\Events::onUserDelete"/>
 </events>

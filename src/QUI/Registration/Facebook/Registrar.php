@@ -36,7 +36,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     public function onRegistered(QUI\Interfaces\Users\User $User)
     {
         $SystemUser = QUI::getUsers()->getSystemUser();
-        $token      = $this->getAttribute('token');
+        $token      = Facebook::getToken($this->getAttribute('token'));
 
         // set user data
         $profileData = Facebook::getProfileData($token);
@@ -113,7 +113,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         $lg       = 'quiqqer/authfacebook';
         $lgPrefix = 'exception.registrar.';
 
-        $token = $this->getAttribute('token');
+        $token = Facebook::getToken($this->getAttribute('token'));
 
         if (empty($token)) {
             throw new FrontendUsers\Exception([
@@ -164,7 +164,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      */
     public function getUsername()
     {
-        $userData = Facebook::getProfileData($this->getAttribute('token'));
+        $userData = Facebook::getProfileData(Facebook::getToken($this->getAttribute('token')));
 
         if (!empty($userData['email'])) {
             return $userData['email'];

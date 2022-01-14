@@ -1,6 +1,7 @@
 <?php
 
 use QUI\Auth\Facebook\Facebook;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Check if the user that logs in via facebook is the login User
@@ -16,8 +17,13 @@ QUI::$Ajax->registerFunction(
             return false;
         }
 
-        $profileData = Facebook::getProfileData($fbToken);
-        $accountData = Facebook::getConnectedAccountByQuiqqerUserId($loginUserId);
+        try {
+            $profileData = Facebook::getProfileData(Facebook::getToken(Orthos::clear($fbToken)));
+            $accountData = Facebook::getConnectedAccountByQuiqqerUserId($loginUserId);
+        } catch (\Exception $Exception) {
+            QUI\System\Log::writeException($Exception);
+            return false;
+        }
 
         if (!$accountData) {
             return false;

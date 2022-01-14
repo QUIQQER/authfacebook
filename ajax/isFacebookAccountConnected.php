@@ -12,7 +12,16 @@ use QUI\Utils\Security\Orthos;
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_isFacebookAccountConnected',
     function ($fbToken) {
-        return Facebook::existsQuiqqerAccount(Facebook::getToken(Orthos::clear($fbToken)));
+        try {
+            return Facebook::existsQuiqqerAccount(Facebook::getToken(Orthos::clear($fbToken)));
+        } catch (\Exception $Exception) {
+            QUI\System\Log::writeException($Exception);
+
+            throw new QUI\Exception([
+                'quiqqer/authfacebook',
+                'message.ajax.general.error'
+            ]);
+        }
     },
     ['fbToken']
 );

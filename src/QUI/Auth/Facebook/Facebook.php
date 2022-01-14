@@ -50,7 +50,7 @@ class Facebook
     {
         try {
             $profileData = self::getProfileData($accessToken);
-        } catch (FacebookSDKException $ex) {
+        } catch (\Exception $ex) {
             // Throws error if Access Token is invalid (saves one request when not validating access token)
             throw new Exception([
                 'quiqqer/authfacebook',
@@ -186,7 +186,6 @@ class Facebook
     public static function getProfileData(AccessToken $accessToken): array
     {
 //        /me?fields=id,name,first_name,last_name,email'
-
         $Response = self::getApi()->getResourceOwner($accessToken);
         return $Response->toArray();
     }
@@ -276,9 +275,10 @@ class Facebook
 
         try {
             self::$Api = new FacebookApi([
-                'clientId'              => self::getAppId(),
-                'clientSecret'          => self::getAppSecret(),
-                'default_graph_version' => self::GRAPH_VERSION
+                'clientId'        => self::getAppId(),
+                'clientSecret'    => self::getAppSecret(),
+                'graphApiVersion' => self::getApiVersion(),
+                'redirectUri'     => 'none' // access tokens are provided via JavaScript SDK
             ]);
         } catch (\Exception $Exception) {
             QUI\System\Log::addError(
@@ -354,8 +354,8 @@ class Facebook
      */
     public static function getToken(string $tokenCode)
     {
-        return self::getApi()->getAccessToken('authorization_code', [
-            'code' => $tokenCode
+        return new AccessToken([
+            'access_token' => $tokenCode
         ]);
     }
 }

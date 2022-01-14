@@ -2,6 +2,9 @@
 
 namespace QUI\Auth\Facebook;
 
+use QUI;
+use QUI\Package\Package;
+
 /**
  * Class Events
  *
@@ -22,6 +25,33 @@ class Events
 
         if (!empty($connectedAccount)) {
             Facebook::disconnectAccount($User->getId(), false);
+        }
+    }
+
+    /**
+     * quiqqer/quiqqer: onPackageSetup
+     *
+     * @param Package $Package
+     * @return void
+     */
+    public static function onPackageSetup(Package $Package)
+    {
+        if ($Package->getName() !== 'quiqqer/authfacebook') {
+            return;
+        }
+
+        $currentApiVersion = Facebook::getApiVersion();
+
+        if (!empty($currentApiVersion)) {
+            $currentApiVersion = (int)\ltrim(\str_replace('.', '', $currentApiVersion), 'v');
+        } else {
+            $currentApiVersion = 1;
+        }
+
+        if ($currentApiVersion < 100) {
+            $Conf = QUI::getPackage('quiqqer/authfacebook')->getConfig();
+            $Conf->setValue('apiSettings', 'apiVersion', 'v12.0');
+            $Conf->save();
         }
     }
 }

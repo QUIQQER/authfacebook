@@ -6,6 +6,7 @@ use QUI;
 use QUI\Auth\Facebook\Exception as FacebookException;
 use QUI\Users\AbstractAuthenticator;
 use QUI\Users\User;
+use function is_string;
 
 /**
  * Class Auth
@@ -28,7 +29,7 @@ class Auth extends AbstractAuthenticator
      */
     public function __construct($user = '')
     {
-        if (!empty($user)) {
+        if (!empty($user) && is_string($user)) {
             try {
                 $this->User = QUI::getUsers()->getUserByName($user);
             } catch (\Exception $Exception) {

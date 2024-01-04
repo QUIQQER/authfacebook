@@ -7,10 +7,10 @@
 namespace QUI\Registration\Facebook;
 
 use QUI;
-use QUI\FrontendUsers;
-use QUI\FrontendUsers\InvalidFormField;
 use QUI\Auth\Facebook\Facebook;
+use QUI\FrontendUsers;
 use QUI\FrontendUsers\Handler as FrontendUsersHandler;
+use QUI\FrontendUsers\InvalidFormField;
 
 /**
  * Class Registrar
@@ -36,15 +36,15 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     public function onRegistered(QUI\Interfaces\Users\User $User)
     {
         $SystemUser = QUI::getUsers()->getSystemUser();
-        $token      = Facebook::getToken($this->getAttribute('token'));
+        $token = Facebook::getToken($this->getAttribute('token'));
 
         // set user data
         $profileData = Facebook::getProfileData($token);
 
         $User->setAttributes([
-            'email'     => $profileData['email'],
+            'email' => $profileData['email'],
             'firstname' => empty($profileData['first_name']) ? null : $profileData['first_name'],
-            'lastname'  => empty($profileData['last_name']) ? null : $profileData['last_name'],
+            'lastname' => empty($profileData['last_name']) ? null : $profileData['last_name'],
         ]);
 
         $User->setAttribute(FrontendUsersHandler::USER_ATTR_EMAIL_VERIFIED, true);
@@ -110,7 +110,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      */
     public function validate()
     {
-        $lg       = 'quiqqer/authfacebook';
+        $lg = 'quiqqer/authfacebook';
         $lgPrefix = 'exception.registrar.';
 
         $token = Facebook::getToken($this->getAttribute('token'));
@@ -118,7 +118,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         if (empty($token)) {
             throw new FrontendUsers\Exception([
                 $lg,
-                $lgPrefix.'token_invalid'
+                $lgPrefix . 'token_invalid'
             ]);
         }
 
@@ -127,7 +127,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         } catch (\Exception $Exception) {
             throw new FrontendUsers\Exception([
                 $lg,
-                $lgPrefix.'token_invalid'
+                $lgPrefix . 'token_invalid'
             ]);
         }
 
@@ -136,14 +136,14 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         if (empty($email)) {
             throw new FrontendUsers\Exception([
                 $lg,
-                $lgPrefix.'email_address_empty'
+                $lgPrefix . 'email_address_empty'
             ]);
         }
 
         if (QUI::getUsers()->usernameExists($email)) {
             throw new FrontendUsers\Exception([
                 $lg,
-                $lgPrefix.'email_already_exists'
+                $lgPrefix . 'email_already_exists'
             ]);
         }
     }

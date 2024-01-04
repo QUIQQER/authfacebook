@@ -3,13 +3,12 @@
 namespace QUI\Auth\Facebook;
 
 //use Facebook\Exceptions\FacebookSDKException;
-use QUI;
-
-//use Facebook\Facebook as FacebookApi;
 use League\OAuth2\Client\Provider\Facebook as FacebookApi;
 use League\OAuth2\Client\Token\AccessToken;
-
+use QUI;
 use QUI\Utils\Security\Orthos;
+
+//use Facebook\Facebook as FacebookApi;
 
 /**
  * Class Facebook
@@ -109,7 +108,7 @@ class Facebook
             self::checkEditPermission($uid);
         }
 
-        $User        = QUI::getUsers()->get($uid);
+        $User = QUI::getUsers()->get($uid);
         $profileData = self::getProfileData($accessToken);
 
         if (self::existsQuiqqerAccount($accessToken)) {
@@ -127,10 +126,10 @@ class Facebook
         QUI::getDataBase()->insert(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
             [
-                'userId'   => $User->getId(),
+                'userId' => $User->getId(),
                 'fbUserId' => $profileData['id'],
-                'email'    => $profileData['email'],
-                'name'     => $profileData['name']
+                'email' => $profileData['email'],
+                'name' => $profileData['name']
             ]
         );
     }
@@ -199,7 +198,7 @@ class Facebook
     public static function getConnectedAccountByQuiqqerUserId($userId)
     {
         $result = QUI::getDataBase()->fetch([
-            'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
+            'from' => QUI::getDBTableName(self::TBL_ACCOUNTS),
             'where' => [
                 'userId' => (int)$userId
             ]
@@ -225,7 +224,7 @@ class Facebook
         $profile = self::getProfileData($fbToken);
 
         $result = QUI::getDataBase()->fetch([
-            'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
+            'from' => QUI::getDBTableName(self::TBL_ACCOUNTS),
             'where' => [
                 'fbUserId' => (int)$profile['id']
             ]
@@ -251,7 +250,7 @@ class Facebook
         $profile = self::getProfileData($token);
 
         $result = QUI::getDataBase()->fetch([
-            'from'  => QUI::getDBTableName(self::TBL_ACCOUNTS),
+            'from' => QUI::getDBTableName(self::TBL_ACCOUNTS),
             'where' => [
                 'fbUserId' => $profile['id']
             ],
@@ -275,14 +274,14 @@ class Facebook
 
         try {
             self::$Api = new FacebookApi([
-                'clientId'        => self::getAppId(),
-                'clientSecret'    => self::getAppSecret(),
+                'clientId' => self::getAppId(),
+                'clientSecret' => self::getAppSecret(),
                 'graphApiVersion' => self::getApiVersion(),
-                'redirectUri'     => 'none' // access tokens are provided via JavaScript SDK
+                'redirectUri' => 'none' // access tokens are provided via JavaScript SDK
             ]);
         } catch (\Exception $Exception) {
             QUI\System\Log::addError(
-                self::class.' :: getApi() -> '.$Exception->getMessage()
+                self::class . ' :: getApi() -> ' . $Exception->getMessage()
             );
 
             throw new Exception([
@@ -335,7 +334,8 @@ class Facebook
      */
     protected static function checkEditPermission($userId)
     {
-        if ((int)QUI::getSession()->get('uid') !== (int)$userId
+        if (
+            (int)QUI::getSession()->get('uid') !== (int)$userId
             || !$userId
         ) {
             throw new QUI\Permissions\Exception(

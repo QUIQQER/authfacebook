@@ -1,13 +1,14 @@
 <?php
 
-use QUI\Auth\Facebook\Facebook;
-use QUI\Utils\Security\Orthos;
-
 /**
  * Check if the user that logs in via facebook is the login User
  *
  * @return bool
  */
+
+use QUI\Auth\Facebook\Facebook;
+use QUI\Utils\Security\Orthos;
+
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_isLoginUserFacebookUser',
     function ($fbToken) {

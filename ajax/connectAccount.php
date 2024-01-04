@@ -1,8 +1,5 @@
 <?php
 
-use QUI\Auth\Facebook\Facebook;
-use QUI\Utils\Security\Orthos;
-
 /**
  * Connect QUIQQER account with Facebook account
  *
@@ -12,6 +9,10 @@ use QUI\Utils\Security\Orthos;
  *
  * @throws QUI\Permissions\Exception
  */
+
+use QUI\Auth\Facebook\Facebook;
+use QUI\Utils\Security\Orthos;
+
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_connectAccount',
     function ($userId, $fbToken) {
@@ -34,7 +35,7 @@ QUI::$Ajax->registerFunction(
             return false;
         } catch (\Exception $Exception) {
             QUI\System\Log::addError(
-                'AJAX :: package_quiqqer_authfacebook_ajax_connectAccount -> '.$Exception->getMessage()
+                'AJAX :: package_quiqqer_authfacebook_ajax_connectAccount -> ' . $Exception->getMessage()
             );
 
             QUI::getMessagesHandler()->addError(
@@ -52,9 +53,9 @@ QUI::$Ajax->registerFunction(
                 'quiqqer/authfacebook',
                 'message.ajax.connectAccount.success',
                 [
-                    'fbAccount' => $accountData['name'].' ('.$accountData['email'].')',
+                    'fbAccount' => $accountData['name'] . ' (' . $accountData['email'] . ')',
                     'qUserName' => QUI::getUsers()->get($accountData['userId'])->getUsername(),
-                    'qUserId'   => $accountData['userId']
+                    'qUserId' => $accountData['userId']
                 ]
             )
         );

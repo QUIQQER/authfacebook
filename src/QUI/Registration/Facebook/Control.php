@@ -24,7 +24,7 @@ class Control extends QUI\Control
     {
         parent::__construct($attributes);
 
-        $this->addCSSFile(dirname(__FILE__).'/Control.css');
+        $this->addCSSFile(dirname(__FILE__) . '/Control.css');
         $this->addCSSClass('quiqqer-authfacebook-registrar');
 
         $this->setJavaScriptControl('package/quiqqer/authfacebook/bin/frontend/controls/Registrar');
@@ -39,6 +39,6 @@ class Control extends QUI\Control
 
         $Engine->assign('isAuth', boolval(QUI::getUserBySession()->getId()));
 
-        return $Engine->fetch(dirname(__FILE__).'/Control.html');
+        return $Engine->fetch(dirname(__FILE__) . '/Control.html');
     }
 }

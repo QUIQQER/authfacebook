@@ -6,12 +6,13 @@
  *
  * @return bool - true = session destroyed; false = session still active
  */
+
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_loginErrorCheck',
     function () {
-        $Session         = QUI::getSession();
+        $Session = QUI::getSession();
         $loginErrorCount = $Session->get('facebook_login_errors');
-        $maxLoginErrors  = QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('authSettings', 'maxLoginErrors');
+        $maxLoginErrors = QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('authSettings', 'maxLoginErrors');
 
         if (empty($loginErrorCount)) {
             $loginErrorCount = 0;

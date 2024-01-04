@@ -28,7 +28,7 @@ class Login extends Control
         parent::__construct($attributes);
 
         $this->addCSSClass('quiqqer-facebook-login');
-        $this->addCSSFile(dirname(__FILE__).'/Login.css');
+        $this->addCSSFile(dirname(__FILE__) . '/Login.css');
         $this->setAttribute('icon', 'fa fa-facebook');
     }
 
@@ -43,6 +43,6 @@ class Login extends Control
             return '';
         }
 
-        return $Engine->fetch(dirname(__FILE__).'/Login.html');
+        return $Engine->fetch(dirname(__FILE__) . '/Login.html');
     }
 }

@@ -16,11 +16,9 @@ use QUI\Utils\Security\Orthos;
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_connectAccount',
     function ($userId, $fbToken) {
-        $userId = (int)$userId;
-
         try {
-            Facebook::connectQuiqqerAccount((int)$userId, Facebook::getToken(Orthos::clear($fbToken)));
-            $accountData = Facebook::getConnectedAccountByQuiqqerUserId((int)$userId);
+            Facebook::connectQuiqqerAccount($userId, Facebook::getToken(Orthos::clear($fbToken)));
+            $accountData = Facebook::getConnectedAccountByQuiqqerUserId($userId);
         } catch (QUI\Auth\Facebook\Exception $Exception) {
             QUI::getMessagesHandler()->addError(
                 QUI::getLocale()->get(

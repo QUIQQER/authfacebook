@@ -3,8 +3,12 @@
 namespace QUI\Auth\Facebook;
 
 use QUI;
+use QUI\Database\Exception;
 use QUI\Package\Package;
 use QUI\Users\User;
+
+use function ltrim;
+use function str_replace;
 
 /**
  * Class Events
@@ -18,6 +22,7 @@ class Events
      *
      * @param QUI\Interfaces\Users\User $User
      * @return void
+     * @throws Exception|QUI\Permissions\Exception
      */
     public static function onUserDelete(QUI\Interfaces\Users\User $User): void
     {
@@ -34,8 +39,9 @@ class Events
      *
      * @param Package $Package
      * @return void
+     * @throws QUI\Exception
      */
-    public static function onPackageSetup(Package $Package)
+    public static function onPackageSetup(Package $Package): void
     {
         if ($Package->getName() !== 'quiqqer/authfacebook') {
             return;
@@ -44,7 +50,7 @@ class Events
         $currentApiVersion = Facebook::getApiVersion();
 
         if (!empty($currentApiVersion)) {
-            $currentApiVersion = (int)\ltrim(\str_replace('.', '', $currentApiVersion), 'v');
+            $currentApiVersion = (int)ltrim(str_replace('.', '', $currentApiVersion), 'v');
         } else {
             $currentApiVersion = 1;
         }

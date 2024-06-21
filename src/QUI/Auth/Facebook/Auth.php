@@ -138,7 +138,10 @@ class Auth extends AbstractAuthenticator
             $this->User = QUI::getUsers()->get($connectionProfile['userId']);
         }
 
-        if ((int)$connectionProfile['userId'] !== (int)$this->User->getId()) {
+        if (
+            $connectionProfile['userId'] !== $this->User->getId()
+            && $connectionProfile['userId'] !== $this->User->getUUID()
+        ) {
             throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.account.for.user'

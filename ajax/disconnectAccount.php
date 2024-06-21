@@ -14,8 +14,6 @@ use QUI\Auth\Facebook\Facebook;
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_disconnectAccount',
     function ($userId) {
-        $userId = (int)$userId;
-
         try {
             Facebook::disconnectAccount($userId);
         } catch (QUI\Auth\Facebook\Exception $Exception) {

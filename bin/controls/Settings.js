@@ -27,16 +27,17 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
 
     'css!package/quiqqer/authfacebook/bin/controls/Settings.css'
 
-], function (QUIControl, QUIConfirm, QUIButton, QUILoader, Facebook, Mustache,
-             QUIAjax, QUILocale) {
-    "use strict";
+], function(QUIControl, QUIConfirm, QUIButton, QUILoader, Facebook, Mustache,
+    QUIAjax, QUILocale
+) {
+    'use strict';
 
     var lg = 'quiqqer/authfacebook';
 
     return new Class({
 
         Extends: QUIControl,
-        Type   : 'package/quiqqer/authfacebook/bin/controls/Settings',
+        Type: 'package/quiqqer/authfacebook/bin/controls/Settings',
 
         Binds: [
             '$onInject',
@@ -50,14 +51,14 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
             uid: false  // QUIQQER User ID
         },
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.parent(options);
 
             this.addEvents({
                 onInject: this.$onInject
             });
 
-            this.Loader   = new QUILoader();
+            this.Loader = new QUILoader();
             this.$InfoElm = null;
             this.$BtnsElm = null;
         },
@@ -65,11 +66,11 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
         /**
          * event on DOMElement creation
          */
-        create: function () {
+        create: function() {
             this.$Elm = new Element('div', {
                 'class': 'quiqqer-auth-facebook-register',
-                html   : '<div class="quiqqer-auth-facebook-settings-info"></div>' +
-                '<div class="quiqqer-auth-facebook-settings-btns"></div>'
+                html: '<div class="quiqqer-auth-facebook-settings-info"></div>' +
+                    '<div class="quiqqer-auth-facebook-settings-btns"></div>'
             });
 
             this.$InfoElm = this.$Elm.getElement(
@@ -88,8 +89,8 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
         /**
          * Event: onInject
          */
-        $onInject: function () {
-            var self   = this;
+        $onInject: function() {
+            var self = this;
             var userId = this.getAttribute('uid');
 
             this.Loader.show();
@@ -105,7 +106,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
             // check if user is allowed to edit facebook account connection
             QUIAjax.get(
                 'package_quiqqer_authfacebook_ajax_isEditUserSessionUser',
-                function (result) {
+                function(result) {
                     if (!result) {
                         self.$Elm.set(
                             'html',
@@ -118,28 +119,28 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                         return;
                     }
 
-                    Facebook.getAccountByQuiqqerUserId(userId).then(function (Account) {
+                    Facebook.getAccountByQuiqqerUserId(userId).then(function(Account) {
                         self.Loader.hide();
 
                         if (!Account) {
-                            self.$showConnectionInfo().then(function () {
+                            self.$showConnectionInfo().then(function() {
                                 self.fireEvent('loaded', [self]);
                             }, ShowApiError);
                             return;
                         }
 
-                        self.$showAccountInfo(Account).then(function () {
+                        self.$showAccountInfo(Account).then(function() {
                             self.fireEvent('loaded', [self]);
                         }, ShowApiError);
                     });
                 }, {
                     'package': 'quiqqer/authfacebook',
-                    userId   : userId
+                    userId: userId
                 }
             );
 
             Facebook.addEvents({
-                'onLogin': function () {
+                'onLogin': function() {
                     self.$showConnectionInfo();
                 }
             });
@@ -151,7 +152,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
          * @param {Object} Account - Data of connected Facebook account
          * @return {Promise}
          */
-        $showAccountInfo: function (Account) {
+        $showAccountInfo: function(Account) {
             var self = this;
 
             this.$BtnsElm.set('html', '');
@@ -167,16 +168,16 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
             var userId = this.getAttribute('uid');
 
             new QUIButton({
-                'class'  : 'quiqqer-auth-facebook-settings-btn',
+                'class': 'quiqqer-auth-facebook-settings-btn',
                 textimage: 'fa fa-unlink',
-                text     : QUILocale.get(lg, 'controls.settings.showAccountInfo.btn.disconnect'),
-                events   : {
-                    onClick: function (Btn) {
+                text: QUILocale.get(lg, 'controls.settings.showAccountInfo.btn.disconnect'),
+                events: {
+                    onClick: function(Btn) {
                         self.Loader.show();
 
                         Facebook.disconnectQuiqqerAccount(
                             userId
-                        ).then(function (success) {
+                        ).then(function(success) {
                             self.Loader.hide();
 
                             if (success) {
@@ -199,25 +200,25 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
          *
          * @param {string} text
          */
-        setInfoText: function (text) {
+        setInfoText: function(text) {
             this.$InfoElm.set('html', text);
         },
 
         /**
          * Show info on how to connect a facebook account
          */
-        $showConnectionInfo: function () {
+        $showConnectionInfo: function() {
             var self = this;
 
             this.Loader.show();
 
             this.$BtnsElm.set('html', '');
 
-            return new Promise(function (resolve, reject) {
-                Facebook.getStatus().then(function (status) {
+            return new Promise(function(resolve, reject) {
+                Facebook.getStatus().then(function(status) {
                     switch (status) {
                         case 'connected':
-                            Facebook.getProfileInfo().then(function (Profile) {
+                            Facebook.getProfileInfo().then(function(Profile) {
                                 // Check if user provided email
                                 if (typeof Profile.email === 'undefined') {
                                     self.setInfoText(QUILocale.get(lg, 'controls.settings.addAccount.email.unknown', {
@@ -234,7 +235,7 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
                                     QUILocale.get(
                                         lg,
                                         'controls.settings.addAccount.info.connected', {
-                                            'name' : Profile.first_name + ' ' + Profile.last_name,
+                                            'name': Profile.first_name + ' ' + Profile.last_name,
                                             'email': Profile.email
                                         }
                                     )
@@ -242,18 +243,18 @@ define('package/quiqqer/authfacebook/bin/controls/Settings', [
 
                                 // "Connect account" Button
                                 new QUIButton({
-                                    'class'  : 'quiqqer-auth-facebook-settings-btn',
+                                    'class': 'quiqqer-auth-facebook-settings-btn',
                                     textimage: 'fa fa-link',
-                                    text     : QUILocale.get(lg, 'controls.settings.addAccount.btn.connect'),
-                                    events   : {
-                                        onClick: function () {
+                                    text: QUILocale.get(lg, 'controls.settings.addAccount.btn.connect'),
+                                    events: {
+                                        onClick: function() {
                                             self.Loader.show();
 
                                             Facebook.getToken().then(function(token) {
                                                 Facebook.connectQuiqqerAccount(
                                                     self.getAttribute('uid'),
                                                     token
-                                                ).then(function (Account) {
+                                                ).then(function(Account) {
                                                     self.Loader.hide();
 
                                                     if (!Account) {

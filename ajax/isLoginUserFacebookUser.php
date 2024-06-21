@@ -34,7 +34,7 @@ QUI::$Ajax->registerFunction(
             return false;
         }
 
-        return (int)$profileData['id'] === (int)$accountData['fbUserId'];
+        return $profileData['id'] === $accountData['fbUserId'];
     },
     ['fbToken']
 );

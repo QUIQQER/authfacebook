@@ -12,7 +12,7 @@ use QUI\Auth\Facebook\Facebook;
 QUI::$Ajax->registerFunction(
     'package_quiqqer_authfacebook_ajax_getAccountByQuiqqerUserId',
     function ($userId) {
-        if ((int)QUI::getSession()->get('uid') !== (int)$userId) {
+        if (QUI::getSession()->get('uid') !== $userId) {
             throw new QUI\Permissions\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',
@@ -22,7 +22,7 @@ QUI::$Ajax->registerFunction(
             );
         }
 
-        return Facebook::getConnectedAccountByQuiqqerUserId((int)$userId);
+        return Facebook::getConnectedAccountByQuiqqerUserId($userId);
     },
     ['userId']
 );

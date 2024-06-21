@@ -4,8 +4,11 @@ namespace QUI\Auth\Facebook;
 
 use QUI;
 use QUI\Auth\Facebook\Exception as FacebookException;
+use QUI\Control;
+use QUI\Database\Exception;
+use QUI\ExceptionStack;
+use QUI\Locale;
 use QUI\Users\AbstractAuthenticator;
-use QUI\Users\User;
 
 use function is_string;
 
@@ -18,32 +21,30 @@ class Auth extends AbstractAuthenticator
 {
     /**
      * User that is to be authenticated
-     *
-     * @var User
      */
-    protected $User = null;
+    protected QUI\Interfaces\Users\User|null $User = null;
 
     /**
      * Auth Constructor.
      *
-     * @param string|array|integer $user - name of the user, or user id
+     * @param array|integer|string $user - name of the user, or user id
      */
-    public function __construct($user = '')
+    public function __construct(array|int|string $user = '')
     {
         if (!empty($user) && is_string($user)) {
             try {
                 $this->User = QUI::getUsers()->getUserByName($user);
-            } catch (\Exception $Exception) {
+            } catch (\Exception) {
                 $this->User = QUI::getUsers()->getNobody();
             }
         }
     }
 
     /**
-     * @param null|\QUI\Locale $Locale
+     * @param null|Locale $Locale
      * @return string
      */
-    public function getTitle($Locale = null)
+    public function getTitle(Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();
@@ -53,10 +54,10 @@ class Auth extends AbstractAuthenticator
     }
 
     /**
-     * @param null|\QUI\Locale $Locale
+     * @param null|Locale $Locale
      * @return string
      */
-    public function getDescription($Locale = null)
+    public function getDescription(Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();
@@ -68,15 +69,18 @@ class Auth extends AbstractAuthenticator
     /**
      * Authenticate the user
      *
-     * @param string|array|integer $authData
+     * @param array|integer|string $authParams
      *
-     * @throws QUI\Auth\Facebook\Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws QUI\Exception
+     * @throws ExceptionStack
      */
-    public function auth($authData)
+    public function auth(array|int|string $authParams): void
     {
         if (
-            !is_array($authData)
-            || !isset($authData['token'])
+            !is_array($authParams)
+            || !isset($authParams['token'])
         ) {
             throw new FacebookException([
                 'quiqqer/authfacebook',
@@ -84,11 +88,11 @@ class Auth extends AbstractAuthenticator
             ], 401);
         }
 
-        $Token = Facebook::getToken($authData['token']);
+        $Token = Facebook::getToken($authParams['token']);
 
         try {
             Facebook::validateAccessToken($Token);
-        } catch (FacebookException $Exception) {
+        } catch (FacebookException) {
             throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.data'
@@ -145,43 +149,46 @@ class Auth extends AbstractAuthenticator
     /**
      * Return the user object
      *
-     * @return \QUI\Interfaces\Users\User
+     * @return QUI\Interfaces\Users\User
      */
-    public function getUser()
+    public function getUser(): QUI\Interfaces\Users\User
     {
         return $this->User;
     }
 
     /**
      * Return the quiqqer user id
-     *
-     * @return integer|boolean
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->User->getId();
     }
 
+    public function getUserUUID(): string
+    {
+        return $this->User->getUUID();
+    }
+
     /**
-     * @return \QUI\Control
+     * @return Control|null
      */
-    public static function getLoginControl()
+    public static function getLoginControl(): ?Control
     {
         return new QUI\Auth\Facebook\Controls\Login();
     }
 
     /**
-     * @return \QUI\Control
+     * @return Control|null
      */
-    public static function getSettingsControl()
+    public static function getSettingsControl(): ?Control
     {
         return new QUI\Auth\Facebook\Controls\Settings();
     }
 
     /**
-     * @return \QUI\Control
+     * @return Control|null
      */
-    public static function getPasswordResetControl()
+    public static function getPasswordResetControl(): ?Control
     {
         return null;
     }

@@ -35,13 +35,9 @@ class Login extends Control
     /**
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
-        try {
-            $Engine = QUI::getTemplateManager()->getEngine();
-        } catch (QUI\Exception $Exception) {
-            return '';
-        }
+        $Engine = QUI::getTemplateManager()->getEngine();
 
         return $Engine->fetch(dirname(__FILE__) . '/Login.html');
     }

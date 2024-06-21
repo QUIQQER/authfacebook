@@ -1,37 +1,37 @@
 {
-  "name": "quiqqer\/authfacebook",
+  "name": "quiqqer/authfacebook",
   "type": "quiqqer-module",
   "description": "QUIQQER authentication and registration via Facebook account",
   "license": "GPL-3.0+",
-  "homepage": "https:\/\/www.quiqqer.com",
+  "homepage": "https://www.quiqqer.com",
   "authors": [
     {
       "name": "Patrick Müller",
       "email": "p.mueller@pcsg.de",
-      "homepage": "http:\/\/www.pcsg.de",
+      "homepage": "https://www.pcsg.de",
       "role": "Developer"
     },
     {
       "name": "Jan Wennrich",
       "email": "info@pcsg.de",
-      "homepage": "https:\/\/www.pcsg.de",
+      "homepage": "https://www.pcsg.de",
       "role": "Developer"
     }
   ],
   "support": {
     "email": "support@pcsg.de",
-    "url": "http:\/\/www.pcsg.de"
+    "url": "http://www.pcsg.de"
   },
   "require": {
-    "php": "^7.4|^8",
-    "quiqqer\/quiqqer": ">=1.1|dev-master|dev-dev",
+    "php": "^8",
+    "quiqqer/core": "^2",
     "league/oauth2-facebook": "^2",
-    "quiqqer\/frontend-users": "^1.1|dev-master|dev-dev"
+    "quiqqer/frontend-users": "^2"
   },
   "autoload": {
     "psr-4": {
-      "QUI\\Auth\\Facebook\\": "src\/QUI\/Auth\/Facebook",
-      "QUI\\Registration\\Facebook\\": "src\/QUI\/Registration\/Facebook"
+      "QUI\\Auth\\Facebook\\": "src/QUI/Auth/Facebook",
+      "QUI\\Registration\\Facebook\\": "src/QUI/Registration/Facebook"
     }
   }
 }

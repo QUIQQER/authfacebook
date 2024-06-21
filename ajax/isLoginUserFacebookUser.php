@@ -21,7 +21,7 @@ QUI::$Ajax->registerFunction(
         try {
             $profileData = Facebook::getProfileData(Facebook::getToken(Orthos::clear($fbToken)));
             $accountData = Facebook::getConnectedAccountByQuiqqerUserId($loginUserId);
-        } catch (\Exception $Exception) {
+        } catch (Exception $Exception) {
             QUI\System\Log::writeException($Exception);
             return false;
         }

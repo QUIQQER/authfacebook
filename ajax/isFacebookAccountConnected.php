@@ -15,7 +15,7 @@ QUI::$Ajax->registerFunction(
     function ($fbToken) {
         try {
             return Facebook::existsQuiqqerAccount(Facebook::getToken(Orthos::clear($fbToken)));
-        } catch (\Exception $Exception) {
+        } catch (Exception $Exception) {
             QUI\System\Log::writeException($Exception);
 
             throw new QUI\Exception([

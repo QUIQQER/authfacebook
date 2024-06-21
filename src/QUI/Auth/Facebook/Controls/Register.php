@@ -6,7 +6,6 @@
 
 namespace QUI\Auth\Facebook\Controls;
 
-use QUI;
 use QUI\Control;
 
 /**
@@ -21,7 +20,7 @@ class Register extends Control
     /**
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         return '<div class="quiqqer-auth-facebook-register"     
                   data-qui="package/quiqqer/authfacebook/bin/controls/Register">

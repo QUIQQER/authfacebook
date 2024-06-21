@@ -4,6 +4,7 @@ namespace QUI\Auth\Facebook;
 
 use QUI;
 use QUI\Package\Package;
+use QUI\Users\User;
 
 /**
  * Class Events
@@ -15,10 +16,10 @@ class Events
     /**
      * QUIQQER Event: onUserDelete
      *
-     * @param \QUI\Users\User $User
+     * @param QUI\Interfaces\Users\User $User
      * @return void
      */
-    public static function onUserDelete($User)
+    public static function onUserDelete(QUI\Interfaces\Users\User $User): void
     {
         // delete connected facebook account
         $connectedAccount = Facebook::getConnectedAccountByQuiqqerUserId($User->getId());

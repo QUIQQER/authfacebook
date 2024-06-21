@@ -8,9 +8,12 @@ namespace QUI\Registration\Facebook;
 
 use QUI;
 use QUI\Auth\Facebook\Facebook;
+use QUI\Database\Exception;
+use QUI\ExceptionStack;
 use QUI\FrontendUsers;
 use QUI\FrontendUsers\Handler as FrontendUsersHandler;
 use QUI\FrontendUsers\InvalidFormField;
+use QUI\Interfaces\Users\User;
 
 /**
  * Class Registrar
@@ -30,10 +33,15 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     }
 
     /**
-     * @param QUI\Interfaces\Users\User $User
+     * @param User $User
      * @return void
+     *
+     * @throws Exception
+     * @throws QUI\Exception
+     * @throws ExceptionStack
+     * @throws QUI\Permissions\Exception
      */
-    public function onRegistered(QUI\Interfaces\Users\User $User)
+    public function onRegistered(QUI\Interfaces\Users\User $User): void
     {
         $SystemUser = QUI::getUsers()->getSystemUser();
         $token = Facebook::getToken($this->getAttribute('token'));
@@ -60,7 +68,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * Return the success message
      * @return string
      */
-    public function getSuccessMessage()
+    public function getSuccessMessage(): string
     {
         $registrarSettings = $this->getSettings();
 
@@ -97,7 +105,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * Return pending message
      * @return string
      */
-    public function getPendingMessage()
+    public function getPendingMessage(): string
     {
         return QUI::getLocale()->get(
             'quiqqer/authfacebook',
@@ -106,25 +114,18 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     }
 
     /**
-     * @throws FrontendUsers\Exception
+     * @throws FrontendUsers\Exception|Exception
      */
-    public function validate()
+    public function validate(): array
     {
         $lg = 'quiqqer/authfacebook';
         $lgPrefix = 'exception.registrar.';
 
         $token = Facebook::getToken($this->getAttribute('token'));
 
-        if (empty($token)) {
-            throw new FrontendUsers\Exception([
-                $lg,
-                $lgPrefix . 'token_invalid'
-            ]);
-        }
-
         try {
             Facebook::validateAccessToken($token);
-        } catch (\Exception $Exception) {
+        } catch (\Exception) {
             throw new FrontendUsers\Exception([
                 $lg,
                 $lgPrefix . 'token_invalid'
@@ -146,6 +147,8 @@ class Registrar extends FrontendUsers\AbstractRegistrar
                 $lgPrefix . 'email_already_exists'
             ]);
         }
+
+        return [];
     }
 
     /**
@@ -153,7 +156,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      *
      * @return InvalidFormField[]
      */
-    public function getInvalidFields()
+    public function getInvalidFields(): array
     {
         // Registration via Facebook account does not use form fields
         return [];
@@ -161,8 +164,9 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
     /**
      * @return string
+     * @throws Exception
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         $userData = Facebook::getProfileData(Facebook::getToken($this->getAttribute('token')));
 
@@ -176,7 +180,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     /**
      * @return Control
      */
-    public function getControl()
+    public function getControl(): QUI\Control
     {
         return new Control();
     }
@@ -184,10 +188,10 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     /**
      * Get title
      *
-     * @param QUI\Locale $Locale (optional) - If omitted use QUI::getLocale()
+     * @param QUI\Locale|null $Locale (optional) - If omitted use QUI::getLocale()
      * @return string
      */
-    public function getTitle($Locale = null)
+    public function getTitle(QUI\Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();
@@ -199,10 +203,10 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     /**
      * Get description
      *
-     * @param QUI\Locale $Locale (optional) - If omitted use QUI::getLocale()
+     * @param QUI\Locale|null $Locale (optional) - If omitted use QUI::getLocale()
      * @return string
      */
-    public function getDescription($Locale = null)
+    public function getDescription(QUI\Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();
@@ -214,7 +218,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     /**
      * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'fa fa-facebook';
     }
@@ -223,8 +227,9 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * Get registration settings for this plugin
      *
      * @return array
+     * @throws QUI\Exception
      */
-    protected function getRegistrationSettings()
+    protected function getRegistrationSettings(): array
     {
         return QUI::getPackage('quiqqer/authfacebook')->getConfig()->getSection('registration');
     }
@@ -234,7 +239,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      *
      * @return bool
      */
-    public function canSendPassword()
+    public function canSendPassword(): bool
     {
         return true;
     }

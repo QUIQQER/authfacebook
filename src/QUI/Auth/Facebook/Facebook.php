@@ -6,6 +6,9 @@ namespace QUI\Auth\Facebook;
 use League\OAuth2\Client\Provider\Facebook as FacebookApi;
 use League\OAuth2\Client\Token\AccessToken;
 use QUI;
+use QUI\Database\Exception;
+use QUI\ExceptionStack;
+use QUI\Interfaces\Users\User;
 use QUI\Utils\Security\Orthos;
 
 //use Facebook\Facebook as FacebookApi;
@@ -32,24 +35,28 @@ class Facebook
     /**
      * Facebook API Object
      *
-     * @var FacebookApi
+     * @var ?FacebookApi
      */
-    protected static $Api = null;
+    protected static ?FacebookApi $Api = null;
 
     /**
      * Create a new QUIQQER account from a Facebook Access Token
      *
      * @param AccessToken $accessToken - Facebook access token
-     * @return QUI\Users\User - Newly created user
+     * @return User - Newly created user
      *
      * @throws Exception
+     * @throws ExceptionStack
+     * @throws QUI\Exception
+     * @throws QUI\Permissions\Exception
+     * @throws QUI\Users\Exception
      * @internal param string $email - Facebook email address
      */
-    public static function createQuiqqerAccount(AccessToken $accessToken)
+    public static function createQuiqqerAccount(AccessToken $accessToken): QUI\Interfaces\Users\User
     {
         try {
             $profileData = self::getProfileData($accessToken);
-        } catch (\Exception $ex) {
+        } catch (\Exception) {
             // Throws error if Access Token is invalid (saves one request when not validating access token)
             throw new Exception([
                 'quiqqer/authfacebook',
@@ -95,15 +102,22 @@ class Facebook
     /**
      * Connect a QUIQQER account with a Facebook account
      *
-     * @param int $uid
+     * @param int|string $uid
      * @param AccessToken $accessToken
      * @param bool $checkPermission (optional) - check permission to edit quiqqer account [default: true]
      * @return void
      *
-     * @throws QUI\Auth\Facebook\Exception
+     * @throws Exception
+     * @throws QUI\Exception
+     * @throws ExceptionStack
+     * @throws QUI\Permissions\Exception
+     * @throws Exception
      */
-    public static function connectQuiqqerAccount($uid, AccessToken $accessToken, $checkPermission = true)
-    {
+    public static function connectQuiqqerAccount(
+        int|string $uid,
+        AccessToken $accessToken,
+        bool $checkPermission = true
+    ): void {
         if ($checkPermission !== false) {
             self::checkEditPermission($uid);
         }
@@ -137,11 +151,14 @@ class Facebook
     /**
      * Disconnect Facebook account from QUIQQER account
      *
-     * @param int $userId - QUIQQER User ID
+     * @param int|string $userId - QUIQQER User ID
      * @param bool $checkPermission (optional) [default: true]
      * @return void
+     *
+     * @throws Exception
+     * @throws QUI\Permissions\Exception
      */
-    public static function disconnectAccount($userId, $checkPermission = true)
+    public static function disconnectAccount(int|string $userId, bool $checkPermission = true): void
     {
         if ($checkPermission !== false) {
             self::checkEditPermission($userId);
@@ -149,9 +166,7 @@ class Facebook
 
         QUI::getDataBase()->delete(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
-            [
-                'userId' => (int)$userId,
-            ]
+            ['userId' => $userId,]
         );
     }
 
@@ -162,9 +177,9 @@ class Facebook
      * @param AccessToken $accessToken
      * @return void
      *
-     * @throws QUI\Auth\Facebook\Exception
+     * @throws Exception
      */
-    public static function validateAccessToken(AccessToken $accessToken)
+    public static function validateAccessToken(AccessToken $accessToken): void
     {
         $profileData = self::getProfileData($accessToken);
 
@@ -181,10 +196,11 @@ class Facebook
      *
      * @param AccessToken $accessToken - access token
      * @return array
+     * @throws Exception
      */
     public static function getProfileData(AccessToken $accessToken): array
     {
-//        /me?fields=id,name,first_name,last_name,email'
+//        /me?fields=id,name,first_name,last_name,email
         $Response = self::getApi()->getResourceOwner($accessToken);
         return $Response->toArray();
     }
@@ -192,15 +208,16 @@ class Facebook
     /**
      * Get details of a connected Facebook account
      *
-     * @param int $userId - QUIQQER User ID
+     * @param int|string $userId - QUIQQER User ID
      * @return array|false - details as array or false if no account connected to given QUIQQER User account ID
+     * @throws Exception
      */
-    public static function getConnectedAccountByQuiqqerUserId($userId)
+    public static function getConnectedAccountByQuiqqerUserId(int|string $userId): bool|array
     {
         $result = QUI::getDataBase()->fetch([
             'from' => QUI::getDBTableName(self::TBL_ACCOUNTS),
             'where' => [
-                'userId' => (int)$userId
+                'userId' => $userId
             ]
         ]);
 
@@ -216,8 +233,10 @@ class Facebook
      *
      * @param AccessToken $fbToken - Facebook API token
      * @return array|false - details as array or false if no account connected to given Facebook userID
+     *
+     * @throws Exception
      */
-    public static function getConnectedAccountByFacebookToken(AccessToken $fbToken)
+    public static function getConnectedAccountByFacebookToken(AccessToken $fbToken): bool|array
     {
         self::validateAccessToken($fbToken);
 
@@ -263,10 +282,10 @@ class Facebook
     /**
      * Get Facebook API Instance
      *
-     * @return FacebookApi
+     * @return ?FacebookApi
      * @throws Exception
      */
-    protected static function getApi()
+    protected static function getApi(): ?FacebookApi
     {
         if (!is_null(self::$Api)) {
             return self::$Api;
@@ -298,9 +317,13 @@ class Facebook
      *
      * @return string
      */
-    public static function getAppId()
+    public static function getAppId(): string
     {
-        return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'appId');
+        try {
+            return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'appId');
+        } catch (QUI\Exception) {
+            return '';
+        }
     }
 
     /**
@@ -308,9 +331,13 @@ class Facebook
      *
      * @return string
      */
-    protected static function getAppSecret()
+    protected static function getAppSecret(): string
     {
-        return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'appSecret');
+        try {
+            return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'appSecret');
+        } catch (QUI\Exception) {
+            return '';
+        }
     }
 
     /**
@@ -318,26 +345,27 @@ class Facebook
      *
      * @return string
      */
-    public static function getApiVersion()
+    public static function getApiVersion(): string
     {
-        return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'apiVersion');
+        try {
+            return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'apiVersion');
+        } catch (QUI\Exception) {
+            return '';
+        }
     }
 
     /**
      * Checks if the session user is allowed to edit the Facebook account connection to
      * the given QUIQQER user account ID
      *
-     * @param int $userId - QUIQQER User ID
+     * @param int|string $userId - QUIQQER User ID
      * @return void
      *
      * @throws QUI\Permissions\Exception
      */
-    protected static function checkEditPermission($userId)
+    protected static function checkEditPermission(int|string $userId): void
     {
-        if (
-            (int)QUI::getSession()->get('uid') !== (int)$userId
-            || !$userId
-        ) {
+        if (QUI::getSession()->get('uid') !== $userId || !$userId) {
             throw new QUI\Permissions\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',
@@ -352,7 +380,7 @@ class Facebook
      * @param string $tokenCode
      * @return AccessToken
      */
-    public static function getToken(string $tokenCode)
+    public static function getToken(string $tokenCode): AccessToken
     {
         return new AccessToken([
             'access_token' => $tokenCode

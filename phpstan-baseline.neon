@@ -1,0 +1,16 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Dead catch \\- QUI\\\\Auth\\\\Facebook\\\\Exception is never thrown in the try block\\.$#"
+			count: 1
+			path: ajax/disconnectAccount.php
+
+		-
+			message: "#^Dead catch \\- QUI\\\\Auth\\\\Facebook\\\\Exception is never thrown in the try block\\.$#"
+			count: 1
+			path: src/QUI/Auth/Facebook/Auth.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of method QUI\\\\Interfaces\\\\Users\\\\User\\:\\:activate\\(\\) expects string, false given\\.$#"
+			count: 1
+			path: src/QUI/Auth/Facebook/Facebook.php

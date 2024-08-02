@@ -6,6 +6,10 @@ parameters:
     paths:
         - src
         - ajax
+    excludePaths:
+        # These files require classes from the optional "quiqqer/gdpr" package
+        - src/QUI/Auth/Facebook/Cookies/*
+        - src/QUI/Auth/Facebook/CookieProvider.php
     bootstrapFiles:
         - tests/phpstan-bootstrap.php
     tipsOfTheDay: false

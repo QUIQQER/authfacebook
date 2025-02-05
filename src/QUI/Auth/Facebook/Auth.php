@@ -44,7 +44,7 @@ class Auth extends AbstractAuthenticator
      * @param null|Locale $Locale
      * @return string
      */
-    public function getTitle(Locale $Locale = null): string
+    public function getTitle(null|Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();
@@ -57,7 +57,7 @@ class Auth extends AbstractAuthenticator
      * @param null|Locale $Locale
      * @return string
      */
-    public function getDescription(Locale $Locale = null): string
+    public function getDescription(null|Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();

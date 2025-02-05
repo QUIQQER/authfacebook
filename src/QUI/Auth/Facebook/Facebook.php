@@ -6,7 +6,6 @@ namespace QUI\Auth\Facebook;
 use League\OAuth2\Client\Provider\Facebook as FacebookApi;
 use League\OAuth2\Client\Token\AccessToken;
 use QUI;
-use QUI\Database\Exception;
 use QUI\ExceptionStack;
 use QUI\Interfaces\Users\User;
 use QUI\Utils\Security\Orthos;
@@ -89,7 +88,7 @@ class Facebook
         $NewUser->setAttribute('email', $email);
         $NewUser->save($Users->getSystemUser());
         $NewUser->setPassword(Orthos::getPassword(), $Users->getSystemUser()); // set random password
-        $NewUser->activate(false, $Users->getSystemUser());
+        $NewUser->activate('', $Users->getSystemUser());
 
         // automatically connect new quiqqer account with fb account
         QUI::getSession()->set('uid', $NewUser->getId());
@@ -155,7 +154,7 @@ class Facebook
      * @param bool $checkPermission (optional) [default: true]
      * @return void
      *
-     * @throws Exception
+     * @throws QUI\Exception
      * @throws QUI\Permissions\Exception
      */
     public static function disconnectAccount(int|string $userId, bool $checkPermission = true): void
@@ -210,7 +209,8 @@ class Facebook
      *
      * @param int|string $userId - QUIQQER User ID
      * @return array|false - details as array or false if no account connected to given QUIQQER User account ID
-     * @throws Exception
+     *
+     * @throws QUI\Exception
      */
     public static function getConnectedAccountByQuiqqerUserId(int|string $userId): bool|array
     {
@@ -235,6 +235,7 @@ class Facebook
      * @return array|false - details as array or false if no account connected to given Facebook userID
      *
      * @throws Exception
+     * @throws QUI\Exception
      */
     public static function getConnectedAccountByFacebookToken(AccessToken $fbToken): bool|array
     {

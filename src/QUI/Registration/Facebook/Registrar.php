@@ -114,7 +114,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     }
 
     /**
-     * @throws FrontendUsers\Exception|Exception
+     * @throws FrontendUsers\Exception|QUI\Auth\Facebook\Exception
      */
     public function validate(): array
     {
@@ -164,7 +164,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
     /**
      * @return string
-     * @throws Exception
+     * @throws QUI\Auth\Facebook\Exception
      */
     public function getUsername(): string
     {
@@ -191,7 +191,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * @param QUI\Locale|null $Locale (optional) - If omitted use QUI::getLocale()
      * @return string
      */
-    public function getTitle(QUI\Locale $Locale = null): string
+    public function getTitle(null|QUI\Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();
@@ -206,7 +206,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * @param QUI\Locale|null $Locale (optional) - If omitted use QUI::getLocale()
      * @return string
      */
-    public function getDescription(QUI\Locale $Locale = null): string
+    public function getDescription(null|QUI\Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();

@@ -17,7 +17,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
     'css!package/quiqqer/authfacebook/bin/controls/Login.css'
 
-], function(QUIControl, QUIPopup, QUILoader, Facebook, QUIAjax, QUILocale) {
+], function (QUIControl, QUIPopup, QUILoader, Facebook, QUIAjax, QUILocale) {
     'use strict';
 
     var lg = 'quiqqer/authfacebook';
@@ -43,7 +43,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             uid: false  // QUIQQER User ID
         },
 
-        initialize: function(options) {
+        initialize: function (options) {
             this.parent(options);
 
             this.addEvents({
@@ -62,7 +62,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         /**
          * event on DOMElement creation
          */
-        create: function() {
+        create: function () {
             this.$Elm = new Element('div', {
                 'class': 'quiqqer-auth-facebook-login',
                 'html': '<div class="quiqqer-auth-facebook-login-info" style="display: none;"></div>' +
@@ -85,7 +85,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         /**
          * Event: onImport
          */
-        $onImport: function() {
+        $onImport: function () {
             var self = this;
 
             this.$Input = this.getElm();
@@ -100,29 +100,29 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             });
 
             this.$FakeLoginButton.addEvents({
-                click: function(event) {
+                click: function (event) {
                     event.stop();
 
                     self.$FakeLoginButton.disabled = true;
                     self.Loader.show();
 
-                    Facebook.getGDPRConsent().then(function(consentGiven) {
+                    Facebook.getGDPRConsent().then(function (consentGiven) {
                         if (!consentGiven) {
                             return Promise.resolve(false);
                         }
 
                         return self.$openFacebookLoginHelper();
-                    }).then(function(submit) {
+                    }).then(function (submit) {
                         if (!submit) {
                             self.$FakeLoginButton.disabled = false;
                             return;
                         }
 
                         return self.$init(true);
-                    }, function() {
+                    }, function () {
                         self.$FakeLoginButton.disabled = false;
                         self.Loader.hide();
-                    }).then(function() {
+                    }).then(function () {
                         self.Loader.hide();
                     });
                 }
@@ -139,14 +139,14 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
             //}
 
             Facebook.addEvents({
-                onLogin: function() {
+                onLogin: function () {
                     self.$loggedIn = true;
 
                     if (self.$canAuthenticate) {
                         self.$authenticate();
                     }
                 },
-                onLogout: function() {
+                onLogout: function () {
                     self.$loggedIn = false;
                     self.$canAuthenticate = false;
                 }
@@ -156,7 +156,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         /**
          * Execute a click at the facebook login
          */
-        click: function() {
+        click: function () {
             if (this.$LoginButton) {
                 this.$LoginButton.click();
                 return;
@@ -174,16 +174,16 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * @param {Boolean} [autoauthenticate]
          * @return {Promise}
          */
-        $init: function(autoauthenticate) {
+        $init: function (autoauthenticate) {
             var self = this;
 
             autoauthenticate = autoauthenticate || false;
 
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 Promise.all([
                     Facebook.getStatus(),
                     self.$getLoginUserId()
-                ]).then(function(result) {
+                ]).then(function (result) {
                     var status = result[0];
                     var loginUserId = result[1];
 
@@ -197,7 +197,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                         case 'unknown':
                             self.$LoginButton = Facebook.getLoginButton();
 
-                            self.$LoginButton.addEvent('onClick', function() {
+                            self.$LoginButton.addEvent('onClick', function () {
                                 self.$canAuthenticate = true;
 
                                 if (self.$loggedIn) {
@@ -217,7 +217,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     }
 
                     resolve();
-                }, function() {
+                }, function () {
                     self.Loader.hide();
                     self.$showGeneralError();
 
@@ -231,14 +231,14 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          *
          * @return {Promise}
          */
-        $openFacebookLoginHelper: function() {
+        $openFacebookLoginHelper: function () {
             if (Facebook.isLoggedIn()) {
                 return Promise.resolve(true);
             }
 
             var self = this;
 
-            return new Promise(function(resolve) {
+            return new Promise(function (resolve) {
                 new QUIPopup({
                     icon: 'fa fa-facebook',
                     title: QUILocale.get(lg, 'controls.frontend.registrar.sign_in.popup.title'),
@@ -246,7 +246,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     maxHeight: 300,
                     buttons: false,
                     events: {
-                        onOpen: function(Win) {
+                        onOpen: function (Win) {
                             Win.Loader.show();
                             Win.getContent().setStyles({
                                 'alignItems': 'center',
@@ -255,7 +255,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                                 'justifyContent': 'center'
                             });
 
-                            Facebook.$load().then(function() {
+                            Facebook.$load().then(function () {
                                 Win.getContent().set(
                                     'html',
                                     '<p>' +
@@ -266,14 +266,14 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                                     '</button>'
                                 );
 
-                                Win.getContent().getElement('button').addEvent('click', function() {
+                                Win.getContent().getElement('button').addEvent('click', function () {
                                     Win.Loader.show();
 
-                                    Facebook.login().then(function() {
+                                    Facebook.login().then(function () {
                                         self.$signedIn = false;
                                         resolve(true);
                                         Win.close();
-                                    }).catch(function() {
+                                    }).catch(function () {
                                         Win.Loader.hide();
                                     });
                                 });
@@ -282,7 +282,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                             });
                         },
 
-                        onCancel: function() {
+                        onCancel: function () {
                             self.Loader.hide();
                             resolve(false);
                         }
@@ -294,7 +294,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         /**
          * Show general error msg on Facebook API failure
          */
-        $showGeneralError: function() {
+        $showGeneralError: function () {
             if (this.$LoginButton) {
                 this.$LoginButton.setAttribute('title', QUILocale.get(lg, 'controls.login.general_error'));
                 this.$LoginButton.disable();
@@ -306,11 +306,11 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          *
          * @param {Number} loginUserId - ID of the QUIQQER user that tries to log in (only used for 2FA)
          */
-        $onConnected: function(loginUserId) {
+        $onConnected: function (loginUserId) {
             var self = this;
 
-            Facebook.getToken().then(function(token) {
-                Facebook.isAccountConnectedToQuiqqer(token).then(function(connected) {
+            Facebook.getToken().then(function (token) {
+                Facebook.isAccountConnectedToQuiqqer(token).then(function (connected) {
                     // user is not connected and uses Facebook login as 2FA
                     if (!connected && loginUserId) {
                         self.$showSettings(loginUserId, status);
@@ -333,7 +333,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
                         self.$LoginButton = Facebook.getLoginButton();
 
-                        self.$LoginButton.addEvent('onClick', function() {
+                        self.$LoginButton.addEvent('onClick', function () {
                             self.$canAuthenticate = true;
 
                             if (self.$loggedIn) {
@@ -347,13 +347,13 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                     }
 
                     // check if login user is facebook user
-                    self.$isLoginUserFacebookUser(token).then(function(isLoginUser) {
+                    self.$isLoginUserFacebookUser(token).then(function (isLoginUser) {
                         self.Loader.hide();
 
                         if (!isLoginUser) {
                             self.Loader.show();
 
-                            self.$loginErrorCheck().then(function(maxLoginsExceeded) {
+                            self.$loginErrorCheck().then(function (maxLoginsExceeded) {
                                 self.Loader.hide();
 
                                 if (maxLoginsExceeded) {
@@ -372,10 +372,10 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                             self.$authenticate();
                         }
                     });
-                }, function() {
+                }, function () {
                     self.$showGeneralError();
                 });
-            }, function() {
+            }, function () {
                 self.$showGeneralError();
             });
         },
@@ -385,12 +385,12 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          *
          * @return {Promise}
          */
-        $authenticate: function() {
+        $authenticate: function () {
             var self = this;
 
             this.Loader.show();
 
-            return Facebook.getToken().then(function(fbToken) {
+            return Facebook.getToken().then(function (fbToken) {
                 self.$Input.value = fbToken;
                 self.$Form.fireEvent('submit', [self.$Form]);
                 self.$canAuthenticate = false;
@@ -405,7 +405,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * @param {number} uid - QUIQQER User ID
          * @param {string} status - Facebook Login status
          */
-        $showSettings: function(uid, status) {
+        $showSettings: function (uid, status) {
             var self = this;
 
             this.Loader.show();
@@ -415,16 +415,16 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
 
             require([
                 'package/quiqqer/authfacebook/bin/controls/Settings'
-            ], function(SettingsControl) {
+            ], function (SettingsControl) {
                 self.Loader.hide();
                 var Settings = new SettingsControl({
                     uid: uid,
                     events: {
-                        onAccountConnected: function(Account, Control) {
+                        onAccountConnected: function (Account, Control) {
                             self.$init();
                             Control.destroy();
                         },
-                        onLoaded: function() {
+                        onLoaded: function () {
                             switch (status) {
                                 case 'connected':
                                     if (!emailProvided) {
@@ -441,7 +441,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
                                     break;
                             }
                         },
-                        onAuthWithoutEmail: function() {
+                        onAuthWithoutEmail: function () {
                             emailProvided = false;
                         }
                     }
@@ -454,7 +454,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          *
          * @param {String} msg
          */
-        $showMsg: function(msg) {
+        $showMsg: function (msg) {
             this.$InfoElm.setStyle('display', '');
             this.$InfoElm.set('html', msg);
         },
@@ -462,7 +462,7 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
         /**
          * Clear info message
          */
-        $clearMsg: function() {
+        $clearMsg: function () {
             this.$InfoElm.setStyle('display', 'none');
         },
 
@@ -472,8 +472,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          * @param {string} fbToken - Facebook API token
          * @return {Promise}
          */
-        $isLoginUserFacebookUser: function(fbToken) {
-            return new Promise(function(resolve, reject) {
+        $isLoginUserFacebookUser: function (fbToken) {
+            return new Promise(function (resolve, reject) {
                 QUIAjax.get(
                     'package_quiqqer_authfacebook_ajax_isLoginUserFacebookUser',
                     resolve, {
@@ -490,8 +490,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          *
          * @return {Promise}
          */
-        $getLoginUserId: function() {
-            return new Promise(function(resolve, reject) {
+        $getLoginUserId: function () {
+            return new Promise(function (resolve, reject) {
                 QUIAjax.get(
                     'package_quiqqer_authfacebook_ajax_getLoginUserId',
                     resolve, {
@@ -507,8 +507,8 @@ define('package/quiqqer/authfacebook/bin/controls/Login', [
          *
          * @return {Promise}
          */
-        $loginErrorCheck: function() {
-            return new Promise(function(resolve, reject) {
+        $loginErrorCheck: function () {
+            return new Promise(function (resolve, reject) {
                 QUIAjax.post(
                     'package_quiqqer_authfacebook_ajax_loginErrorCheck',
                     resolve, {

@@ -22,14 +22,14 @@ class Auth extends AbstractAuthenticator
     /**
      * User that is to be authenticated
      */
-    protected QUI\Interfaces\Users\User|null $User = null;
+    protected QUI\Interfaces\Users\User | null $User = null;
 
     /**
      * Auth Constructor.
      *
      * @param array|integer|string $user - name of the user, or user id
      */
-    public function __construct(array|int|string $user = '')
+    public function __construct(array | int | string $user = '')
     {
         if (!empty($user) && is_string($user)) {
             try {
@@ -44,7 +44,7 @@ class Auth extends AbstractAuthenticator
      * @param null|Locale $Locale
      * @return string
      */
-    public function getTitle(null|Locale $Locale = null): string
+    public function getTitle(null | Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();
@@ -57,7 +57,7 @@ class Auth extends AbstractAuthenticator
      * @param null|Locale $Locale
      * @return string
      */
-    public function getDescription(null|Locale $Locale = null): string
+    public function getDescription(null | Locale $Locale = null): string
     {
         if (is_null($Locale)) {
             $Locale = QUI::getLocale();
@@ -76,7 +76,7 @@ class Auth extends AbstractAuthenticator
      * @throws QUI\Exception
      * @throws ExceptionStack
      */
-    public function auth(array|int|string $authParams): void
+    public function auth(array | int | string $authParams): void
     {
         if (
             !is_array($authParams)

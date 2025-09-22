@@ -60,4 +60,12 @@ class Events
             $Conf->save();
         }
     }
+
+    public static function onQuiqqerMigrationV2(QUI\System\Console\Tools\MigrationV2 $Console): void
+    {
+        QUI\Utils\MigrationV1ToV2::migrateUsers(
+            QUI::getDBTableName(Facebook::TBL_ACCOUNTS),
+            ['userId']
+        );
+    }
 }

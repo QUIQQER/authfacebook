@@ -3,4 +3,5 @@
     <event on="onUserDelete" fire="\QUI\Auth\Facebook\Events::onUserDelete"/>
     <event on="onPackageSetup" fire="\QUI\Auth\Facebook\Events::onPackageSetup"/>
     <event on="onQuiqqerFrontendUsersUserDelete" fire="\QUI\Auth\Facebook\Events::onUserDelete"/>
+    <event on="onQuiqqerMigrationV2" fire="\QUI\Auth\Facebook\Events::onQuiqqerMigrationV2"/>
 </events>

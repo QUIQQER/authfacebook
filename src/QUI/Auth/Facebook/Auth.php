@@ -111,7 +111,7 @@ class Auth extends AbstractAuthenticator
                 try {
                     $User = $Users->getUserByMail($userData['email']);
 
-                    Facebook::connectQuiqqerAccount($User->getId(), $Token, false);
+                    Facebook::connectQuiqqerAccount($User->getUUID(), $Token, false);
                     $connectionProfile = Facebook::getConnectedAccountByFacebookToken($Token);
                 } catch (\Exception $Exception) {
                     QUI\System\Log::writeException($Exception);
@@ -137,7 +137,7 @@ class Auth extends AbstractAuthenticator
         }
 
         if (
-            $connectionProfile['userId'] !== $this->User->getId()
+            $connectionProfile['userId'] !== $this->User->getUUID()
             && $connectionProfile['userId'] !== $this->User->getUUID()
         ) {
             throw new FacebookException([

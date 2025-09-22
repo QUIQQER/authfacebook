@@ -2,15 +2,15 @@
 
 namespace QUI\Auth\Facebook;
 
-//use Facebook\Exceptions\FacebookSDKException;
+use GuzzleHttp\Exception\GuzzleException;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\Facebook as FacebookApi;
 use League\OAuth2\Client\Token\AccessToken;
 use QUI;
+use QUI\Database\Exception;
 use QUI\ExceptionStack;
 use QUI\Interfaces\Users\User;
 use QUI\Utils\Security\Orthos;
-
-//use Facebook\Facebook as FacebookApi;
 
 /**
  * Class Facebook
@@ -91,8 +91,8 @@ class Facebook
         $NewUser->activate('', $Users->getSystemUser());
 
         // automatically connect new quiqqer account with fb account
-        QUI::getSession()->set('uid', $NewUser->getId());
-        self::connectQuiqqerAccount($NewUser->getId(), $accessToken);
+        QUI::getSession()->set('uid', $NewUser->getUUID());
+        self::connectQuiqqerAccount($NewUser->getUUID(), $accessToken);
         QUI::getSession()->set('uid', false);
 
         return $NewUser;
@@ -113,7 +113,7 @@ class Facebook
      * @throws Exception
      */
     public static function connectQuiqqerAccount(
-        int|string $uid,
+        int | string $uid,
         AccessToken $accessToken,
         bool $checkPermission = true
     ): void {
@@ -139,7 +139,7 @@ class Facebook
         QUI::getDataBase()->insert(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
             [
-                'userId' => $User->getId(),
+                'userId' => $User->getUUID(),
                 'fbUserId' => $profileData['id'],
                 'email' => $profileData['email'],
                 'name' => $profileData['name']
@@ -157,7 +157,7 @@ class Facebook
      * @throws QUI\Exception
      * @throws QUI\Permissions\Exception
      */
-    public static function disconnectAccount(int|string $userId, bool $checkPermission = true): void
+    public static function disconnectAccount(int | string $userId, bool $checkPermission = true): void
     {
         if ($checkPermission !== false) {
             self::checkEditPermission($userId);
@@ -165,7 +165,7 @@ class Facebook
 
         QUI::getDataBase()->delete(
             QUI::getDBTableName(self::TBL_ACCOUNTS),
-            ['userId' => $userId,]
+            ['userId' => $userId]
         );
     }
 
@@ -196,6 +196,8 @@ class Facebook
      * @param AccessToken $accessToken - access token
      * @return array
      * @throws Exception
+     * @throws GuzzleException
+     * @throws IdentityProviderException
      */
     public static function getProfileData(AccessToken $accessToken): array
     {
@@ -212,7 +214,7 @@ class Facebook
      *
      * @throws QUI\Exception
      */
-    public static function getConnectedAccountByQuiqqerUserId(int|string $userId): bool|array
+    public static function getConnectedAccountByQuiqqerUserId(int | string $userId): bool | array
     {
         $result = QUI::getDataBase()->fetch([
             'from' => QUI::getDBTableName(self::TBL_ACCOUNTS),
@@ -235,9 +237,11 @@ class Facebook
      * @return array|false - details as array or false if no account connected to given Facebook userID
      *
      * @throws Exception
-     * @throws QUI\Exception
+     * @throws GuzzleException
+     * @throws IdentityProviderException
+     * @throws Exception
      */
-    public static function getConnectedAccountByFacebookToken(AccessToken $fbToken): bool|array
+    public static function getConnectedAccountByFacebookToken(AccessToken $fbToken): bool | array
     {
         self::validateAccessToken($fbToken);
 
@@ -263,7 +267,9 @@ class Facebook
      * @param AccessToken $token - Facebook API token
      * @return bool
      *
-     * @throws QUI\Exception
+     * @throws Exception
+     * @throws GuzzleException
+     * @throws IdentityProviderException
      */
     public static function existsQuiqqerAccount(AccessToken $token): bool
     {
@@ -364,7 +370,7 @@ class Facebook
      *
      * @throws QUI\Permissions\Exception
      */
-    protected static function checkEditPermission(int|string $userId): void
+    protected static function checkEditPermission(int | string $userId): void
     {
         if (QUI::getSession()->get('uid') !== $userId || !$userId) {
             throw new QUI\Permissions\Exception(

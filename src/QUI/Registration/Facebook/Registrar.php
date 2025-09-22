@@ -61,7 +61,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         $User->save($SystemUser);
 
         // connect Facebook account with QUIQQER account
-        Facebook::connectQuiqqerAccount($User->getId(), $token, false);
+        Facebook::connectQuiqqerAccount($User->getUUID(), $token, false);
     }
 
     /**

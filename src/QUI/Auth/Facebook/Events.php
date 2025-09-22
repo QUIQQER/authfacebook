@@ -5,7 +5,6 @@ namespace QUI\Auth\Facebook;
 use QUI;
 use QUI\Database\Exception;
 use QUI\Package\Package;
-use QUI\Users\User;
 
 use function ltrim;
 use function str_replace;
@@ -22,15 +21,15 @@ class Events
      *
      * @param QUI\Interfaces\Users\User $User
      * @return void
-     * @throws Exception|QUI\Permissions\Exception
+     * @throws Exception|QUI\Permissions\Exception|QUI\Exception
      */
     public static function onUserDelete(QUI\Interfaces\Users\User $User): void
     {
         // delete connected facebook account
-        $connectedAccount = Facebook::getConnectedAccountByQuiqqerUserId($User->getId());
+        $connectedAccount = Facebook::getConnectedAccountByQuiqqerUserId($User->getUUID());
 
         if (!empty($connectedAccount)) {
-            Facebook::disconnectAccount($User->getId(), false);
+            Facebook::disconnectAccount($User->getUUID(), false);
         }
     }
 

@@ -20,13 +20,13 @@
   ],
   "support": {
     "email": "support@pcsg.de",
-    "url": "http://www.pcsg.de"
+    "url": "https://www.pcsg.de"
   },
   "require": {
     "php": "^8",
-    "quiqqer/core": "^2",
+    "quiqqer/core": "^2.2",
     "league/oauth2-facebook": "^2",
-    "quiqqer/frontend-users": "^2"
+    "quiqqer/frontend-users": "^2.8"
   },
   "autoload": {
     "psr-4": {

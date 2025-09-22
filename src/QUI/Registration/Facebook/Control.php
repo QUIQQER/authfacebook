@@ -36,7 +36,7 @@ class Control extends QUI\Control
     public function getBody(): string
     {
         $Engine = QUI::getTemplateManager()->getEngine();
-        $Engine->assign('isAuth', boolval(QUI::getUserBySession()->getId()));
+        $Engine->assign('isAuth', boolval(QUI::getUserBySession()->getUUID()));
 
         return $Engine->fetch(dirname(__FILE__) . '/Control.html');
     }

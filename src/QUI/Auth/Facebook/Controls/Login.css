@@ -3,13 +3,15 @@
 .quiqqer-auth-facebook-login-btn:hover {
     background-color: #3a5794 !important;
     border-color: #3a5794 !important;
-    border: none !important;
-    border-radius: 3px !important;
-    color: #FFF !important;
-    padding: 0 10px;
-    height: 30px;
+    color: #fff !important;
 }
 
 .quiqqer-auth-facebook-login-btn:disabled {
     cursor: not-allowed;
+}
+
+.quiqqer-auth-facebook-login-btn:hover {
+    background-color: #1d386c !important;
+    border-color: #1d386c !important;
+    color: #fff !important;
 }

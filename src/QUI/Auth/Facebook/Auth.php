@@ -2,6 +2,8 @@
 
 namespace QUI\Auth\Facebook;
 
+use GuzzleHttp\Exception\GuzzleException;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use QUI;
 use QUI\Auth\Facebook\Exception as FacebookException;
 use QUI\Control;
@@ -70,9 +72,11 @@ class Auth extends AbstractAuthenticator
      * @param array|integer|string $authParams
      *
      * @throws Exception
-     * @throws Exception
-     * @throws QUI\Exception
      * @throws ExceptionStack
+     * @throws QUI\Exception
+     * @throws GuzzleException
+     * @throws IdentityProviderException
+     * @throws Exception
      */
     public function auth(array | int | string $authParams): void
     {
@@ -90,7 +94,7 @@ class Auth extends AbstractAuthenticator
 
         try {
             Facebook::validateAccessToken($Token);
-        } catch (FacebookException) {
+        } catch (\Throwable) {
             throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.data'

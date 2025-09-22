@@ -177,6 +177,8 @@ class Facebook
      * @return void
      *
      * @throws Exception
+     * @throws GuzzleException
+     * @throws IdentityProviderException
      */
     public static function validateAccessToken(AccessToken $accessToken): void
     {

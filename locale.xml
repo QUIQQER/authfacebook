@@ -94,12 +94,12 @@
 
         <!-- Class: Facebook -->
         <locale name="classes.facebook.logout.btn.text">
-            <de><![CDATA[Facebook Logout]]></de>
-            <en><![CDATA[Facebook Logout]]></en>
+            <de><![CDATA[Abmelden von Facebook]]></de>
+            <en><![CDATA[Log out from Facebook]]></en>
         </locale>
         <locale name="classes.facebook.login.btn.text">
-            <de><![CDATA[Facebook Login]]></de>
-            <en><![CDATA[Facebook Login]]></en>
+            <de><![CDATA[Weiter mit Facebook]]></de>
+            <en><![CDATA[Continue with Facebook]]></en>
         </locale>
         <locale name="classes.facebook.login.btn.authorize.text">
             <de><![CDATA[QUIQQER autorisieren]]></de>

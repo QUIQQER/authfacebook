@@ -26,10 +26,8 @@ class Auth extends AbstractAuthenticator
 
     /**
      * Auth Constructor.
-     *
-     * @param array|integer|string $user - name of the user, or user id
      */
-    public function __construct(array | int | string $user = '')
+    public function __construct(array | int | string | QUI\Interfaces\Users\User | null $user = '')
     {
         if (!empty($user) && is_string($user)) {
             try {
@@ -183,7 +181,7 @@ class Auth extends AbstractAuthenticator
     /**
      * @return Control|null
      */
-    public static function getSettingsControl(): ?Control
+    public function getSettingsControl(): ?Control
     {
         return new QUI\Auth\Facebook\Controls\Settings();
     }
@@ -191,8 +189,13 @@ class Auth extends AbstractAuthenticator
     /**
      * @return Control|null
      */
-    public static function getPasswordResetControl(): ?Control
+    public function getPasswordResetControl(): ?Control
     {
         return null;
+    }
+
+    public function getIcon(): string
+    {
+        return 'fa fa-brands fa-facebook';
     }
 }

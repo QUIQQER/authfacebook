@@ -24,7 +24,7 @@
   },
   "require": {
     "php": "^8",
-    "quiqqer/core": "^2.1",
+    "quiqqer/core": "^2.2",
     "league/oauth2-facebook": "^2",
     "quiqqer/frontend-users": "^2.8"
   },

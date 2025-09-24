@@ -40,6 +40,11 @@ class Auth extends AbstractAuthenticator
         }
     }
 
+    public function isSecondaryAuthentication(): bool
+    {
+        return false;
+    }
+
     /**
      * @param null|Locale $Locale
      * @return string

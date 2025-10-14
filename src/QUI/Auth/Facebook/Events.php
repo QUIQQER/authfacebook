@@ -63,9 +63,17 @@ class Events
 
     public static function onQuiqqerMigrationV2(QUI\System\Console\Tools\MigrationV2 $Console): void
     {
+        $Console->writeLn('- Migrate facebook auth');
+        $table = QUI::getDBTableName(Facebook::TBL_ACCOUNTS);
+
+        QUI::getDatabase()->execSQL(
+            'ALTER TABLE `' . $table . '` CHANGE `userId` `userId` VARCHAR(50) NOT NULL;'
+        );
+
         QUI\Utils\MigrationV1ToV2::migrateUsers(
-            QUI::getDBTableName(Facebook::TBL_ACCOUNTS),
-            ['userId']
+            $table,
+            ['userId'],
+            'userId'
         );
     }
 }

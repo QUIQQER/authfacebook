@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @author PCSG (Jan Wennrich)
- */
-
 namespace QUI\Auth\Facebook;
 
 use QUI\Auth\Facebook\Cookies\Act;

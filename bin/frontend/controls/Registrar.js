@@ -44,7 +44,7 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
                 onImport: this.$onImport
             });
 
-            this.$Form = null;
+            this.$form = null;
         },
 
         /**
@@ -53,22 +53,23 @@ define('package/quiqqer/authfacebook/bin/frontend/controls/Registrar', [
         $onImport: function () {
             this.$Elm = this.getElm();
 
-            const RegistrarForm = this.$Elm.getElement('.quiqqer-facebook-registrar-form');
+            const RegistrarForm = this.$Elm.getElement('.quiqqer-authfacebook-registrar-form');
 
             if (!RegistrarForm) {
                 return;
             }
 
-            RegistrarForm.removeClass('quiqqer-facebook__hidden');
+            RegistrarForm.classList.remove('quiqqer-authfacebook__hidden');
 
-            this.$Form = this.$Elm.getParent('form');
-            this.$ButtonContainer = this.$Elm.getElement('.quiqqer-facebook-registrar-btn');
+            this.$form = this.$Elm.closest('form');
+            this.$buttonContainer = this.$Elm.querySelector('.quiqqer-authfacebook-registrar-btn');
 
-            this.$Form.addEvent('submit', function (event) {
-                event.stop();
+            this.$form.addEventListener('submit', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
             });
 
-            Facebook.getButton().inject(this.$ButtonContainer);
+            Facebook.getButton().inject(this.$buttonContainer);
         }
     });
 });

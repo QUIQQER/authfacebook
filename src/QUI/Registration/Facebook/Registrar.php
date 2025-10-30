@@ -125,7 +125,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
         try {
             Facebook::validateAccessToken($token);
-        } catch (\Exception) {
+        } catch (\Throwable) {
             throw new FrontendUsers\Exception([
                 $lg,
                 $lgPrefix . 'token_invalid'

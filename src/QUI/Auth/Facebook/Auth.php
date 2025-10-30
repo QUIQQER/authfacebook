@@ -85,10 +85,7 @@ class Auth extends AbstractAuthenticator
      */
     public function auth(array | int | string $authParams): void
     {
-        if (
-            !is_array($authParams)
-            || !isset($authParams['token'])
-        ) {
+        if (!is_array($authParams) || !isset($authParams['token'])) {
             throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.data'

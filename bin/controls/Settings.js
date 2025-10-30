@@ -2,7 +2,6 @@
  * Settings for Facebook QUIQQER Authentication
  *
  * @module package/quiqqer/authfacebook/bin/controls/Settings
- * @author www.pcsg.de (Patrick Müller)
  *
  * @event onLoaded [self] - fires when all information is gathered and control is loaded
  * @event onAccountConnected [Account, self] - fires if the user connects his QUIQQER account

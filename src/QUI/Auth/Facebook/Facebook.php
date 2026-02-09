@@ -190,6 +190,39 @@ class Facebook
                 'exception.facebook.invalid.token'
             ]);
         }
+
+        // Validate token against Facebook debug endpoint and ensure it belongs to this app
+        $debugData = self::getDebugTokenData($accessToken);
+
+        if (empty($debugData) || empty($debugData['is_valid'])) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.invalid.token'
+            ]);
+        }
+
+        if (empty($debugData['app_id']) || (string)$debugData['app_id'] !== (string)self::getAppId()) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.token.app_mismatch'
+            ]);
+        }
+
+        if (!empty($debugData['user_id']) && (string)$debugData['user_id'] !== (string)$profileData['id']) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.token.user_mismatch'
+            ]);
+        }
+
+        if (!empty($debugData['expires_at']) && (int)$debugData['expires_at'] > 0) {
+            if ((int)$debugData['expires_at'] < time()) {
+                throw new Exception([
+                    'quiqqer/authfacebook',
+                    'exception.facebook.token.expired'
+                ]);
+            }
+        }
     }
 
     /**
@@ -203,9 +236,41 @@ class Facebook
      */
     public static function getProfileData(AccessToken $accessToken): array
     {
-//        /me?fields=id,name,first_name,last_name,email
-        $Response = self::getApi()->getResourceOwner($accessToken);
-        return $Response->toArray();
+        $version = self::getApiVersion() ?: self::GRAPH_VERSION;
+        $appSecretProof = self::getAppSecretProof($accessToken);
+
+        try {
+            $Response = self::getApi()->getHttpClient()->request(
+                'GET',
+                'https://graph.facebook.com/' . $version . '/me',
+                [
+                    'query' => [
+                        'fields' => 'id,name,first_name,last_name,email',
+                        'access_token' => $accessToken->getToken(),
+                        'appsecret_proof' => $appSecretProof
+                    ]
+                ]
+            );
+        } catch (GuzzleException $Exception) {
+            throw $Exception;
+        } catch (\Throwable) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.api.error'
+            ]);
+        }
+
+        $body = (string)$Response->getBody();
+        $data = json_decode($body, true);
+
+        if (empty($data) || !is_array($data)) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.api.error'
+            ]);
+        }
+
+        return $data;
     }
 
     /**
@@ -394,5 +459,82 @@ class Facebook
         return new AccessToken([
             'access_token' => $tokenCode
         ]);
+    }
+
+    /**
+     * Fetch debug info for a Facebook access token
+     *
+     * @param AccessToken $accessToken
+     * @return array
+     * @throws Exception
+     * @throws GuzzleException
+     */
+    protected static function getDebugTokenData(AccessToken $accessToken): array
+    {
+        $appId = self::getAppId();
+        $appSecret = self::getAppSecret();
+
+        if (empty($appId) || empty($appSecret)) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.api.error'
+            ]);
+        }
+
+        $appAccessToken = $appId . '|' . $appSecret;
+        $version = self::getApiVersion() ?: self::GRAPH_VERSION;
+
+        try {
+            $Response = self::getApi()->getHttpClient()->request(
+                'GET',
+                'https://graph.facebook.com/' . $version . '/debug_token',
+                [
+                    'query' => [
+                        'input_token' => $accessToken->getToken(),
+                        'access_token' => $appAccessToken
+                    ]
+                ]
+            );
+        } catch (GuzzleException $Exception) {
+            throw $Exception;
+        } catch (\Throwable) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.api.error'
+            ]);
+        }
+
+        $body = (string)$Response->getBody();
+        $data = json_decode($body, true);
+
+        if (empty($data) || empty($data['data']) || !is_array($data['data'])) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.api.error'
+            ]);
+        }
+
+        return $data['data'];
+    }
+
+    /**
+     * Create appsecret_proof for Graph requests
+     *
+     * @param AccessToken $accessToken
+     * @return string
+     * @throws Exception
+     */
+    protected static function getAppSecretProof(AccessToken $accessToken): string
+    {
+        $appSecret = self::getAppSecret();
+
+        if (empty($appSecret)) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.api.error'
+            ]);
+        }
+
+        return hash_hmac('sha256', $accessToken->getToken(), $appSecret);
     }
 }

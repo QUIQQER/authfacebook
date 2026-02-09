@@ -235,6 +235,18 @@
             <de><![CDATA[Ungültiges Facebook Zugriffs-Token.]]></de>
             <en><![CDATA[Invalid Facebook Access Token.]]></en>
         </locale>
+        <locale name="exception.facebook.token.app_mismatch">
+            <de><![CDATA[Das Facebook Zugriffs-Token gehört nicht zu dieser App.]]></de>
+            <en><![CDATA[The Facebook access token does not belong to this app.]]></en>
+        </locale>
+        <locale name="exception.facebook.token.user_mismatch">
+            <de><![CDATA[Das Facebook Zugriffs-Token gehört nicht zum angegebenen Benutzer.]]></de>
+            <en><![CDATA[The Facebook access token does not match the specified user.]]></en>
+        </locale>
+        <locale name="exception.facebook.token.expired">
+            <de><![CDATA[Das Facebook Zugriffs-Token ist abgelaufen.]]></de>
+            <en><![CDATA[The Facebook access token has expired.]]></en>
+        </locale>
         <locale name="exception.facebook.account_already_connected">
             <de><![CDATA[Das Facebook-Konto "[email]" ist bereits mit einem Benutzerkonto verknüpft.]]></de>
             <en><![CDATA[The Facebook account "[email]" is already connected to a user account.]]></en>

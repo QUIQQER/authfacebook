@@ -1,13 +1,21 @@
 .quiqqer-auth-facebook-registration-btn,
 .quiqqer-auth-facebook-registration-btn:disabled {
-    background-color: #3a5794 !important;
-    border-color: #3a5794 !important;
+    background-color: #3a5794;
+    border-color: #3a5794;
     color: #fff;
+
+    --qui-btn-color: #fff;
+    --qui-btn-bgColor: #3a5794;
+    --qui-btn-borderColor: #3a5794;
+
+    --qui-btn-color--hover: #fff;
+    --qui-btn-bgColor--hover: #1d386c;
+    --qui-btn-borderColor--hover: #1d386c;
 }
 
 .quiqqer-auth-facebook-registration-btn:hover {
-    background-color: #1d386c !important;
-    border-color: #1d386c !important;
+    background-color: #1d386c;
+    border-color: #1d386c;
     color: #fff;
 }
 

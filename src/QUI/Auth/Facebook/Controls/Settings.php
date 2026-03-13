@@ -10,10 +10,7 @@ use QUI\Control;
 
 /**
  * Class Register
- *
- * Facebook Settings Control
- *
- * @package QUI\Auth\Facebook
+ * - Facebook Settings Control
  */
 class Settings extends Control
 {

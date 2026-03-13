@@ -5,10 +5,10 @@ namespace QUI\Auth\Facebook\Cookies;
 use QUI;
 use QUI\GDPR\CookieInterface;
 
+use function sprintf;
+
 /**
  * Class QuiqqerSessionCookie
- *
- * @package QUI\GDPR\Cookies
  */
 class CUser implements CookieInterface
 {
@@ -41,7 +41,7 @@ class CUser implements CookieInterface
      */
     public function getLifetime(): string
     {
-        return \sprintf(
+        return sprintf(
             '%d %s',
             90,
             QUI::getLocale()->get('quiqqer/quiqqer', 'days')

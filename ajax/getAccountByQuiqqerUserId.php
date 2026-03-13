@@ -9,10 +9,10 @@
 
 use QUI\Auth\Facebook\Facebook;
 
-QUI::$Ajax->registerFunction(
+QUI::getAjax()->registerFunction(
     'package_quiqqer_authfacebook_ajax_getAccountByQuiqqerUserId',
     function ($userId) {
-        if (QUI::getSession()->get('uid') !== $userId) {
+        if (QUI::getSession()?->get('uid') !== $userId) {
             throw new QUI\Permissions\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',

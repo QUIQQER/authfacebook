@@ -2,7 +2,7 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 5
+    level: 8
     paths:
         - src
         - ajax
@@ -12,10 +12,3 @@ parameters:
         - src/QUI/Auth/Facebook/CookieProvider.php
     bootstrapFiles:
         - tests/phpstan-bootstrap.php
-    tipsOfTheDay: false
-    customRulesetUsed: true
-services:
-    -
-        class: \PHPStan\Rules\Properties\TypesAssignedToPropertiesRule
-        tags:
-            - phpstan.rules.rule

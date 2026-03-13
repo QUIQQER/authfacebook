@@ -3,7 +3,6 @@
 namespace QUI\Auth\Facebook;
 
 use GuzzleHttp\Exception\GuzzleException;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\Facebook as FacebookApi;
 use League\OAuth2\Client\Token\AccessToken;
 use QUI;
@@ -11,6 +10,7 @@ use QUI\Database\Exception;
 use QUI\ExceptionStack;
 use QUI\Interfaces\Users\User;
 use QUI\Utils\Security\Orthos;
+use Throwable;
 
 /**
  * Class Facebook
@@ -49,6 +49,7 @@ class Facebook
      * @throws QUI\Exception
      * @throws QUI\Permissions\Exception
      * @throws QUI\Users\Exception
+     * @throws GuzzleException
      * @internal param string $email - Facebook email address
      */
     public static function createQuiqqerAccount(AccessToken $accessToken): QUI\Interfaces\Users\User
@@ -91,9 +92,9 @@ class Facebook
         $NewUser->activate('', $Users->getSystemUser());
 
         // automatically connect new quiqqer account with fb account
-        QUI::getSession()->set('uid', $NewUser->getUUID());
+        QUI::getSession()?->set('uid', $NewUser->getUUID());
         self::connectQuiqqerAccount($NewUser->getUUID(), $accessToken);
-        QUI::getSession()->set('uid', false);
+        QUI::getSession()?->set('uid', false);
 
         return $NewUser;
     }
@@ -107,10 +108,10 @@ class Facebook
      * @return void
      *
      * @throws Exception
-     * @throws QUI\Exception
      * @throws ExceptionStack
+     * @throws GuzzleException
+     * @throws QUI\Exception
      * @throws QUI\Permissions\Exception
-     * @throws Exception
      */
     public static function connectQuiqqerAccount(
         int | string $uid,
@@ -178,7 +179,6 @@ class Facebook
      *
      * @throws Exception
      * @throws GuzzleException
-     * @throws IdentityProviderException
      */
     public static function validateAccessToken(AccessToken $accessToken): void
     {
@@ -201,7 +201,7 @@ class Facebook
             ]);
         }
 
-        if (empty($debugData['app_id']) || (string)$debugData['app_id'] !== (string)self::getAppId()) {
+        if (empty($debugData['app_id']) || (string)$debugData['app_id'] !== self::getAppId()) {
             throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.token.app_mismatch'
@@ -229,18 +229,25 @@ class Facebook
      * Get Facebook Profile data
      *
      * @param AccessToken $accessToken - access token
-     * @return array
+     * @return array<string, mixed>
      * @throws Exception
      * @throws GuzzleException
-     * @throws IdentityProviderException
      */
     public static function getProfileData(AccessToken $accessToken): array
     {
         $version = self::getApiVersion() ?: self::GRAPH_VERSION;
         $appSecretProof = self::getAppSecretProof($accessToken);
+        $Api = self::getApi();
+
+        if ($Api === null) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.api.error'
+            ]);
+        }
 
         try {
-            $Response = self::getApi()->getHttpClient()->request(
+            $Response = $Api->getHttpClient()->request(
                 'GET',
                 'https://graph.facebook.com/' . $version . '/me',
                 [
@@ -253,7 +260,7 @@ class Facebook
             );
         } catch (GuzzleException $Exception) {
             throw $Exception;
-        } catch (\Throwable) {
+        } catch (Throwable) {
             throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.api.error'
@@ -277,7 +284,7 @@ class Facebook
      * Get details of a connected Facebook account
      *
      * @param int|string $userId - QUIQQER User ID
-     * @return array|false - details as array or false if no account connected to given QUIQQER User account ID
+     * @return array<string, mixed>|false - details as array or false if no account connected to given QUIQQER User account ID
      *
      * @throws QUI\Exception
      */
@@ -301,11 +308,10 @@ class Facebook
      * Get details of a connected Facebook account
      *
      * @param AccessToken $fbToken - Facebook API token
-     * @return array|false - details as array or false if no account connected to given Facebook userID
+     * @return array<string, mixed>|false - details as array or false if no account connected to given Facebook userID
      *
      * @throws Exception
      * @throws GuzzleException
-     * @throws IdentityProviderException
      * @throws Exception
      */
     public static function getConnectedAccountByFacebookToken(AccessToken $fbToken): bool | array
@@ -336,7 +342,6 @@ class Facebook
      *
      * @throws Exception
      * @throws GuzzleException
-     * @throws IdentityProviderException
      */
     public static function existsQuiqqerAccount(AccessToken $token): bool
     {
@@ -394,7 +399,7 @@ class Facebook
     public static function getAppId(): string
     {
         try {
-            return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'appId');
+            return QUI::getPackage('quiqqer/authfacebook')->getConfig()?->get('apiSettings', 'appId') ?? '';
         } catch (QUI\Exception) {
             return '';
         }
@@ -408,7 +413,7 @@ class Facebook
     protected static function getAppSecret(): string
     {
         try {
-            return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'appSecret');
+            return QUI::getPackage('quiqqer/authfacebook')->getConfig()?->get('apiSettings', 'appSecret') ?? '';
         } catch (QUI\Exception) {
             return '';
         }
@@ -422,7 +427,7 @@ class Facebook
     public static function getApiVersion(): string
     {
         try {
-            return QUI::getPackage('quiqqer/authfacebook')->getConfig()->get('apiSettings', 'apiVersion');
+            return QUI::getPackage('quiqqer/authfacebook')->getConfig()?->get('apiSettings', 'apiVersion') ?? '';
         } catch (QUI\Exception) {
             return '';
         }
@@ -439,7 +444,7 @@ class Facebook
      */
     protected static function checkEditPermission(int | string $userId): void
     {
-        if (QUI::getSession()->get('uid') !== $userId || !$userId) {
+        if (QUI::getSession()?->get('uid') !== $userId || !$userId) {
             throw new QUI\Permissions\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',
@@ -465,7 +470,7 @@ class Facebook
      * Fetch debug info for a Facebook access token
      *
      * @param AccessToken $accessToken
-     * @return array
+     * @return array<string, mixed>
      * @throws Exception
      * @throws GuzzleException
      */
@@ -483,9 +488,17 @@ class Facebook
 
         $appAccessToken = $appId . '|' . $appSecret;
         $version = self::getApiVersion() ?: self::GRAPH_VERSION;
+        $Api = self::getApi();
+
+        if ($Api === null) {
+            throw new Exception([
+                'quiqqer/authfacebook',
+                'exception.facebook.api.error'
+            ]);
+        }
 
         try {
-            $Response = self::getApi()->getHttpClient()->request(
+            $Response = $Api->getHttpClient()->request(
                 'GET',
                 'https://graph.facebook.com/' . $version . '/debug_token',
                 [
@@ -497,7 +510,7 @@ class Facebook
             );
         } catch (GuzzleException $Exception) {
             throw $Exception;
-        } catch (\Throwable) {
+        } catch (Throwable) {
             throw new Exception([
                 'quiqqer/authfacebook',
                 'exception.facebook.api.error'

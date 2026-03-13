@@ -18,8 +18,6 @@ use QUI\GDPR\CookieProviderInterface;
 
 /**
  * Class QuiqqerCookieProvider
- *
- * @package QUI\GDPR
  */
 class CookieProvider implements CookieProviderInterface
 {

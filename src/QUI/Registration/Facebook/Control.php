@@ -10,15 +10,13 @@ use QUI;
 
 /**
  * Class Control
- *
- * @package QUI\Registration\Facebook
  */
 class Control extends QUI\Control
 {
     /**
      * Control constructor.
      *
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      */
     public function __construct(array $attributes = [])
     {

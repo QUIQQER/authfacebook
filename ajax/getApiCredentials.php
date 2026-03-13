@@ -8,7 +8,7 @@
 
 use QUI\Auth\Facebook\Facebook;
 
-QUI::$Ajax->registerFunction(
+QUI::getAjax()->registerFunction(
     'package_quiqqer_authfacebook_ajax_getApiCredentials',
     function () {
         return [

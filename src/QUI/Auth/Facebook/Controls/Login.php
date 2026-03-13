@@ -11,17 +11,14 @@ use QUI\Control;
 
 /**
  * Class Register
- *
- * Facebook Login Control
- *
- * @package QUI\Auth\Facebook
+ * - Facebook Login Control
  */
 class Login extends Control
 {
     /**
      * Login constructor.
      *
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      */
     public function __construct(array $attributes = [])
     {

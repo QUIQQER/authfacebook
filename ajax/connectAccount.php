@@ -13,7 +13,7 @@
 use QUI\Auth\Facebook\Facebook;
 use QUI\Utils\Security\Orthos;
 
-QUI::$Ajax->registerFunction(
+QUI::getAjax()->registerFunction(
     'package_quiqqer_authfacebook_ajax_connectAccount',
     function ($userId, $fbToken) {
         try {
@@ -43,6 +43,13 @@ QUI::$Ajax->registerFunction(
                 )
             );
 
+            return false;
+        }
+
+        if (
+            $accountData === false
+            || !isset($accountData['name'], $accountData['email'], $accountData['userId'])
+        ) {
             return false;
         }
 

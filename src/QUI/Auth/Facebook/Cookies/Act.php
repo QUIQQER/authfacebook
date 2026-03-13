@@ -7,8 +7,6 @@ use QUI\GDPR\CookieInterface;
 
 /**
  * Class QuiqqerSessionCookie
- *
- * @package QUI\GDPR\Cookies
  */
 class Act implements CookieInterface
 {

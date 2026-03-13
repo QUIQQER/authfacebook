@@ -56,11 +56,20 @@ class Events
 
         if ($currentApiVersion < 100) {
             $Conf = QUI::getPackage('quiqqer/authfacebook')->getConfig();
+
+            if ($Conf === null) {
+                return;
+            }
+
             $Conf->setValue('apiSettings', 'apiVersion', 'v12.0');
             $Conf->save();
         }
     }
 
+    /**
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
     public static function onQuiqqerMigrationV2(QUI\System\Console\Tools\MigrationV2 $Console): void
     {
         $Console->writeLn('- Migrate facebook auth');

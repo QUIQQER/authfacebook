@@ -9,10 +9,10 @@
 use QUI\Auth\Facebook\Facebook;
 use QUI\Utils\Security\Orthos;
 
-QUI::$Ajax->registerFunction(
+QUI::getAjax()->registerFunction(
     'package_quiqqer_authfacebook_ajax_isLoginUserFacebookUser',
     function ($fbToken) {
-        $loginUserId = QUI::getSession()->get('uid');
+        $loginUserId = QUI::getSession()?->get('uid');
 
         if (!$loginUserId) {
             return false;

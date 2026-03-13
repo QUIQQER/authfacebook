@@ -56,6 +56,11 @@ class Events
 
         if ($currentApiVersion < 100) {
             $Conf = QUI::getPackage('quiqqer/authfacebook')->getConfig();
+
+            if ($Conf === null) {
+                return;
+            }
+
             $Conf->setValue('apiSettings', 'apiVersion', 'v12.0');
             $Conf->save();
         }

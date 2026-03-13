@@ -116,7 +116,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     }
 
     /**
-     * @return array
+     * @return InvalidFormField[]
      * @throws Exception
      * @throws FrontendUsers\Exception
      * @throws GuzzleException
@@ -234,12 +234,12 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     /**
      * Get registration settings for this plugin
      *
-     * @return array
+     * @return array<string, mixed>
      * @throws QUI\Exception
      */
     protected function getRegistrationSettings(): array
     {
-        return QUI::getPackage('quiqqer/authfacebook')->getConfig()->getSection('registration');
+        return QUI::getPackage('quiqqer/authfacebook')->getConfig()?->getSection('registration') ?? [];
     }
 
     /**

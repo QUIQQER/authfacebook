@@ -10,8 +10,6 @@ use QUI;
 
 /**
  * Class Control
- *
- * @package QUI\Registration\Facebook
  */
 class Control extends QUI\Control
 {

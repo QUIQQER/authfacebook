@@ -6,6 +6,8 @@
 
 namespace QUI\Registration\Facebook;
 
+use GuzzleHttp\Exception\GuzzleException;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use QUI;
 use QUI\Auth\Facebook\Facebook;
 use QUI\Database\Exception;
@@ -14,13 +16,11 @@ use QUI\FrontendUsers;
 use QUI\FrontendUsers\Handler as FrontendUsersHandler;
 use QUI\FrontendUsers\InvalidFormField;
 use QUI\Interfaces\Users\User;
+use Throwable;
 
 /**
  * Class Registrar
- *
- * Registration via Facebook account
- *
- * @package QUI\Registration\Facebook
+ * - Registration via Facebook account
  */
 class Registrar extends FrontendUsers\AbstractRegistrar
 {
@@ -37,9 +37,11 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * @return void
      *
      * @throws Exception
-     * @throws QUI\Exception
      * @throws ExceptionStack
+     * @throws QUI\Exception
      * @throws QUI\Permissions\Exception
+     * @throws GuzzleException
+     * @throws IdentityProviderException
      */
     public function onRegistered(QUI\Interfaces\Users\User $User): void
     {
@@ -114,7 +116,11 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     }
 
     /**
-     * @throws FrontendUsers\Exception|QUI\Auth\Facebook\Exception
+     * @return array
+     * @throws Exception
+     * @throws FrontendUsers\Exception
+     * @throws GuzzleException
+     * @throws IdentityProviderException
      */
     public function validate(): array
     {
@@ -125,7 +131,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
         try {
             Facebook::validateAccessToken($token);
-        } catch (\Throwable) {
+        } catch (Throwable) {
             throw new FrontendUsers\Exception([
                 $lg,
                 $lgPrefix . 'token_invalid'
@@ -164,7 +170,9 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
     /**
      * @return string
-     * @throws QUI\Auth\Facebook\Exception
+     * @throws Exception
+     * @throws GuzzleException
+     * @throws IdentityProviderException
      */
     public function getUsername(): string
     {

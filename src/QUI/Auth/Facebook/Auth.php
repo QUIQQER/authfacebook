@@ -3,7 +3,6 @@
 namespace QUI\Auth\Facebook;
 
 use GuzzleHttp\Exception\GuzzleException;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use QUI;
 use QUI\Auth\Facebook\Exception as FacebookException;
 use QUI\Control;
@@ -11,6 +10,8 @@ use QUI\Database\Exception;
 use QUI\ExceptionStack;
 use QUI\Locale;
 use QUI\Users\AbstractAuthenticator;
+use RuntimeException;
+use Throwable;
 
 use function is_string;
 
@@ -28,9 +29,26 @@ class Auth extends AbstractAuthenticator
 
     /**
      * Auth Constructor.
+     *
+     * @param array<string, mixed>|int|string|QUI\Interfaces\Users\User|null $user
      */
     public function __construct(array | int | string | QUI\Interfaces\Users\User | null $user = '')
     {
+        if ($user instanceof QUI\Interfaces\Users\User) {
+            $this->User = $user;
+            return;
+        }
+
+        if (!empty($user) && is_int($user)) {
+            try {
+                $this->User = QUI::getUsers()->get($user);
+            } catch (\Exception) {
+                $this->User = QUI::getUsers()->getNobody();
+            }
+
+            return;
+        }
+
         if (!empty($user) && is_string($user)) {
             try {
                 $this->User = QUI::getUsers()->getUserByName($user);
@@ -74,13 +92,12 @@ class Auth extends AbstractAuthenticator
     /**
      * Authenticate the user
      *
-     * @param array|integer|string $authParams
+     * @param array<string, mixed>|int|string $authParams
      *
      * @throws Exception
      * @throws ExceptionStack
      * @throws QUI\Exception
      * @throws GuzzleException
-     * @throws IdentityProviderException
      * @throws Exception
      */
     public function auth(array | int | string $authParams): void
@@ -96,7 +113,7 @@ class Auth extends AbstractAuthenticator
 
         try {
             Facebook::validateAccessToken($Token);
-        } catch (\Throwable) {
+        } catch (Throwable) {
             throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.data'
@@ -135,6 +152,13 @@ class Auth extends AbstractAuthenticator
             }
         }
 
+        if ($connectionProfile === false || !isset($connectionProfile['userId'])) {
+            throw new FacebookException([
+                'quiqqer/authfacebook',
+                'exception.auth.no.account.connected'
+            ], 1001);
+        }
+
         // if there is no user set, Facebook is used as primary login
         // and Login user is the user connected to the facebook profile
         // used in the login process.
@@ -160,6 +184,10 @@ class Auth extends AbstractAuthenticator
      */
     public function getUser(): QUI\Interfaces\Users\User
     {
+        if ($this->User === null) {
+            throw new RuntimeException('Facebook authenticator user is not set.');
+        }
+
         return $this->User;
     }
 
@@ -168,12 +196,18 @@ class Auth extends AbstractAuthenticator
      */
     public function getUserId(): int
     {
-        return $this->User->getId();
+        $userId = $this->getUser()->getId();
+
+        if ($userId === false) {
+            throw new RuntimeException('Facebook authenticator user id is not available.');
+        }
+
+        return $userId;
     }
 
     public function getUserUUID(): string
     {
-        return $this->User->getUUID();
+        return (string)$this->getUser()->getUUID();
     }
 
     /**

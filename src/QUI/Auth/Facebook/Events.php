@@ -66,6 +66,10 @@ class Events
         }
     }
 
+    /**
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
     public static function onQuiqqerMigrationV2(QUI\System\Console\Tools\MigrationV2 $Console): void
     {
         $Console->writeLn('- Migrate facebook auth');

@@ -7,7 +7,6 @@
 namespace QUI\Registration\Facebook;
 
 use GuzzleHttp\Exception\GuzzleException;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use QUI;
 use QUI\Auth\Facebook\Facebook;
 use QUI\Database\Exception;
@@ -41,7 +40,6 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * @throws QUI\Exception
      * @throws QUI\Permissions\Exception
      * @throws GuzzleException
-     * @throws IdentityProviderException
      */
     public function onRegistered(QUI\Interfaces\Users\User $User): void
     {
@@ -120,7 +118,6 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * @throws Exception
      * @throws FrontendUsers\Exception
      * @throws GuzzleException
-     * @throws IdentityProviderException
      */
     public function validate(): array
     {
@@ -172,7 +169,6 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * @return string
      * @throws Exception
      * @throws GuzzleException
-     * @throws IdentityProviderException
      */
     public function getUsername(): string
     {

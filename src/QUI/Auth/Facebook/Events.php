@@ -2,6 +2,10 @@
 
 namespace QUI\Auth\Facebook;
 
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\ColumnDiff;
+use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\Type;
 use QUI;
 use QUI\Database\Exception;
 use QUI\Package\Package;
@@ -73,11 +77,29 @@ class Events
     public static function onQuiqqerMigrationV2(QUI\System\Console\Tools\MigrationV2 $Console): void
     {
         $Console->writeLn('- Migrate facebook auth');
-        $table = QUI::getDBTableName(Facebook::TBL_ACCOUNTS);
+        $table = Facebook::table();
 
-        QUI::getDatabase()->execSQL(
-            'ALTER TABLE `' . $table . '` CHANGE `userId` `userId` VARCHAR(50) NOT NULL;'
-        );
+        $SchemaManager = QUI::getSchemaManager();
+
+        if ($SchemaManager->tablesExist([$table])) {
+            $Table = $SchemaManager->introspectTable($table);
+
+            if ($Table->hasColumn('userId')) {
+                $CurrentColumn = $Table->getColumn('userId');
+                $TargetColumn = new Column(
+                    'userId',
+                    Type::getType('string'),
+                    ['length' => 50, 'notnull' => true]
+                );
+
+                $SchemaManager->alterTable(new TableDiff(
+                    $Table,
+                    changedColumns: [
+                        'userId' => new ColumnDiff($CurrentColumn, $TargetColumn)
+                    ]
+                ));
+            }
+        }
 
         QUI\Utils\MigrationV1ToV2::migrateUsers(
             $table,

@@ -7,6 +7,7 @@ use QUI\Auth\Facebook\Auth;
 use QUI\Auth\Facebook\Controls\Login;
 use QUI\Auth\Facebook\Controls\Settings;
 use QUI\Interfaces\Users\User;
+use ReflectionMethod;
 
 class AuthTest extends TestCase
 {
@@ -68,5 +69,13 @@ class AuthTest extends TestCase
         $this->assertInstanceOf(Login::class, Auth::getLoginControl());
         $this->assertInstanceOf(Settings::class, $Auth->getSettingsControl());
         $this->assertNull($Auth->getPasswordResetControl());
+    }
+
+    public function testAuthDeclaresBooleanResult(): void
+    {
+        $returnType = (new ReflectionMethod(Auth::class, 'auth'))->getReturnType();
+
+        $this->assertNotNull($returnType);
+        $this->assertSame('bool', $returnType->getName());
     }
 }

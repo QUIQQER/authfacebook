@@ -38,6 +38,11 @@ class Facebook
      */
     protected static ?FacebookApi $Api = null;
 
+    public static function table(): string
+    {
+        return QUI::getDBTableName(self::TBL_ACCOUNTS);
+    }
+
     /**
      * Create a new QUIQQER account from a Facebook Access Token
      *
@@ -137,13 +142,13 @@ class Facebook
 
         self::validateAccessToken($accessToken);
 
-        QUI::getDataBase()->insert(
-            QUI::getDBTableName(self::TBL_ACCOUNTS),
+        QUI::getDataBaseConnection()->insert(
+            QUI\Utils\Doctrine::quoteIdentifier(self::table()),
             [
-                'userId' => $User->getUUID(),
-                'fbUserId' => $profileData['id'],
-                'email' => $profileData['email'],
-                'name' => $profileData['name']
+                QUI\Utils\Doctrine::quoteIdentifier('userId') => $User->getUUID(),
+                QUI\Utils\Doctrine::quoteIdentifier('fbUserId') => $profileData['id'],
+                QUI\Utils\Doctrine::quoteIdentifier('email') => $profileData['email'],
+                QUI\Utils\Doctrine::quoteIdentifier('name') => $profileData['name']
             ]
         );
     }
@@ -164,10 +169,20 @@ class Facebook
             self::checkEditPermission($userId);
         }
 
-        QUI::getDataBase()->delete(
-            QUI::getDBTableName(self::TBL_ACCOUNTS),
-            ['userId' => $userId]
-        );
+        try {
+            $userUuid = QUI::getUsers()->get($userId)->getUUID();
+        } catch (QUI\Exception) {
+            return;
+        }
+
+        $Connection = QUI::getDataBaseConnection();
+
+        foreach (array_unique([(string)$userId, $userUuid]) as $accountUserId) {
+            $Connection->delete(
+                QUI\Utils\Doctrine::quoteIdentifier(self::table()),
+                [QUI\Utils\Doctrine::quoteIdentifier('userId') => $accountUserId]
+            );
+        }
     }
 
     /**
@@ -290,18 +305,24 @@ class Facebook
      */
     public static function getConnectedAccountByQuiqqerUserId(int | string $userId): bool | array
     {
-        $result = QUI::getDataBase()->fetch([
-            'from' => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => [
-                'userId' => $userId
-            ]
-        ]);
-
-        if (empty($result)) {
+        try {
+            $userUuid = QUI::getUsers()->get($userId)->getUUID();
+            $QueryBuilder = QUI::getQueryBuilder();
+            $account = $QueryBuilder
+                ->select('*')
+                ->from(QUI\Utils\Doctrine::quoteIdentifier(self::table()))
+                ->where($QueryBuilder->expr()->eq('userId', ':userId'))
+                ->orWhere($QueryBuilder->expr()->eq('userId', ':userUuid'))
+                ->setParameter('userId', (string)$userId)
+                ->setParameter('userUuid', $userUuid)
+                ->setMaxResults(1)
+                ->executeQuery()
+                ->fetchAssociative();
+        } catch (\Exception) {
             return false;
         }
 
-        return current($result);
+        return $account;
     }
 
     /**
@@ -320,18 +341,7 @@ class Facebook
 
         $profile = self::getProfileData($fbToken);
 
-        $result = QUI::getDataBase()->fetch([
-            'from' => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => [
-                'fbUserId' => (int)$profile['id']
-            ]
-        ]);
-
-        if (empty($result)) {
-            return false;
-        }
-
-        return current($result);
+        return self::getAccountByFacebookUserId((string)$profile['id']);
     }
 
     /**
@@ -347,15 +357,25 @@ class Facebook
     {
         $profile = self::getProfileData($token);
 
-        $result = QUI::getDataBase()->fetch([
-            'from' => QUI::getDBTableName(self::TBL_ACCOUNTS),
-            'where' => [
-                'fbUserId' => $profile['id']
-            ],
-            'limit' => 1
-        ]);
+        return self::getAccountByFacebookUserId((string)$profile['id']) !== false;
+    }
 
-        return !empty($result);
+    /**
+     * @return array<string, mixed>|false
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private static function getAccountByFacebookUserId(string $facebookUserId): array | false
+    {
+        $QueryBuilder = QUI::getQueryBuilder();
+
+        return $QueryBuilder
+            ->select('*')
+            ->from(QUI\Utils\Doctrine::quoteIdentifier(self::table()))
+            ->where($QueryBuilder->expr()->eq('fbUserId', ':facebookUserId'))
+            ->setParameter('facebookUserId', $facebookUserId)
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
     }
 
     /**

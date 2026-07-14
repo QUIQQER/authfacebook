@@ -442,11 +442,11 @@
         </locale>
         <locale name="controls.login.wrong.facebook.user">
             <de><![CDATA[Das Facebook-Konto, bei welchem Sie z.Z. eingeloggt sind, ist nicht mit dem Benutzerkonto verknüpft, für welches Sie sich gerade authentifizieren. Bitte loggen Sie sich bei Facebook aus und loggen sich erneut mit dem Facebook-Konto ein, welches zu diesem Benutzerkonto gehört oder welches sie mit dem Benutzerkonto verknüpfen möchten.]]></de>
-            <en><![CDATA[The Facebook Account you are currently logged in with is not linked to the user account you are trying wo authenticate for. Please log in with the Facebook Account that is linked to the user account or a Facebook Account that is currently not linked to any other user account.]]></en>
+            <en><![CDATA[The Facebook Account you are currently logged in with is not linked to the user account you are trying to authenticate. Please log in with the Facebook Account that is linked to the user account or a Facebook Account that is currently not linked to any other user account.]]></en>
         </locale>
         <locale name="controls.login.no.quiqqer.account">
             <de><![CDATA[Zu dem Facebook-Konto, mit welchem Sie z.Z. eingeloggt sind, existiert kein Benutzerkonto. Bitte loggen Sie sich mit einem anderen Facebook-Konto ein oder verwenden Sie eine andere Authentifizierungs-Methode.]]></de>
-            <en><![CDATA[The Facebook Account you are currently logged in with is not linked to the user account you are trying wo authenticate for. Please log in with another Facebook Account or use another authentication method.]]></en>
+            <en><![CDATA[The Facebook Account you are currently logged in with is not linked to the user account you are trying to authenticate. Please log in with another Facebook Account or use another authentication method.]]></en>
         </locale>
         <locale name="controls.login.general_error">
             <de><![CDATA[Facebook-Login kann z.Z. nicht verwendet werden.]]></de>

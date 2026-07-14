@@ -100,7 +100,7 @@ class Auth extends AbstractAuthenticator
      * @throws GuzzleException
      * @throws Exception
      */
-    public function auth(array | int | string $authParams): void
+    public function auth(array | int | string $authParams): bool
     {
         if (!is_array($authParams) || !isset($authParams['token'])) {
             throw new FacebookException([
@@ -167,14 +167,16 @@ class Auth extends AbstractAuthenticator
         }
 
         if (
-            $connectionProfile['userId'] !== $this->User->getUUID()
-            && $connectionProfile['userId'] !== $this->User->getUUID()
+            (string)$connectionProfile['userId'] !== (string)$this->User->getId()
+            && (string)$connectionProfile['userId'] !== $this->User->getUUID()
         ) {
             throw new FacebookException([
                 'quiqqer/authfacebook',
                 'exception.auth.wrong.account.for.user'
             ], 401);
         }
+
+        return true;
     }
 
     /**

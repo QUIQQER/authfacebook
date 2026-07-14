@@ -23,10 +23,13 @@
     "url": "https://www.pcsg.de"
   },
   "require": {
-    "php": "^8",
+    "php": "^8.2",
     "quiqqer/core": "^2.24",
     "league/oauth2-facebook": "^2",
     "quiqqer/frontend-users": "^2.8"
+  },
+  "suggest": {
+    "quiqqer/gdpr": "Provides Facebook cookie metadata for QUIQQER consent management."
   },
   "autoload": {
     "psr-4": {

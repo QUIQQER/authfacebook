@@ -97,9 +97,9 @@ class Facebook
         $NewUser->activate('', $Users->getSystemUser());
 
         // automatically connect new quiqqer account with fb account
-        QUI::getSession()?->set('uid', $NewUser->getUUID());
+        QUI::getSession()->set('uid', $NewUser->getUUID());
         self::connectQuiqqerAccount($NewUser->getUUID(), $accessToken);
-        QUI::getSession()?->set('uid', false);
+        QUI::getSession()->set('uid', false);
 
         return $NewUser;
     }
@@ -464,7 +464,7 @@ class Facebook
      */
     protected static function checkEditPermission(int | string $userId): void
     {
-        if (QUI::getSession()?->get('uid') !== $userId || !$userId) {
+        if (QUI::getSession()->get('uid') !== $userId || !$userId) {
             throw new QUI\Permissions\Exception(
                 QUI::getLocale()->get(
                     'quiqqer/authfacebook',

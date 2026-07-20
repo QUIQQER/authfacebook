@@ -9,6 +9,6 @@
 QUI::getAjax()->registerFunction(
     'package_quiqqer_authfacebook_ajax_getLoginUserId',
     function () {
-        return QUI::getSession()?->get('uid') ?: false;
+        return QUI::getSession()->get('uid') ?: false;
     }
 );

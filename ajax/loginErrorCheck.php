@@ -11,7 +11,7 @@ QUI::getAjax()->registerFunction(
     'package_quiqqer_authfacebook_ajax_loginErrorCheck',
     function () {
         $Session = QUI::getSession();
-        $loginErrorCount = $Session?->get('facebook_login_errors');
+        $loginErrorCount = $Session->get('facebook_login_errors');
         $maxLoginErrors = QUI::getPackage('quiqqer/authfacebook')->getConfig()?->get(
             'authSettings',
             'maxLoginErrors'
@@ -31,12 +31,12 @@ QUI::getAjax()->registerFunction(
                 )
             );
 
-            $Session?->destroy();
+            $Session->destroy();
 
             return true;
         }
 
-        $Session?->set('facebook_login_errors', $loginErrorCount);
+        $Session->set('facebook_login_errors', $loginErrorCount);
 
         return false;
     }

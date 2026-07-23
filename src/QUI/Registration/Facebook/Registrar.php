@@ -23,6 +23,23 @@ use Throwable;
  */
 class Registrar extends FrontendUsers\AbstractRegistrar
 {
+    public function getDefaultActivationMode(): string
+    {
+        return FrontendUsersHandler::ACTIVATION_MODE_AUTO;
+    }
+
+    public function supportsActivationMode(string $activationMode): bool
+    {
+        return in_array(
+            $activationMode,
+            [
+                FrontendUsersHandler::ACTIVATION_MODE_AUTO,
+                FrontendUsersHandler::ACTIVATION_MODE_MANUAL
+            ],
+            true
+        );
+    }
+
     /**
      * Registrar constructor.
      */

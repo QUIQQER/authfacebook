@@ -8,6 +8,22 @@
             <locale group="quiqqer/authfacebook" var="package.description"/>
         </description>
 
+        <capabilities schemaVersion="1">
+            <capability id="authentication.facebook-sign-in">
+                <title>Facebook sign-in</title>
+                <description>
+                    Provides user sign-in through Facebook accounts with secure token validation and account linking.
+                </description>
+            </capability>
+            <capability id="identity.facebook-registration">
+                <title>Facebook registration</title>
+                <description>
+                    Provides frontend user registration through Facebook accounts with profile data transfer and
+                    configurable account activation.
+                </description>
+            </capability>
+        </capabilities>
+
         <image src="URL_OPT_DIR/quiqqer/authfacebook/bin/images/Logo.jpg"/>
 
         <preview>

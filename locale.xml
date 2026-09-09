@@ -4,176 +4,376 @@
         <locale name="authfacebook.title">
             <de><![CDATA[Facebook Login]]></de>
             <en><![CDATA[Facebook Login]]></en>
+            <es><![CDATA[Iniciar sesión con Facebook]]></es>
+            <pt><![CDATA[Iniciar sessão com o Facebook]]></pt>
+            <fr><![CDATA[Connexion avec Facebook]]></fr>
+            <it><![CDATA[Accedi con Facebook]]></it>
+            <pl><![CDATA[Logowanie przez Facebooka]]></pl>
         </locale>
         <locale name="authfacebook.description">
             <de><![CDATA[QUIQQER Authentifikation mittels Facebook-Konto]]></de>
             <en><![CDATA[QUIQQER authentication via Facebook Account]]></en>
+            <es><![CDATA[Autenticación en QUIQQER con una cuenta de Facebook]]></es>
+            <pt><![CDATA[Autenticação no QUIQQER com uma conta Facebook]]></pt>
+            <fr><![CDATA[Authentification dans QUIQQER avec un compte Facebook]]></fr>
+            <it><![CDATA[Autenticazione in QUIQQER tramite un account Facebook]]></it>
+            <pl><![CDATA[Uwierzytelnianie w QUIQQER za pomocą konta na Facebooku]]></pl>
         </locale>
 
         <!-- Package -->
         <locale name="package.title">
             <de><![CDATA[Facebook Registrierung und Login für QUIQQER]]></de>
             <en><![CDATA[Facebook registration and login for QUIQQER]]></en>
+            <es><![CDATA[Registro e inicio de sesión con Facebook en QUIQQER]]></es>
+            <pt><![CDATA[Registo e início de sessão com o Facebook no QUIQQER]]></pt>
+            <fr><![CDATA[Inscription et connexion avec Facebook dans QUIQQER]]></fr>
+            <it><![CDATA[Registrazione e accesso con Facebook in QUIQQER]]></it>
+            <pl><![CDATA[Rejestracja i logowanie przez Facebooka w QUIQQER]]></pl>
         </locale>
         <locale name="package.description">
             <de><![CDATA[QUIQQER Registrierung und Authentifikation mittels Facebook-Konto]]></de>
             <en><![CDATA[QUIQQER registration and authentication via Facebook account]]></en>
+            <es><![CDATA[Registro y autenticación en QUIQQER con una cuenta de Facebook]]></es>
+            <pt><![CDATA[Registo e autenticação no QUIQQER com uma conta Facebook]]></pt>
+            <fr><![CDATA[Inscription et authentification dans QUIQQER avec un compte Facebook]]></fr>
+            <it><![CDATA[Registrazione e autenticazione in QUIQQER tramite un account Facebook]]></it>
+            <pl><![CDATA[Rejestracja i uwierzytelnianie w QUIQQER za pomocą konta na Facebooku]]></pl>
         </locale>
 
         <!-- Permission -->
         <locale name="permission.quiqqer.auth._header">
             <de><![CDATA[QUIQQER Authentifizierung]]></de>
             <en><![CDATA[QUIQQER authentication]]></en>
+            <es><![CDATA[Autenticación de QUIQQER]]></es>
+            <pt><![CDATA[Autenticação do QUIQQER]]></pt>
+            <fr><![CDATA[Authentification QUIQQER]]></fr>
+            <it><![CDATA[Autenticazione QUIQQER]]></it>
+            <pl><![CDATA[Uwierzytelnianie QUIQQER]]></pl>
         </locale>
 
         <!-- Settings -->
         <locale name="settings.title">
             <de><![CDATA[Facebook Registrierung / Login]]></de>
             <en><![CDATA[Facebook registration / authentication]]></en>
+            <es><![CDATA[Registro e inicio de sesión con Facebook]]></es>
+            <pt><![CDATA[Registo e início de sessão com o Facebook]]></pt>
+            <fr><![CDATA[Inscription et connexion avec Facebook]]></fr>
+            <it><![CDATA[Registrazione e accesso con Facebook]]></it>
+            <pl><![CDATA[Rejestracja i logowanie przez Facebooka]]></pl>
         </locale>
         <locale name="settings.category.settings.title">
             <de><![CDATA[Einstellungen]]></de>
             <en><![CDATA[Settings]]></en>
+            <es><![CDATA[Configuración]]></es>
+            <pt><![CDATA[Definições]]></pt>
+            <fr><![CDATA[Paramètres]]></fr>
+            <it><![CDATA[Impostazioni]]></it>
+            <pl><![CDATA[Ustawienia]]></pl>
         </locale>
         <locale name="settings.apiSettings.title">
             <de><![CDATA[Facebook API]]></de>
             <en><![CDATA[Facebook API]]></en>
+            <es><![CDATA[API de Facebook]]></es>
+            <pt><![CDATA[API Facebook]]></pt>
+            <fr><![CDATA[API Facebook]]></fr>
+            <it><![CDATA[API Facebook]]></it>
+            <pl><![CDATA[API Facebooka]]></pl>
         </locale>
         <locale name="settings.authSettings.title">
             <de><![CDATA[Authentifizierung]]></de>
             <en><![CDATA[Authentication]]></en>
+            <es><![CDATA[Autenticación]]></es>
+            <pt><![CDATA[Autenticação]]></pt>
+            <fr><![CDATA[Authentification]]></fr>
+            <it><![CDATA[Autenticazione]]></it>
+            <pl><![CDATA[Uwierzytelnianie]]></pl>
         </locale>
         <locale name="settings.apiSettings.appId.title">
             <de><![CDATA[App-ID]]></de>
-            <en><![CDATA[App-ID]]></en>
+            <en><![CDATA[App ID]]></en>
+            <es><![CDATA[ID de aplicación]]></es>
+            <pt><![CDATA[ID da aplicação]]></pt>
+            <fr><![CDATA[ID de l’application]]></fr>
+            <it><![CDATA[ID app]]></it>
+            <pl><![CDATA[Identyfikator aplikacji]]></pl>
         </locale>
         <locale name="settings.apiSettings.appId.description" html="true">
             <de><![CDATA[App-ID des Facebook Developer Accounts bzw. der Facebook App, über die die API-Kommunikation zur Authentifizierung stattfindet. Siehe <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></de>
-            <en><![CDATA[App-ID of the Facebook App via which the API communication for authentication takes place. See <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></en>
+            <en><![CDATA[ID of the Facebook app used for authentication. See <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></en>
+            <es><![CDATA[ID de la aplicación de Facebook utilizada para la autenticación. Consulte <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></es>
+            <pt><![CDATA[ID da aplicação Facebook utilizada para a autenticação. Consulte <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></pt>
+            <fr><![CDATA[ID de l’application Facebook utilisée pour l’authentification. Consultez <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></fr>
+            <it><![CDATA[ID dell’app Facebook utilizzata per l’autenticazione. Consulta <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></it>
+            <pl><![CDATA[Identyfikator aplikacji Facebook używanej do uwierzytelniania. Zobacz <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></pl>
         </locale>
         <locale name="settings.apiSettings.appSecret.title">
             <de><![CDATA[App-Geheimcode]]></de>
             <en><![CDATA[App Secret]]></en>
+            <es><![CDATA[Clave secreta de la aplicación]]></es>
+            <pt><![CDATA[Segredo da aplicação]]></pt>
+            <fr><![CDATA[Clé secrète de l’application]]></fr>
+            <it><![CDATA[Chiave segreta dell’app]]></it>
+            <pl><![CDATA[Klucz tajny aplikacji]]></pl>
         </locale>
         <locale name="settings.apiSettings.appSecret.description" html="true">
             <de><![CDATA[App-Geheimcode des Facebook Developer Accounts bzw. der Facebook App, über die die API-Kommunikation zur Authentifizierung stattfindet. Siehe <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></de>
-            <en><![CDATA[App Secret of the Facebook App via which the API communication for authentication takes place. See <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></en>
+            <en><![CDATA[Secret of the Facebook app used for authentication. See <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></en>
+            <es><![CDATA[Clave secreta de la aplicación de Facebook utilizada para la autenticación. Consulte <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></es>
+            <pt><![CDATA[Segredo da aplicação Facebook utilizada para a autenticação. Consulte <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></pt>
+            <fr><![CDATA[Clé secrète de l’application Facebook utilisée pour l’authentification. Consultez <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></fr>
+            <it><![CDATA[Chiave segreta dell’app Facebook utilizzata per l’autenticazione. Consulta <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></it>
+            <pl><![CDATA[Klucz tajny aplikacji Facebook używanej do uwierzytelniania. Zobacz <a href="https://developers.facebook.com/apps/" target="_blank">https://developers.facebook.com/apps/</a>.]]></pl>
         </locale>
         <locale name="settings.apiSettings.apiVersion.title">
             <de><![CDATA[Graph API Version]]></de>
             <en><![CDATA[Graph API Version]]></en>
+            <es><![CDATA[Versión de la API Graph]]></es>
+            <pt><![CDATA[Versão da API Graph]]></pt>
+            <fr><![CDATA[Version de l’API Graph]]></fr>
+            <it><![CDATA[Versione dell’API Graph]]></it>
+            <pl><![CDATA[Wersja API Graph]]></pl>
         </locale>
         <locale name="settings.apiSettings.apiVersion.description" html="true">
             <de><![CDATA[Gültiger Versions-String für die Facebook Graph API. Für verfügbare Versionen siehe <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></de>
             <en><![CDATA[Valid version string for Facebook Graph API. For available versions see <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></en>
+            <es><![CDATA[Identificador de versión válido de la API Graph de Facebook. Consulte las versiones disponibles en <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></es>
+            <pt><![CDATA[Identificador de versão válido da API Graph do Facebook. Consulte as versões disponíveis em <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></pt>
+            <fr><![CDATA[Identifiant de version valide de l’API Graph de Facebook. Consultez les versions disponibles sur <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></fr>
+            <it><![CDATA[Identificatore di versione valido dell’API Graph di Facebook. Consulta le versioni disponibili su <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></it>
+            <pl><![CDATA[Prawidłowy identyfikator wersji API Graph Facebooka. Dostępne wersje znajdziesz na stronie <a href="https://developers.facebook.com/docs/graph-api/changelog" target="_blank">https://developers.facebook.com/docs/graph-api/changelog</a>.]]></pl>
         </locale>
         <locale name="settings.authSettings.maxLoginErrors.title">
             <de><![CDATA[Maximale Login-Versuche]]></de>
             <en><![CDATA[Maximum no. of login attempts]]></en>
+            <es><![CDATA[Número máximo de intentos de inicio de sesión]]></es>
+            <pt><![CDATA[Número máximo de tentativas de início de sessão]]></pt>
+            <fr><![CDATA[Nombre maximal de tentatives de connexion]]></fr>
+            <it><![CDATA[Numero massimo di tentativi di accesso]]></it>
+            <pl><![CDATA[Maksymalna liczba prób logowania]]></pl>
         </locale>
         <locale name="settings.authSettings.maxLoginErrors.description">
             <de><![CDATA[Maximale Versuche, die ein Benutzer hat, sich beim Login-Prozess mit einem gültigen (d.h.: zu seinem Benutzerkonto gehörigen) Facebook-Konto anzumelden, bevor ein automatischer Logout stattfindet und der Authentifizierungs-Prozess von vorne gestartet wird.]]></de>
-            <en><![CDATA[Maximal number of attempts for logging in with a valid (meaning: linked to a user account) Facebook Account before the user session is terminated and the authentication process starts over.]]></en>
+            <en><![CDATA[Maximum number of attempts to sign in with the Facebook account linked to the user account. Once this limit is reached, the session ends automatically and the authentication process starts over.]]></en>
+            <es><![CDATA[Número máximo de intentos para iniciar sesión con la cuenta de Facebook vinculada a la cuenta de usuario. Al alcanzar este límite, la sesión se cierra automáticamente y el proceso de autenticación vuelve a empezar.]]></es>
+            <pt><![CDATA[Número máximo de tentativas para iniciar sessão com a conta Facebook associada à conta de utilizador. Ao atingir este limite, a sessão é terminada automaticamente e o processo de autenticação recomeça.]]></pt>
+            <fr><![CDATA[Nombre maximal de tentatives pour se connecter avec le compte Facebook associé au compte utilisateur. Une fois cette limite atteinte, la session est automatiquement fermée et le processus d’authentification reprend depuis le début.]]></fr>
+            <it><![CDATA[Numero massimo di tentativi per accedere con l’account Facebook collegato all’account utente. Al raggiungimento del limite, la sessione viene chiusa automaticamente e la procedura di autenticazione ricomincia dall’inizio.]]></it>
+            <pl><![CDATA[Maksymalna liczba prób logowania za pomocą konta na Facebooku połączonego z kontem użytkownika. Po osiągnięciu tego limitu sesja jest automatycznie kończona, a proces uwierzytelniania rozpoczyna się od nowa.]]></pl>
         </locale>
         <locale name="controls.settings.api_error">
             <de><![CDATA[Bei der Verbindung zur Facebook API ist ein Fehler aufgetreten. Bitte überprüfen Sie die Einstellungen des "Facebook Registrierung / Login"-Moduls.]]></de>
             <en><![CDATA[An error occurred while connecting to the Facebook API. Please check the settings of the "Facebook registration / authentication" module.]]></en>
+            <es><![CDATA[Se ha producido un error al conectar con la API de Facebook. Revise la configuración del módulo "Registro e inicio de sesión con Facebook".]]></es>
+            <pt><![CDATA[Ocorreu um erro ao estabelecer ligação à API Facebook. Verifique as definições do módulo "Registo e início de sessão com o Facebook".]]></pt>
+            <fr><![CDATA[Une erreur s’est produite lors de la connexion à l’API Facebook. Vérifiez les paramètres du module "Inscription et connexion avec Facebook".]]></fr>
+            <it><![CDATA[Si è verificato un errore durante la connessione all’API Facebook. Verifica le impostazioni del modulo "Registrazione e accesso con Facebook".]]></it>
+            <pl><![CDATA[Wystąpił błąd podczas łączenia z API Facebooka. Sprawdź ustawienia modułu "Rejestracja i logowanie przez Facebooka".]]></pl>
         </locale>
         <locale name="settings.registration.title">
             <de><![CDATA[Registrierung]]></de>
             <en><![CDATA[Registration]]></en>
+            <es><![CDATA[Registro]]></es>
+            <pt><![CDATA[Registo]]></pt>
+            <fr><![CDATA[Inscription]]></fr>
+            <it><![CDATA[Registrazione]]></it>
+            <pl><![CDATA[Rejestracja]]></pl>
         </locale>
 
         <!-- Control: Login -->
         <locale name="controls.login.status.not_authorized">
-            <de><![CDATA[Mit ihrem Facebook-Konto ist kein Benutzerkonto verknüpft.]]></de>
+            <de><![CDATA[Mit Ihrem Facebook-Konto ist kein Benutzerkonto verknüpft.]]></de>
             <en><![CDATA[There is no user account linked to your Facebook Account.]]></en>
+            <es><![CDATA[No hay ninguna cuenta de usuario vinculada a su cuenta de Facebook.]]></es>
+            <pt><![CDATA[Não existe nenhuma conta de utilizador associada à sua conta Facebook.]]></pt>
+            <fr><![CDATA[Aucun compte utilisateur n’est associé à votre compte Facebook.]]></fr>
+            <it><![CDATA[Nessun account utente è collegato al tuo account Facebook.]]></it>
+            <pl><![CDATA[Z Twoim kontem na Facebooku nie jest połączone żadne konto użytkownika.]]></pl>
         </locale>
         <locale name="controls.login.register.btn.text">
             <de><![CDATA[Jetzt registrieren]]></de>
             <en><![CDATA[Register now]]></en>
+            <es><![CDATA[Registrarse ahora]]></es>
+            <pt><![CDATA[Registar-se agora]]></pt>
+            <fr><![CDATA[S’inscrire maintenant]]></fr>
+            <it><![CDATA[Registrati ora]]></it>
+            <pl><![CDATA[Zarejestruj się teraz]]></pl>
         </locale>
         <locale name="controls.login.popup.btn.text">
             <de><![CDATA[Jetzt mit Facebook einloggen]]></de>
             <en><![CDATA[Log in now with Facebook]]></en>
+            <es><![CDATA[Iniciar sesión con Facebook ahora]]></es>
+            <pt><![CDATA[Iniciar sessão com o Facebook agora]]></pt>
+            <fr><![CDATA[Se connecter avec Facebook]]></fr>
+            <it><![CDATA[Accedi ora con Facebook]]></it>
+            <pl><![CDATA[Zaloguj się teraz przez Facebooka]]></pl>
         </locale>
 
         <!-- Class: Facebook -->
         <locale name="classes.facebook.logout.btn.text">
             <de><![CDATA[Abmelden von Facebook]]></de>
             <en><![CDATA[Log out from Facebook]]></en>
+            <es><![CDATA[Cerrar sesión en Facebook]]></es>
+            <pt><![CDATA[Terminar sessão no Facebook]]></pt>
+            <fr><![CDATA[Se déconnecter de Facebook]]></fr>
+            <it><![CDATA[Esci da Facebook]]></it>
+            <pl><![CDATA[Wyloguj się z Facebooka]]></pl>
         </locale>
         <locale name="classes.facebook.login.btn.text">
             <de><![CDATA[Weiter mit Facebook]]></de>
             <en><![CDATA[Continue with Facebook]]></en>
+            <es><![CDATA[Continuar con Facebook]]></es>
+            <pt><![CDATA[Continuar com o Facebook]]></pt>
+            <fr><![CDATA[Continuer avec Facebook]]></fr>
+            <it><![CDATA[Continua con Facebook]]></it>
+            <pl><![CDATA[Kontynuuj z Facebookiem]]></pl>
         </locale>
         <locale name="classes.facebook.login.btn.authorize.text">
             <de><![CDATA[QUIQQER autorisieren]]></de>
             <en><![CDATA[Authorize QUIQQER]]></en>
+            <es><![CDATA[Autorizar QUIQQER]]></es>
+            <pt><![CDATA[Autorizar o QUIQQER]]></pt>
+            <fr><![CDATA[Autoriser QUIQQER]]></fr>
+            <it><![CDATA[Autorizza QUIQQER]]></it>
+            <pl><![CDATA[Autoryzuj QUIQQER]]></pl>
         </locale>
         <locale name="classes.facebook.warn.no.appId">
-            <de><![CDATA[Die Facebook Authentifikation kann nicht verwendet werden, da noch keine oder eine fehlerhafte App-ID in den Einstellungen festgelegt ist. Bitte legen Sie eine korrekte App-ID in den Einstellung ("Facebook Authentifikation") fest.]]></de>
-            <en><![CDATA[Facebook cannot be used because there is no or a wrong App-ID set in the settings. Please set a correct App-ID in the settings ("Facebook authentication").]]></en>
+            <de><![CDATA[Die Facebook Authentifikation kann nicht verwendet werden, da noch keine oder eine fehlerhafte App-ID in den Einstellungen festgelegt ist. Bitte legen Sie eine korrekte App-ID in den Einstellungen ("Facebook Authentifikation") fest.]]></de>
+            <en><![CDATA[Facebook authentication is unavailable because the app ID is missing or invalid. Enter a valid app ID in the Facebook authentication module settings.]]></en>
+            <es><![CDATA[No se puede utilizar la autenticación con Facebook porque el ID de aplicación no está configurado o no es válido. Introduzca un ID de aplicación válido en la configuración del módulo de autenticación con Facebook.]]></es>
+            <pt><![CDATA[Não é possível utilizar a autenticação com o Facebook porque o ID da aplicação não está definido ou é inválido. Introduza um ID de aplicação válido nas definições do módulo de autenticação com o Facebook.]]></pt>
+            <fr><![CDATA[L’authentification avec Facebook est indisponible, car l’ID de l’application est manquant ou incorrect. Renseignez un ID d’application valide dans les paramètres du module d’authentification Facebook.]]></fr>
+            <it><![CDATA[L’autenticazione con Facebook non è disponibile perché l’ID app non è stato configurato o non è valido. Inserisci un ID app valido nelle impostazioni del modulo di autenticazione Facebook.]]></it>
+            <pl><![CDATA[Uwierzytelnianie przez Facebooka jest niedostępne, ponieważ nie ustawiono identyfikatora aplikacji lub jest on nieprawidłowy. Wprowadź prawidłowy identyfikator aplikacji w ustawieniach modułu uwierzytelniania przez Facebooka.]]></pl>
         </locale>
 
         <!-- Registrar -->
         <locale name="registrar.title">
             <de><![CDATA[Registrierung per Facebook]]></de>
             <en><![CDATA[Registration via Facebook]]></en>
+            <es><![CDATA[Registro con Facebook]]></es>
+            <pt><![CDATA[Registo com o Facebook]]></pt>
+            <fr><![CDATA[Inscription avec Facebook]]></fr>
+            <it><![CDATA[Registrazione con Facebook]]></it>
+            <pl><![CDATA[Rejestracja przez Facebooka]]></pl>
         </locale>
         <locale name="registrar.description">
             <de><![CDATA[Registrierung über Verknüpfung des QUIQQER Benutzerkontos mit einem Facebook-Konto.]]></de>
             <en><![CDATA[Registration via linking a QUIQQER account with a Facebook account.]]></en>
+            <es><![CDATA[Registro mediante la vinculación de una cuenta de QUIQQER con una cuenta de Facebook.]]></es>
+            <pt><![CDATA[Registo através da associação de uma conta QUIQQER a uma conta Facebook.]]></pt>
+            <fr><![CDATA[Inscription en associant un compte QUIQQER à un compte Facebook.]]></fr>
+            <it><![CDATA[Registrazione tramite il collegamento di un account QUIQQER a un account Facebook.]]></it>
+            <pl><![CDATA[Rejestracja przez połączenie konta QUIQQER z kontem na Facebooku.]]></pl>
         </locale>
         <locale name="registrar.javascript_required">
             <de><![CDATA[JavaScript ist in Ihrem Browser deaktiviert. Für die Registrierung mit Ihrem Facebook-Konto aktivieren Sie bitte JavaScript.]]></de>
             <en><![CDATA[JavaScript is disabled in your browser. To register with your Facebook Account, please enable JavaScript.]]></en>
+            <es><![CDATA[JavaScript está desactivado en su navegador. Actívelo para registrarse con su cuenta de Facebook.]]></es>
+            <pt><![CDATA[O JavaScript está desativado no seu navegador. Ative-o para se registar com a sua conta Facebook.]]></pt>
+            <fr><![CDATA[JavaScript est désactivé dans votre navigateur. Activez-le pour vous inscrire avec votre compte Facebook.]]></fr>
+            <it><![CDATA[JavaScript è disattivato nel browser. Attivalo per registrarti con il tuo account Facebook.]]></it>
+            <pl><![CDATA[JavaScript jest wyłączony w przeglądarce. Włącz go, aby zarejestrować się za pomocą konta na Facebooku.]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.registration_button">
             <de><![CDATA[Weiter mit Facebook]]></de>
             <en><![CDATA[Continue with Facebook]]></en>
+            <es><![CDATA[Continuar con Facebook]]></es>
+            <pt><![CDATA[Continuar com o Facebook]]></pt>
+            <fr><![CDATA[Continuer avec Facebook]]></fr>
+            <it><![CDATA[Continua con Facebook]]></it>
+            <pl><![CDATA[Kontynuuj z Facebookiem]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.already_authenticated" html="true">
             <de><![CDATA[Sie sind z.Z. eingeloggt. Bitte loggen Sie sich aus, um mit Facebook ein Benutzerkonto zu registrieren.]]></de>
             <en><![CDATA[You are currently logged in. Please log out to register an account via Facebook.]]></en>
+            <es><![CDATA[Ya ha iniciado sesión. Cierre la sesión para registrar una cuenta con Facebook.]]></es>
+            <pt><![CDATA[Já tem sessão iniciada. Termine a sessão para registar uma conta com o Facebook.]]></pt>
+            <fr><![CDATA[Vous êtes déjà connecté. Déconnectez-vous pour créer un compte avec Facebook.]]></fr>
+            <it><![CDATA[Hai già effettuato l’accesso. Esci per registrare un account con Facebook.]]></it>
+            <pl><![CDATA[Masz już aktywną sesję. Wyloguj się, aby zarejestrować konto przez Facebooka.]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.popup.title">
             <de><![CDATA[Registrierung per Facebook-Konto]]></de>
             <en><![CDATA[Registration via Facebook account]]></en>
+            <es><![CDATA[Registro con una cuenta de Facebook]]></es>
+            <pt><![CDATA[Registo com uma conta Facebook]]></pt>
+            <fr><![CDATA[Inscription avec un compte Facebook]]></fr>
+            <it><![CDATA[Registrazione con un account Facebook]]></it>
+            <pl><![CDATA[Rejestracja za pomocą konta na Facebooku]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.sign_in.popup.btn">
             <de><![CDATA[Weiter mit Facebook]]></de>
             <en><![CDATA[Continue with Facebook]]></en>
+            <es><![CDATA[Continuar con Facebook]]></es>
+            <pt><![CDATA[Continuar com o Facebook]]></pt>
+            <fr><![CDATA[Continuer avec Facebook]]></fr>
+            <it><![CDATA[Continua con Facebook]]></it>
+            <pl><![CDATA[Kontynuuj z Facebookiem]]></pl>
         </locale>
         <locale name="message.registrar.registration_success_manual">
             <de><![CDATA[Die Registrierung war erfolgreich. Bevor Sie sich einloggen können, muss ein Administrator Ihr Benutzerkonto aktivieren.]]></de>
             <en><![CDATA[The registration was successful. Before you can log in, an administrator must activate your user account.]]></en>
+            <es><![CDATA[El registro se ha completado correctamente. Un administrador debe activar su cuenta antes de que pueda iniciar sesión.]]></es>
+            <pt><![CDATA[O registo foi concluído com sucesso. Um administrador tem de ativar a sua conta antes de poder iniciar sessão.]]></pt>
+            <fr><![CDATA[Votre inscription a bien été effectuée. Un administrateur doit activer votre compte avant que vous puissiez vous connecter.]]></fr>
+            <it><![CDATA[La registrazione è stata completata. Prima di poter accedere, il tuo account deve essere attivato da un amministratore.]]></it>
+            <pl><![CDATA[Rejestracja zakończyła się pomyślnie. Zanim się zalogujesz, administrator musi aktywować Twoje konto.]]></pl>
         </locale>
         <locale name="message.registrar.registration_success_auto">
             <de><![CDATA[Die Registrierung war erfolgreich. Ihr Benutzerkonto wurde automatisch aktiviert.]]></de>
             <en><![CDATA[The registration was successful. Your user account has been activated automatically.]]></en>
+            <es><![CDATA[El registro se ha completado correctamente. Su cuenta se ha activado automáticamente.]]></es>
+            <pt><![CDATA[O registo foi concluído com sucesso. A sua conta foi ativada automaticamente.]]></pt>
+            <fr><![CDATA[Votre inscription a bien été effectuée. Votre compte a été activé automatiquement.]]></fr>
+            <it><![CDATA[La registrazione è stata completata. Il tuo account è stato attivato automaticamente.]]></it>
+            <pl><![CDATA[Rejestracja zakończyła się pomyślnie. Twoje konto zostało aktywowane automatycznie.]]></pl>
         </locale>
         <locale name="message.registrar.registration_success_mail">
             <de><![CDATA[Ihr Benutzerkonto wurde erfolgreich aktiviert.]]></de>
             <en><![CDATA[Your user account has been activated successfully.]]></en>
+            <es><![CDATA[Su cuenta se ha activado correctamente.]]></es>
+            <pt><![CDATA[A sua conta foi ativada com sucesso.]]></pt>
+            <fr><![CDATA[Votre compte a bien été activé.]]></fr>
+            <it><![CDATA[Il tuo account è stato attivato.]]></it>
+            <pl><![CDATA[Twoje konto zostało aktywowane.]]></pl>
         </locale>
         <locale name="message.registrar.registration_pending">
-            <de><![CDATA[Die Registrierung war erfolgreich! Bevor Sie sich einloggen können, müssen sie noch Ihr Benutzerkonto aktivieren. Bitte klicken Sie dazu auf den Aktivierungslink, der Ihnen per E-Mail an Ihre Facebook Mail-Adresse zugesandt wurde.]]></de>
-            <en><![CDATA[The registration was successful! Before you can log in, you must activate your user account. Please click on the activation link, which was sent to you by e-mail to your Facebook Mail address.]]></en>
+            <de><![CDATA[Die Registrierung war erfolgreich! Bevor Sie sich einloggen können, müssen Sie noch Ihr Benutzerkonto aktivieren. Bitte klicken Sie dazu auf den Aktivierungslink, der Ihnen per E-Mail an die E-Mail-Adresse Ihres Facebook-Kontos zugesandt wurde.]]></de>
+            <en><![CDATA[Registration was successful! Before you can sign in, activate your account by clicking the activation link sent to your Facebook account’s email address.]]></en>
+            <es><![CDATA[¡El registro se ha completado correctamente! Antes de iniciar sesión, debe activar su cuenta. Haga clic en el enlace de activación que le hemos enviado a la dirección de correo electrónico de su cuenta de Facebook.]]></es>
+            <pt><![CDATA[O registo foi concluído com sucesso! Antes de iniciar sessão, tem de ativar a sua conta. Clique na ligação de ativação enviada para o endereço de e-mail da sua conta Facebook.]]></pt>
+            <fr><![CDATA[Votre inscription a bien été effectuée ! Avant de vous connecter, activez votre compte en cliquant sur le lien d’activation envoyé à l’adresse e-mail de votre compte Facebook.]]></fr>
+            <it><![CDATA[La registrazione è stata completata! Prima di accedere, attiva il tuo account facendo clic sul link di attivazione inviato all’indirizzo email del tuo account Facebook.]]></it>
+            <pl><![CDATA[Rejestracja zakończyła się pomyślnie! Zanim się zalogujesz, aktywuj swoje konto. Kliknij link aktywacyjny wysłany na adres e-mail Twojego konta na Facebooku.]]></pl>
         </locale>
 
         <!-- GDPR consent -->
         <locale name="gdpr_consent.popup.title">
             <de><![CDATA[Verbindung zu Facebook genehmigen]]></de>
             <en><![CDATA[Allow connection to Facebook]]></en>
+            <es><![CDATA[Permitir la conexión con Facebook]]></es>
+            <pt><![CDATA[Permitir a ligação ao Facebook]]></pt>
+            <fr><![CDATA[Autoriser la connexion à Facebook]]></fr>
+            <it><![CDATA[Consenti la connessione a Facebook]]></it>
+            <pl><![CDATA[Zezwól na połączenie z Facebookiem]]></pl>
         </locale>
         <locale name="gdpr_consent.popup.info">
-            <de><![CDATA[Mit einem Klick auf "Verbindung zu Facebook genehmigen" erklären Sie sich damit einverstanden, dass eine Verbindung zu Facebook hergestellt wird und Facebook möglicherweise personenbezogene Informationen sammelt, auswertet und/oder an Drittanbieter übermittelt so wie Cookies setzt, die für diese Zwecke nötig sind. Diese Zustimmung gilt auch für zukünftige Besuche auf dieser Website.]]></de>
+            <de><![CDATA[Mit einem Klick auf "Verbindung zu Facebook genehmigen" erklären Sie sich damit einverstanden, dass eine Verbindung zu Facebook hergestellt wird und Facebook möglicherweise personenbezogene Informationen sammelt, auswertet und/oder an Drittanbieter übermittelt sowie Cookies setzt, die für diese Zwecke nötig sind. Diese Zustimmung gilt auch für zukünftige Besuche auf dieser Website.]]></de>
             <en><![CDATA[By clicking on "Allow connection to Facebook", you agree to be connected to Facebook and that Facebook may collect, analyze and/or transfer personal information to third parties as well as set cookies that are necessary for these purposes. This consent also applies to future visits to this website.]]></en>
+            <es><![CDATA[Al hacer clic en "Permitir la conexión con Facebook", acepta que se establezca una conexión con Facebook y que Facebook pueda recopilar, analizar y/o transferir datos personales a terceros, así como instalar las cookies necesarias para estos fines. Este consentimiento también se aplica a futuras visitas a este sitio web.]]></es>
+            <pt><![CDATA[Ao clicar em "Permitir a ligação ao Facebook", aceita que seja estabelecida uma ligação ao Facebook e que o Facebook possa recolher, analisar e/ou transmitir dados pessoais a terceiros, bem como instalar os cookies necessários para estas finalidades. Este consentimento também se aplica a futuras visitas a este site.]]></pt>
+            <fr><![CDATA[En cliquant sur "Autoriser la connexion à Facebook", vous acceptez qu’une connexion à Facebook soit établie et que Facebook puisse collecter, analyser et/ou transmettre des données personnelles à des tiers, ainsi que déposer les cookies nécessaires à ces fins. Ce consentement s’applique également à vos prochaines visites sur ce site.]]></fr>
+            <it><![CDATA[Facendo clic su "Consenti la connessione a Facebook", acconsenti a stabilire una connessione con Facebook e alla possibilità che Facebook raccolga, analizzi e/o trasmetta dati personali a terzi, oltre a installare i cookie necessari a tali scopi. Il consenso si applica anche alle visite future a questo sito.]]></it>
+            <pl><![CDATA[Klikając "Zezwól na połączenie z Facebookiem", zgadzasz się na nawiązanie połączenia z Facebookiem oraz na to, że Facebook może zbierać, analizować i/lub przekazywać dane osobowe podmiotom trzecim, a także zapisywać pliki cookie niezbędne do tych celów. Zgoda ta obejmuje również przyszłe wizyty w tej witrynie.]]></pl>
         </locale>
         <locale name="gdpr_consent.popup.btn.text">
             <de><![CDATA[Verbindung zu Facebook genehmigen]]></de>
             <en><![CDATA[Allow connection to Facebook]]></en>
+            <es><![CDATA[Permitir la conexión con Facebook]]></es>
+            <pt><![CDATA[Permitir a ligação ao Facebook]]></pt>
+            <fr><![CDATA[Autoriser la connexion à Facebook]]></fr>
+            <it><![CDATA[Consenti la connessione a Facebook]]></it>
+            <pl><![CDATA[Zezwól na połączenie z Facebookiem]]></pl>
         </locale>
 
     </groups>
@@ -184,110 +384,235 @@
         <locale name="message.ajax.general.error">
             <de><![CDATA[Beim Verarbeiten der Anfrage ist ein unerwarteter Fehler aufgetreten. Bitte wenden Sie sich an einen Administrator.]]></de>
             <en><![CDATA[An unexpected error occurred during your request. Please contact an administrator.]]></en>
+            <es><![CDATA[Se ha producido un error inesperado al procesar la solicitud. Póngase en contacto con un administrador.]]></es>
+            <pt><![CDATA[Ocorreu um erro inesperado ao processar o pedido. Contacte um administrador.]]></pt>
+            <fr><![CDATA[Une erreur inattendue s’est produite lors du traitement de la demande. Contactez un administrateur.]]></fr>
+            <it><![CDATA[Si è verificato un errore imprevisto durante l’elaborazione della richiesta. Contatta un amministratore.]]></it>
+            <pl><![CDATA[Wystąpił nieoczekiwany błąd podczas przetwarzania żądania. Skontaktuj się z administratorem.]]></pl>
         </locale>
         <locale name="exception.operation.only.allowed.by.own.user">
             <de><![CDATA[Diese Abfrage darf nur vom übergebenen Benutzer selbst durchgeführt werden.]]></de>
             <en><![CDATA[This request can only be executed by the given user.]]></en>
+            <es><![CDATA[Solo el usuario indicado puede realizar esta solicitud.]]></es>
+            <pt><![CDATA[Este pedido só pode ser efetuado pelo próprio utilizador indicado.]]></pt>
+            <fr><![CDATA[Seul l’utilisateur concerné peut effectuer cette demande.]]></fr>
+            <it><![CDATA[Solo l’utente indicato può eseguire questa richiesta.]]></it>
+            <pl><![CDATA[To żądanie może wykonać wyłącznie wskazany użytkownik.]]></pl>
         </locale>
         <locale name="message.ajax.connectAccount.error">
             <de><![CDATA[Bei der Verknüpfung des Facebook-Kontos mit dem Benutzerkonto ist ein Fehler aufgetreten:<br/><br/>[error]]]></de>
             <en><![CDATA[An error occurred while linking your Facebook Account to your user account:<br/><br/>[error]]]></en>
+            <es><![CDATA[Se ha producido un error al vincular su cuenta de Facebook con su cuenta de usuario:<br/><br/>[error]]]></es>
+            <pt><![CDATA[Ocorreu um erro ao associar a sua conta Facebook à sua conta de utilizador:<br/><br/>[error]]]></pt>
+            <fr><![CDATA[Une erreur s’est produite lors de l’association de votre compte Facebook à votre compte utilisateur :<br/><br/>[error]]]></fr>
+            <it><![CDATA[Si è verificato un errore durante il collegamento del tuo account Facebook all’account utente:<br/><br/>[error]]]></it>
+            <pl><![CDATA[Wystąpił błąd podczas łączenia Twojego konta na Facebooku z kontem użytkownika:<br/><br/>[error]]]></pl>
         </locale>
         <locale name="message.ajax.connectAccount.success">
             <de><![CDATA[Das Facebook-Konto "[fbAccount]" wurde erfolgreich mit dem Benutzerkonto "[qUserName]" (#[qUserId]) verknüpft. Der Facebook-Login kann nun für die Authentifizierung mit QUIQQER verwendet werden.]]></de>
-            <en><![CDATA[The Facebook Account "[fbAccount]" was successfully linked to the user account "[qUserName]" (#[qUserId]). Authentication for this account via Facebook Login can now be used.]]></en>
+            <en><![CDATA[The Facebook account "[fbAccount]" was successfully linked to the user account "[qUserName]" (#[qUserId]). You can now sign in to QUIQQER with Facebook.]]></en>
+            <es><![CDATA[La cuenta de Facebook "[fbAccount]" se ha vinculado correctamente con la cuenta de usuario "[qUserName]" (#[qUserId]). Ahora puede iniciar sesión en QUIQQER con Facebook.]]></es>
+            <pt><![CDATA[A conta Facebook "[fbAccount]" foi associada com sucesso à conta de utilizador "[qUserName]" (#[qUserId]). Já pode iniciar sessão no QUIQQER com o Facebook.]]></pt>
+            <fr><![CDATA[Le compte Facebook "[fbAccount]" a bien été associé au compte utilisateur "[qUserName]" (#[qUserId]). Vous pouvez désormais vous connecter à QUIQQER avec Facebook.]]></fr>
+            <it><![CDATA[L’account Facebook "[fbAccount]" è stato collegato all’account utente "[qUserName]" (#[qUserId]). Ora puoi accedere a QUIQQER con Facebook.]]></it>
+            <pl><![CDATA[Konto na Facebooku "[fbAccount]" zostało połączone z kontem użytkownika "[qUserName]" (#[qUserId]). Możesz teraz logować się do QUIQQER przez Facebooka.]]></pl>
         </locale>
         <locale name="message.ajax.disconnectAccount.error">
             <de><![CDATA[Beim Aufheben der Verknüpfung des Facebook-Kontos mit dem Benutzerkonto ist ein Fehler aufgetreten:<br/><br/>[error]]]></de>
             <en><![CDATA[An error occurred while unlinking your Facebook Account from your user account:<br/><br/>[error]]]></en>
+            <es><![CDATA[Se ha producido un error al desvincular su cuenta de Facebook de su cuenta de usuario:<br/><br/>[error]]]></es>
+            <pt><![CDATA[Ocorreu um erro ao desassociar a sua conta Facebook da sua conta de utilizador:<br/><br/>[error]]]></pt>
+            <fr><![CDATA[Une erreur s’est produite lors de la dissociation de votre compte Facebook et de votre compte utilisateur :<br/><br/>[error]]]></fr>
+            <it><![CDATA[Si è verificato un errore durante lo scollegamento del tuo account Facebook dall’account utente:<br/><br/>[error]]]></it>
+            <pl><![CDATA[Wystąpił błąd podczas odłączania Twojego konta na Facebooku od konta użytkownika:<br/><br/>[error]]]></pl>
         </locale>
         <locale name="message.ajax.disconnectAccount.success" html="true">
             <de><![CDATA[Die Verknüpfung des Facebook-Kontos mit dem Benutzerkonto "[qUserName]" (#[qUserId]) wurde erfolgreich gelöscht. Der Facebook-Login kann nun <b>nicht</b> mehr zur Authentifizierung für diesen QUIQQER-Benutzer verwendet werden.]]></de>
-            <en><![CDATA[The Facebook Account was successfully unlinked from the user account "[qUserName]" (#[qUserId]). Facebook Login can now no longer be used to authenticate for this user account.]]></en>
+            <en><![CDATA[The Facebook account was successfully unlinked from the user account "[qUserName]" (#[qUserId]). You can <b>no longer</b> sign in to this QUIQQER account with Facebook.]]></en>
+            <es><![CDATA[La cuenta de Facebook se ha desvinculado correctamente de la cuenta de usuario "[qUserName]" (#[qUserId]). <b>Ya no</b> puede iniciar sesión en esta cuenta de QUIQQER con Facebook.]]></es>
+            <pt><![CDATA[A conta Facebook foi desassociada com sucesso da conta de utilizador "[qUserName]" (#[qUserId]). <b>Já não</b> é possível iniciar sessão nesta conta QUIQQER com o Facebook.]]></pt>
+            <fr><![CDATA[Le compte Facebook a bien été dissocié du compte utilisateur "[qUserName]" (#[qUserId]). La connexion avec Facebook <b>n’est plus possible</b> pour ce compte QUIQQER.]]></fr>
+            <it><![CDATA[L’account Facebook è stato scollegato dall’account utente "[qUserName]" (#[qUserId]). <b>Non è più possibile</b> accedere a questo account QUIQQER con Facebook.]]></it>
+            <pl><![CDATA[Konto na Facebooku zostało odłączone od konta użytkownika "[qUserName]" (#[qUserId]). Logowanie na to konto QUIQQER przez Facebooka <b>nie jest już możliwe</b>.]]></pl>
         </locale>
         <locale name="message.ajax.createAccount.error">
             <de><![CDATA[Bei Erstellung des Benutzerkontos ist ein Fehler aufgetreten:<br/><br/>[error]]]></de>
             <en><![CDATA[An error occurred while creating the user account:<br/><br/>[error]]]></en>
+            <es><![CDATA[Se ha producido un error al crear la cuenta de usuario:<br/><br/>[error]]]></es>
+            <pt><![CDATA[Ocorreu um erro ao criar a conta de utilizador:<br/><br/>[error]]]></pt>
+            <fr><![CDATA[Une erreur s’est produite lors de la création du compte utilisateur :<br/><br/>[error]]]></fr>
+            <it><![CDATA[Si è verificato un errore durante la creazione dell’account utente:<br/><br/>[error]]]></it>
+            <pl><![CDATA[Wystąpił błąd podczas tworzenia konta użytkownika:<br/><br/>[error]]]></pl>
         </locale>
         <locale name="message.ajax.createAccount.success" html="true">
             <de><![CDATA[Das Benutzerkonto <b>[email]</b> wurde erfolgreich erstellt.]]></de>
             <en><![CDATA[The user account <b>[email]</b> has been successfully created.]]></en>
+            <es><![CDATA[La cuenta de usuario <b>[email]</b> se ha creado correctamente.]]></es>
+            <pt><![CDATA[A conta de utilizador <b>[email]</b> foi criada com sucesso.]]></pt>
+            <fr><![CDATA[Le compte utilisateur <b>[email]</b> a bien été créé.]]></fr>
+            <it><![CDATA[L’account utente <b>[email]</b> è stato creato.]]></it>
+            <pl><![CDATA[Konto użytkownika <b>[email]</b> zostało utworzone.]]></pl>
         </locale>
         <locale name="message.ajax.loginErrorCheck.force.logout.attention">
             <de><![CDATA[Sie haben sich zu oft mit dem falschen Facebook-Konto angemeldet. Bitte starten Sie den Login-Vorgang erneut.]]></de>
-            <en><![CDATA[You've logged in too often with the wrong Facebook Account. Please restart the login process.]]></en>
+            <en><![CDATA[You have made too many sign-in attempts with the wrong Facebook account. Please restart the sign-in process.]]></en>
+            <es><![CDATA[Ha intentado iniciar sesión demasiadas veces con una cuenta de Facebook incorrecta. Vuelva a iniciar el proceso de acceso.]]></es>
+            <pt><![CDATA[Excedeu o número de tentativas de início de sessão com uma conta Facebook incorreta. Inicie novamente o processo de início de sessão.]]></pt>
+            <fr><![CDATA[Vous avez effectué trop de tentatives de connexion avec le mauvais compte Facebook. Recommencez la procédure de connexion.]]></fr>
+            <it><![CDATA[Hai effettuato troppi tentativi di accesso con l’account Facebook sbagliato. Ricomincia la procedura di accesso.]]></it>
+            <pl><![CDATA[Przekroczono liczbę prób logowania przy użyciu niewłaściwego konta na Facebooku. Rozpocznij logowanie od nowa.]]></pl>
         </locale>
 
         <!-- Class: Auth -->
         <locale name="exception.auth.wrong.data">
             <de><![CDATA[Die zur Authentifizierung übermittelten Daten sind nicht korrekt.]]></de>
             <en><![CDATA[The data sent for authentication is not correct.]]></en>
+            <es><![CDATA[Los datos enviados para la autenticación no son correctos.]]></es>
+            <pt><![CDATA[Os dados enviados para a autenticação estão incorretos.]]></pt>
+            <fr><![CDATA[Les données transmises pour l’authentification sont incorrectes.]]></fr>
+            <it><![CDATA[I dati inviati per l’autenticazione non sono corretti.]]></it>
+            <pl><![CDATA[Dane przesłane do uwierzytelnienia są nieprawidłowe.]]></pl>
         </locale>
         <locale name="exception.auth.no.account.connected">
             <de><![CDATA[Mit diesem Facebook-Konto ist kein Benutzerkonto verknüpft.]]></de>
             <en><![CDATA[No user account is associated with this Facebook Account.]]></en>
+            <es><![CDATA[No hay ninguna cuenta de usuario vinculada a esta cuenta de Facebook.]]></es>
+            <pt><![CDATA[Não existe nenhuma conta de utilizador associada a esta conta Facebook.]]></pt>
+            <fr><![CDATA[Aucun compte utilisateur n’est associé à ce compte Facebook.]]></fr>
+            <it><![CDATA[Nessun account utente è collegato a questo account Facebook.]]></it>
+            <pl><![CDATA[Z tym kontem na Facebooku nie jest połączone żadne konto użytkownika.]]></pl>
         </locale>
         <locale name="exception.auth.wrong.account.for.user">
             <de><![CDATA[Dieses Facebook-Konto ist nicht mit dem übergebenen Benutzerkonto verknüpft.]]></de>
             <en><![CDATA[This Facebook Account is not linked to the user account you submitted.]]></en>
+            <es><![CDATA[Esta cuenta de Facebook no está vinculada a la cuenta de usuario indicada.]]></es>
+            <pt><![CDATA[Esta conta Facebook não está associada à conta de utilizador indicada.]]></pt>
+            <fr><![CDATA[Ce compte Facebook n’est pas associé au compte utilisateur indiqué.]]></fr>
+            <it><![CDATA[Questo account Facebook non è collegato all’account utente indicato.]]></it>
+            <pl><![CDATA[To konto na Facebooku nie jest połączone ze wskazanym kontem użytkownika.]]></pl>
         </locale>
 
         <!-- Class: Facebook -->
         <locale name="exception.facebook.api.error">
             <de><![CDATA[Bei Verwendung der Facebook API ist ein unerwarteter Fehler aufgetreten. Bitte wenden Sie sich an einen Administrator.]]></de>
             <en><![CDATA[An unexpected error occurred while using Facebook API. Please contact an administrator.]]></en>
+            <es><![CDATA[Se ha producido un error inesperado al utilizar la API de Facebook. Póngase en contacto con un administrador.]]></es>
+            <pt><![CDATA[Ocorreu um erro inesperado ao utilizar a API Facebook. Contacte um administrador.]]></pt>
+            <fr><![CDATA[Une erreur inattendue s’est produite lors de l’utilisation de l’API Facebook. Contactez un administrateur.]]></fr>
+            <it><![CDATA[Si è verificato un errore imprevisto durante l’utilizzo dell’API Facebook. Contatta un amministratore.]]></it>
+            <pl><![CDATA[Wystąpił nieoczekiwany błąd podczas korzystania z API Facebooka. Skontaktuj się z administratorem.]]></pl>
         </locale>
         <locale name="exception.facebook.invalid.token">
-            <de><![CDATA[Ungültiges Facebook Zugriffs-Token.]]></de>
+            <de><![CDATA[Ungültiges Facebook-Zugriffstoken.]]></de>
             <en><![CDATA[Invalid Facebook Access Token.]]></en>
+            <es><![CDATA[El token de acceso de Facebook no es válido.]]></es>
+            <pt><![CDATA[O token de acesso do Facebook é inválido.]]></pt>
+            <fr><![CDATA[Le jeton d’accès Facebook est invalide.]]></fr>
+            <it><![CDATA[Il token di accesso Facebook non è valido.]]></it>
+            <pl><![CDATA[Token dostępu Facebooka jest nieprawidłowy.]]></pl>
         </locale>
         <locale name="exception.facebook.token.app_mismatch">
-            <de><![CDATA[Das Facebook Zugriffs-Token gehört nicht zu dieser App.]]></de>
+            <de><![CDATA[Das Facebook-Zugriffstoken gehört nicht zu dieser App.]]></de>
             <en><![CDATA[The Facebook access token does not belong to this app.]]></en>
+            <es><![CDATA[El token de acceso de Facebook no pertenece a esta aplicación.]]></es>
+            <pt><![CDATA[O token de acesso do Facebook não pertence a esta aplicação.]]></pt>
+            <fr><![CDATA[Le jeton d’accès Facebook n’appartient pas à cette application.]]></fr>
+            <it><![CDATA[Il token di accesso Facebook non appartiene a questa app.]]></it>
+            <pl><![CDATA[Token dostępu Facebooka nie należy do tej aplikacji.]]></pl>
         </locale>
         <locale name="exception.facebook.token.user_mismatch">
-            <de><![CDATA[Das Facebook Zugriffs-Token gehört nicht zum angegebenen Benutzer.]]></de>
+            <de><![CDATA[Das Facebook-Zugriffstoken gehört nicht zum angegebenen Benutzer.]]></de>
             <en><![CDATA[The Facebook access token does not match the specified user.]]></en>
+            <es><![CDATA[El token de acceso de Facebook no corresponde al usuario indicado.]]></es>
+            <pt><![CDATA[O token de acesso do Facebook não corresponde ao utilizador indicado.]]></pt>
+            <fr><![CDATA[Le jeton d’accès Facebook ne correspond pas à l’utilisateur indiqué.]]></fr>
+            <it><![CDATA[Il token di accesso Facebook non corrisponde all’utente indicato.]]></it>
+            <pl><![CDATA[Token dostępu Facebooka nie odpowiada wskazanemu użytkownikowi.]]></pl>
         </locale>
         <locale name="exception.facebook.token.expired">
-            <de><![CDATA[Das Facebook Zugriffs-Token ist abgelaufen.]]></de>
+            <de><![CDATA[Das Facebook-Zugriffstoken ist abgelaufen.]]></de>
             <en><![CDATA[The Facebook access token has expired.]]></en>
+            <es><![CDATA[El token de acceso de Facebook ha caducado.]]></es>
+            <pt><![CDATA[O token de acesso do Facebook expirou.]]></pt>
+            <fr><![CDATA[Le jeton d’accès Facebook a expiré.]]></fr>
+            <it><![CDATA[Il token di accesso Facebook è scaduto.]]></it>
+            <pl><![CDATA[Token dostępu Facebooka wygasł.]]></pl>
         </locale>
         <locale name="exception.facebook.account_already_connected">
             <de><![CDATA[Das Facebook-Konto "[email]" ist bereits mit einem Benutzerkonto verknüpft.]]></de>
             <en><![CDATA[The Facebook account "[email]" is already connected to a user account.]]></en>
+            <es><![CDATA[La cuenta de Facebook "[email]" ya está vinculada a una cuenta de usuario.]]></es>
+            <pt><![CDATA[A conta Facebook "[email]" já está associada a uma conta de utilizador.]]></pt>
+            <fr><![CDATA[Le compte Facebook "[email]" est déjà associé à un compte utilisateur.]]></fr>
+            <it><![CDATA[L’account Facebook "[email]" è già collegato a un account utente.]]></it>
+            <pl><![CDATA[Konto na Facebooku "[email]" jest już połączone z kontem użytkownika.]]></pl>
         </locale>
         <locale name="exception.facebook.email.already.exists">
             <de><![CDATA[Es existiert bereits ein Benutzerkonto mit der E-Mail-Adresse "[email]".]]></de>
             <en><![CDATA[There is already a user account with the e-mail address "[email]".]]></en>
+            <es><![CDATA[Ya existe una cuenta de usuario con la dirección de correo electrónico "[email]".]]></es>
+            <pt><![CDATA[Já existe uma conta de utilizador com o endereço de e-mail "[email]".]]></pt>
+            <fr><![CDATA[Un compte utilisateur existe déjà avec l’adresse e-mail "[email]".]]></fr>
+            <it><![CDATA[Esiste già un account utente con l’indirizzo email "[email]".]]></it>
+            <pl><![CDATA[Konto użytkownika z adresem e-mail "[email]" już istnieje.]]></pl>
         </locale>
         <locale name="exception.facebook.email.access.mandatory">
             <de><![CDATA[Für die Erstellung eines Benutzerkontos ist es erforderlich, dass der Zugriff auf die bei Facebook hinterlegte E-Mail-Adresse gestattet wird.]]></de>
             <en><![CDATA[For the creation of a user account, access to your e-mail address stored at Facebook is required.]]></en>
+            <es><![CDATA[Para crear una cuenta de usuario, debe permitir el acceso a la dirección de correo electrónico de su cuenta de Facebook.]]></es>
+            <pt><![CDATA[Para criar uma conta de utilizador, tem de permitir o acesso ao endereço de e-mail da sua conta Facebook.]]></pt>
+            <fr><![CDATA[Pour créer un compte utilisateur, vous devez autoriser l’accès à l’adresse e-mail de votre compte Facebook.]]></fr>
+            <it><![CDATA[Per creare un account utente, devi consentire l’accesso all’indirizzo email del tuo account Facebook.]]></it>
+            <pl><![CDATA[Aby utworzyć konto użytkownika, zezwól na dostęp do adresu e-mail swojego konta na Facebooku.]]></pl>
         </locale>
         <locale name="exception.facebook.email.incorrect">
             <de><![CDATA[Die übergebene E-Mail-Adresse entspricht nicht der bei Facebook hinterlegten E-Mail-Adresse.]]></de>
             <en><![CDATA[The submitted email address does not correspond to the Facebook email address.]]></en>
+            <es><![CDATA[La dirección de correo electrónico enviada no coincide con la de su cuenta de Facebook.]]></es>
+            <pt><![CDATA[O endereço de e-mail enviado não corresponde ao da sua conta Facebook.]]></pt>
+            <fr><![CDATA[L’adresse e-mail transmise ne correspond pas à celle de votre compte Facebook.]]></fr>
+            <it><![CDATA[L’indirizzo email inviato non corrisponde a quello del tuo account Facebook.]]></it>
+            <pl><![CDATA[Przesłany adres e-mail nie jest zgodny z adresem Twojego konta na Facebooku.]]></pl>
         </locale>
 
         <!-- Class: Registrar -->
         <locale name="exception.registrar.token_invalid">
             <de><![CDATA[Bei der Überprüfung Ihres Facebook-Kontos ist ein Fehler aufgetreten. Bitte wenden Sie sich an einen Administrator.]]></de>
             <en><![CDATA[There was an error checking your Facebook account. Please contact an administrator.]]></en>
+            <es><![CDATA[Se ha producido un error al verificar su cuenta de Facebook. Póngase en contacto con un administrador.]]></es>
+            <pt><![CDATA[Ocorreu um erro ao verificar a sua conta Facebook. Contacte um administrador.]]></pt>
+            <fr><![CDATA[Une erreur s’est produite lors de la vérification de votre compte Facebook. Contactez un administrateur.]]></fr>
+            <it><![CDATA[Si è verificato un errore durante la verifica del tuo account Facebook. Contatta un amministratore.]]></it>
+            <pl><![CDATA[Wystąpił błąd podczas sprawdzania Twojego konta na Facebooku. Skontaktuj się z administratorem.]]></pl>
         </locale>
         <locale name="exception.registrar.email_address_empty">
             <de><![CDATA[Ihre E-Mail-Adresse konnte nicht aus Ihrem Facebook-Profil abgerufen werden. Bitte autorisieren Sie den Zugriff auf Ihre E-Mail-Adresse.]]></de>
             <en><![CDATA[Your email address could not be retrieved from your Facebook profile. Please authorize access to your e-mail address.]]></en>
+            <es><![CDATA[No se ha podido obtener la dirección de correo electrónico de su perfil de Facebook. Autorice el acceso a su dirección de correo electrónico.]]></es>
+            <pt><![CDATA[Não foi possível obter o endereço de e-mail do seu perfil Facebook. Autorize o acesso ao seu endereço de e-mail.]]></pt>
+            <fr><![CDATA[Impossible de récupérer l’adresse e-mail de votre profil Facebook. Autorisez l’accès à votre adresse e-mail.]]></fr>
+            <it><![CDATA[Non è stato possibile recuperare l’indirizzo email dal tuo profilo Facebook. Autorizza l’accesso al tuo indirizzo email.]]></it>
+            <pl><![CDATA[Nie udało się pobrać adresu e-mail z Twojego profilu na Facebooku. Zezwól na dostęp do swojego adresu e-mail.]]></pl>
         </locale>
         <locale name="exception.registrar.email_already_exists">
             <de><![CDATA[Es existiert bereits ein Benutzerkonto mit Ihrer bei Facebook hinterlegten E-Mail-Adresse.]]></de>
             <en><![CDATA[There is already a user account with your Facebook e-mail address.]]></en>
+            <es><![CDATA[Ya existe una cuenta de usuario con la dirección de correo electrónico de su cuenta de Facebook.]]></es>
+            <pt><![CDATA[Já existe uma conta de utilizador com o endereço de e-mail da sua conta Facebook.]]></pt>
+            <fr><![CDATA[Un compte utilisateur existe déjà avec l’adresse e-mail de votre compte Facebook.]]></fr>
+            <it><![CDATA[Esiste già un account utente con l’indirizzo email del tuo account Facebook.]]></it>
+            <pl><![CDATA[Konto użytkownika z adresem e-mail Twojego konta na Facebooku już istnieje.]]></pl>
         </locale>
 
         <!-- Class: Login -->
         <locale name="login.javascript_required">
             <de><![CDATA[JavaScript ist in Ihrem Browser deaktiviert. Um sich mit Facebook einzuloggen, aktivieren Sie bitte JavaScript.]]></de>
             <en><![CDATA[JavaScript is disabled in your browser. To sign in with Facebook please enable JavaScript.]]></en>
+            <es><![CDATA[JavaScript está desactivado en su navegador. Actívelo para iniciar sesión con Facebook.]]></es>
+            <pt><![CDATA[O JavaScript está desativado no seu navegador. Ative-o para iniciar sessão com o Facebook.]]></pt>
+            <fr><![CDATA[JavaScript est désactivé dans votre navigateur. Activez-le pour vous connecter avec Facebook.]]></fr>
+            <it><![CDATA[JavaScript è disattivato nel browser. Attivalo per accedere con Facebook.]]></it>
+            <pl><![CDATA[JavaScript jest wyłączony w przeglądarce. Włącz go, aby zalogować się przez Facebooka.]]></pl>
         </locale>
 
         <!-- region Cookies -->
@@ -295,56 +620,111 @@
         <locale name="cookie.act.purpose">
             <de><![CDATA[Wird verwendet, um zwischen zwei Facebook-Sitzungen für denselben Benutzer zu unterscheiden, die zu unterschiedlichen Zeiten erstellt wurden.]]></de>
             <en><![CDATA[Used to distinguish between two Facebook sessions for the same user, created at different times.]]></en>
+            <es><![CDATA[Se utiliza para distinguir entre dos sesiones de Facebook del mismo usuario iniciadas en momentos diferentes.]]></es>
+            <pt><![CDATA[É utilizado para distinguir duas sessões do Facebook do mesmo utilizador, iniciadas em momentos diferentes.]]></pt>
+            <fr><![CDATA[Sert à distinguer deux sessions Facebook d’un même utilisateur ouvertes à des moments différents.]]></fr>
+            <it><![CDATA[Serve a distinguere due sessioni Facebook dello stesso utente avviate in momenti diversi.]]></it>
+            <pl><![CDATA[Służy do rozróżniania dwóch sesji Facebooka tego samego użytkownika rozpoczętych w różnym czasie.]]></pl>
         </locale>
 
         <locale name="cookie.cuser.purpose">
             <de><![CDATA[Die Facebook-Benutzer-ID des aktuell angemeldeten Benutzers.]]></de>
             <en><![CDATA[The Facebook user ID of the currently logged-in user.]]></en>
+            <es><![CDATA[El ID de usuario de Facebook de la persona que ha iniciado sesión.]]></es>
+            <pt><![CDATA[O ID de utilizador do Facebook da pessoa com sessão iniciada.]]></pt>
+            <fr><![CDATA[L’identifiant Facebook de l’utilisateur actuellement connecté.]]></fr>
+            <it><![CDATA[L’ID utente Facebook della persona che ha effettuato l’accesso.]]></it>
+            <pl><![CDATA[Identyfikator aktualnie zalogowanego użytkownika Facebooka.]]></pl>
         </locale>
 
         <locale name="cookie.datr.purpose">
             <de><![CDATA[Wird verwendet, um den Webbrowser zu identifizieren, der zur Verbindung mit Facebook unabhängig vom eingeloggten Benutzer verwendet wird. ]]></de>
             <en><![CDATA[Used to identify the web browser used to connect to Facebook regardless of the user logged in. ]]></en>
+            <es><![CDATA[Se utiliza para identificar el navegador que se conecta a Facebook, independientemente del usuario que haya iniciado sesión.]]></es>
+            <pt><![CDATA[É utilizado para identificar o navegador que se liga ao Facebook, independentemente do utilizador com sessão iniciada.]]></pt>
+            <fr><![CDATA[Sert à identifier le navigateur utilisé pour se connecter à Facebook, indépendamment de l’utilisateur connecté.]]></fr>
+            <it><![CDATA[Serve a identificare il browser utilizzato per connettersi a Facebook, indipendentemente dall’utente che ha effettuato l’accesso.]]></it>
+            <pl><![CDATA[Służy do identyfikowania przeglądarki używanej do łączenia z Facebookiem, niezależnie od zalogowanego użytkownika.]]></pl>
         </locale>
 
         <locale name="cookie.fblo.purpose">
             <de><![CDATA[Wird verwendet, um Benutzer über Facebook anzumelden.]]></de>
             <en><![CDATA[Used to log in users via Facebook.]]></en>
+            <es><![CDATA[Se utiliza para iniciar sesión con Facebook.]]></es>
+            <pt><![CDATA[É utilizado para iniciar sessão com o Facebook.]]></pt>
+            <fr><![CDATA[Sert à connecter les utilisateurs via Facebook.]]></fr>
+            <it><![CDATA[Serve a effettuare l’accesso tramite Facebook.]]></it>
+            <pl><![CDATA[Służy do logowania użytkowników przez Facebooka.]]></pl>
         </locale>
 
         <locale name="cookie.fbm.purpose">
             <de><![CDATA[Wird verwendet, um Benutzer über Facebook anzumelden.]]></de>
             <en><![CDATA[Used to log in users via Facebook.]]></en>
+            <es><![CDATA[Se utiliza para iniciar sesión con Facebook.]]></es>
+            <pt><![CDATA[É utilizado para iniciar sessão com o Facebook.]]></pt>
+            <fr><![CDATA[Sert à connecter les utilisateurs via Facebook.]]></fr>
+            <it><![CDATA[Serve a effettuare l’accesso tramite Facebook.]]></it>
+            <pl><![CDATA[Służy do logowania użytkowników przez Facebooka.]]></pl>
         </locale>
 
         <locale name="cookie.fbp.purpose">
             <de><![CDATA[Wird von Facebook verwendet, um eine Reihe von Werbeprodukten anzuzeigen, z. B. Echtzeit-Gebote von Drittanbietern.]]></de>
             <en><![CDATA[Used by Facebook to display a range of advertising products, such as real-time bids from third party advertisers.]]></en>
+            <es><![CDATA[Facebook lo utiliza para ofrecer distintos productos publicitarios, como las pujas en tiempo real de anunciantes externos.]]></es>
+            <pt><![CDATA[O Facebook utiliza-o para disponibilizar vários produtos publicitários, como licitações em tempo real de anunciantes terceiros.]]></pt>
+            <fr><![CDATA[Facebook l’utilise pour proposer différents produits publicitaires, notamment les enchères en temps réel d’annonceurs tiers.]]></fr>
+            <it><![CDATA[Facebook lo utilizza per offrire diversi prodotti pubblicitari, come le offerte in tempo reale di inserzionisti terzi.]]></it>
+            <pl><![CDATA[Facebook używa go do udostępniania różnych produktów reklamowych, na przykład licytacji w czasie rzeczywistym prowadzonych przez zewnętrznych reklamodawców.]]></pl>
         </locale>
 
         <locale name="cookie.fr.purpose">
             <de><![CDATA[Wird verwendet, um Anzeigen zu zeigen und zu messen und die Relevanz von Anzeigen zu verbessern (einschließlich der Messung von Konversionen). Bestimmt die Relevanz von Anzeigen auf der Grundlage des Website-Verhaltens und/oder aktueller Suchanfragen.]]></de>
             <en><![CDATA[Used to show and measure ads and improve the relevance of ads (including measurement of conversions). Determines the relevance of ads based on site behavior and/or current search queries.]]></en>
+            <es><![CDATA[Se utiliza para mostrar anuncios, medir sus resultados y mejorar su relevancia, incluida la medición de conversiones. Determina la relevancia de los anuncios según el comportamiento en el sitio web y/o las búsquedas actuales.]]></es>
+            <pt><![CDATA[É utilizado para apresentar anúncios, medir os seus resultados e melhorar a sua relevância, incluindo a medição de conversões. Determina a relevância dos anúncios com base no comportamento no site e/ou nas pesquisas atuais.]]></pt>
+            <fr><![CDATA[Sert à afficher des publicités, à mesurer leurs performances et à améliorer leur pertinence, y compris par la mesure des conversions. Détermine la pertinence des publicités à partir du comportement sur le site et/ou des recherches actuelles.]]></fr>
+            <it><![CDATA[Serve a mostrare annunci, misurarne i risultati e migliorarne la pertinenza, anche attraverso la misurazione delle conversioni. Determina la pertinenza degli annunci in base al comportamento sul sito e/o alle ricerche attuali.]]></it>
+            <pl><![CDATA[Służy do wyświetlania reklam, mierzenia ich wyników i zwiększania trafności, w tym do pomiaru konwersji. Określa trafność reklam na podstawie zachowania w witrynie i/lub bieżących wyszukiwań.]]></pl>
         </locale>
 
         <locale name="cookie.sb.purpose">
             <de><![CDATA[Wird verwendet, um Anzeigen zu zeigen und zu messen und die Relevanz von Anzeigen zu verbessern (einschließlich der Messung von Konversionen). Bestimmt die Relevanz von Anzeigen auf der Grundlage des Website-Verhaltens und/oder aktueller Suchanfragen.]]></de>
             <en><![CDATA[Used to show and measure ads and improve the relevance of ads (including measurement of conversions). Determines the relevance of ads based on site behavior and/or current search queries.]]></en>
+            <es><![CDATA[Se utiliza para mostrar anuncios, medir sus resultados y mejorar su relevancia, incluida la medición de conversiones. Determina la relevancia de los anuncios según el comportamiento en el sitio web y/o las búsquedas actuales.]]></es>
+            <pt><![CDATA[É utilizado para apresentar anúncios, medir os seus resultados e melhorar a sua relevância, incluindo a medição de conversões. Determina a relevância dos anúncios com base no comportamento no site e/ou nas pesquisas atuais.]]></pt>
+            <fr><![CDATA[Sert à afficher des publicités, à mesurer leurs performances et à améliorer leur pertinence, y compris par la mesure des conversions. Détermine la pertinence des publicités à partir du comportement sur le site et/ou des recherches actuelles.]]></fr>
+            <it><![CDATA[Serve a mostrare annunci, misurarne i risultati e migliorarne la pertinenza, anche attraverso la misurazione delle conversioni. Determina la pertinenza degli annunci in base al comportamento sul sito e/o alle ricerche attuali.]]></it>
+            <pl><![CDATA[Służy do wyświetlania reklam, mierzenia ich wyników i zwiększania trafności, w tym do pomiaru konwersji. Określa trafność reklam na podstawie zachowania w witrynie i/lub bieżących wyszukiwań.]]></pl>
         </locale>
 
         <locale name="cookie.spin.purpose">
             <de><![CDATA[Wird von Facebook beim Login gesetzt - genaue Verwendung unbekannt.]]></de>
             <en><![CDATA[Set by Facebook at login - exact usage unknown.]]></en>
+            <es><![CDATA[Facebook lo instala al iniciar sesión. Su uso exacto se desconoce.]]></es>
+            <pt><![CDATA[É definido pelo Facebook ao iniciar sessão. A sua utilização exata é desconhecida.]]></pt>
+            <fr><![CDATA[Déposé par Facebook lors de la connexion. Son usage exact est inconnu.]]></fr>
+            <it><![CDATA[Viene impostato da Facebook al momento dell’accesso. Il suo utilizzo esatto non è noto.]]></it>
+            <pl><![CDATA[Jest zapisywany przez Facebooka podczas logowania. Jego dokładne zastosowanie nie jest znane.]]></pl>
         </locale>
 
         <locale name="cookie.wd.purpose">
             <de><![CDATA[Dieses Cookie speichert die Abmessungen des Browserfensters und wird von Facebook verwendet, um die Darstellung der Seite zu optimieren.]]></de>
             <en><![CDATA[This cookie stores the dimensions of the browser window and is used by Facebook to optimize the display of the page.]]></en>
+            <es><![CDATA[Esta cookie guarda las dimensiones de la ventana del navegador para que Facebook pueda optimizar la presentación de la página.]]></es>
+            <pt><![CDATA[Este cookie guarda as dimensões da janela do navegador para que o Facebook possa otimizar a apresentação da página.]]></pt>
+            <fr><![CDATA[Ce cookie enregistre les dimensions de la fenêtre du navigateur afin que Facebook puisse optimiser l’affichage de la page.]]></fr>
+            <it><![CDATA[Questo cookie memorizza le dimensioni della finestra del browser per consentire a Facebook di ottimizzare la visualizzazione della pagina.]]></it>
+            <pl><![CDATA[Ten plik cookie zapisuje wymiary okna przeglądarki, aby Facebook mógł zoptymalizować wyświetlanie strony.]]></pl>
         </locale>
 
         <locale name="cookie.xs.purpose">
             <de><![CDATA[Dieses Cookie enthält mehrere Informationen über die Sitzung des Benutzers.]]></de>
-            <en><![CDATA[This cookie contains multiple information about the user's session.]]></en>
+            <en><![CDATA[This cookie contains several pieces of information about the user’s session.]]></en>
+            <es><![CDATA[Esta cookie contiene distintos datos sobre la sesión del usuario.]]></es>
+            <pt><![CDATA[Este cookie contém várias informações sobre a sessão do utilizador.]]></pt>
+            <fr><![CDATA[Ce cookie contient diverses informations sur la session de l’utilisateur.]]></fr>
+            <it><![CDATA[Questo cookie contiene diverse informazioni sulla sessione dell’utente.]]></it>
+            <pl><![CDATA[Ten plik cookie zawiera różne informacje o sesji użytkownika.]]></pl>
         </locale>
         <!-- endregion -->
     </groups>
@@ -353,126 +733,271 @@
 
         <!-- Control: Settings -->
         <locale name="controls.settings.addAccount.info.not_authorized" html="true">
-            <de><![CDATA[Sie sind z.Z. bei Facebook eingeloggt, haben QUIQQER aber noch nicht autorisiert, ihr Facebook-Konto für den Authentifizierungs-Prozess zu benutzen. Wenn Sie das Facebook-Konto, mit welchem sie aktuell eingeloggt sind, für den Authentifizierungs-Prozess verwenden möchten, klicken Sie bitte auf <b>QUIQQER autorisieren</b>. Möchten Sie ein anderes Facebook-Konto für die Authentifizierung verwenden, besuchen Sie bitte <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> und loggen sich dort zunächst aus.]]></de>
-            <en><![CDATA[You are currently logged in with Facebook but have not yet authorized QUIQQER to use your Facebook Account for the authentication process. If you want to use the Facebook Account you are currently logged in with for authentication with QUIQQER, please click <b>Authorize QUIQQER</b>. If you want to use another Facebook Account, please go to Facebook and log out there first.]]></en>
+            <de><![CDATA[Sie sind z.Z. bei Facebook eingeloggt, haben QUIQQER aber noch nicht autorisiert, Ihr Facebook-Konto für den Authentifizierungs-Prozess zu benutzen. Wenn Sie das Facebook-Konto, mit welchem Sie aktuell eingeloggt sind, für den Authentifizierungs-Prozess verwenden möchten, klicken Sie bitte auf <b>QUIQQER autorisieren</b>. Möchten Sie ein anderes Facebook-Konto für die Authentifizierung verwenden, besuchen Sie bitte <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> und loggen sich dort zunächst aus.]]></de>
+            <en><![CDATA[You are signed in to Facebook but have not yet authorized QUIQQER to use your account for authentication. To use your current account, click <b>Authorize QUIQQER</b>. To use another Facebook account, visit <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> and sign out first.]]></en>
+            <es><![CDATA[Ha iniciado sesión en Facebook, pero todavía no ha autorizado a QUIQQER a utilizar su cuenta para la autenticación. Para utilizar la cuenta actual, haga clic en <b>Autorizar QUIQQER</b>. Si prefiere utilizar otra cuenta de Facebook, visite <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> y cierre primero la sesión.]]></es>
+            <pt><![CDATA[Tem sessão iniciada no Facebook, mas ainda não autorizou o QUIQQER a utilizar a sua conta para a autenticação. Para utilizar a conta atual, clique em <b>Autorizar o QUIQQER</b>. Se pretender utilizar outra conta Facebook, visite <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> e termine primeiro a sessão.]]></pt>
+            <fr><![CDATA[Vous êtes connecté à Facebook, mais vous n’avez pas encore autorisé QUIQQER à utiliser votre compte pour l’authentification. Pour utiliser le compte actuel, cliquez sur <b>Autoriser QUIQQER</b>. Si vous préférez utiliser un autre compte Facebook, rendez-vous sur <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> et déconnectez-vous d’abord.]]></fr>
+            <it><![CDATA[Hai effettuato l’accesso a Facebook, ma non hai ancora autorizzato QUIQQER a utilizzare il tuo account per l’autenticazione. Per usare l’account attuale, fai clic su <b>Autorizza QUIQQER</b>. Se vuoi utilizzare un altro account Facebook, visita <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> ed esci prima dall’account attuale.]]></it>
+            <pl><![CDATA[Korzystasz obecnie z konta na Facebooku, ale QUIQQER nie ma jeszcze uprawnień do używania go do uwierzytelniania. Aby użyć tego konta, kliknij <b>Autoryzuj QUIQQER</b>. Jeśli chcesz użyć innego konta na Facebooku, najpierw przejdź na <a href="https://www.facebook.com" target="_blank">https://www.facebook.com</a> i wyloguj się.]]></pl>
         </locale>
         <locale name="controls.settings.addAccount.info.connected" html="true">
             <de><![CDATA[Sie sind mit dem Facebook-Konto <b>[name]</b> ([email]) eingeloggt. Wenn Sie dieses Facebook-Konto mit diesem Benutzer verknüpfen möchten, um sich in Zukunft mit Ihrem Facebook-Login bei QUIQQER zu authentifizieren, klicken Sie bitte auf: <b>Jetzt verknüpfen</b>.]]></de>
-            <en><![CDATA[You are currently logged in with the Facebook Account <b>[email]</b> ([name]). If you want to link this Facebook Account with this user account, please click <b>Link now</b>]]></en>
+            <en><![CDATA[You are signed in with the Facebook account <b>[name]</b> ([email]). To link it to this user account and sign in to QUIQQER with Facebook in the future, click <b>Link now</b>.]]></en>
+            <es><![CDATA[Ha iniciado sesión con la cuenta de Facebook <b>[name]</b> ([email]). Para vincularla a esta cuenta de usuario e iniciar sesión en QUIQQER con Facebook en el futuro, haga clic en <b>Vincular ahora</b>.]]></es>
+            <pt><![CDATA[Tem sessão iniciada com a conta Facebook <b>[name]</b> ([email]). Para a associar a esta conta de utilizador e iniciar sessão no QUIQQER com o Facebook no futuro, clique em <b>Associar agora</b>.]]></pt>
+            <fr><![CDATA[Vous êtes connecté avec le compte Facebook <b>[name]</b> ([email]). Pour l’associer à ce compte utilisateur et pouvoir vous connecter à QUIQQER avec Facebook à l’avenir, cliquez sur <b>Associer maintenant</b>.]]></fr>
+            <it><![CDATA[Hai effettuato l’accesso con l’account Facebook <b>[name]</b> ([email]). Per collegarlo a questo account utente e accedere a QUIQQER con Facebook in futuro, fai clic su <b>Collega ora</b>.]]></it>
+            <pl><![CDATA[Korzystasz obecnie z konta na Facebooku <b>[name]</b> ([email]). Aby połączyć je z tym kontem użytkownika i w przyszłości logować się do QUIQQER przez Facebooka, kliknij <b>Połącz teraz</b>.]]></pl>
         </locale>
         <locale name="controls.settings.addAccount.email.unknown">
             <de><![CDATA[Sie sind mit dem Facebook-Konto <b>[name]</b> eingeloggt, haben QUIQQER jedoch nicht autorisiert, Ihre mit dem Facebook-Konto verknüpfte E-Mail-Adresse abzurufen. Dies ist jedoch notwendig, um Ihr Facebook-Konto zur Authentifizierung mit QUIQQER benutzen zu können. Klicken Sie auf <b>QUIQQER autorisieren</b>, um QUIQQER den Zugriff auf Ihre E-Mail-Adresse bei Facebook zu geben.]]></de>
-            <en><![CDATA[You are currently logged in with the Facebook Account <b>[name]</b> but have not yet authorized QUIQQER to use your Facebook email address. If you want to link this Facebook Account with this user account, please click <b>Link now</b>]]></en>
+            <en><![CDATA[You are signed in with the Facebook account <b>[name]</b>, but you have not authorized QUIQQER to retrieve the associated email address. This permission is required to authenticate in QUIQQER with Facebook. Click <b>Authorize QUIQQER</b> to allow access to your Facebook email address.]]></en>
+            <es><![CDATA[Ha iniciado sesión con la cuenta de Facebook <b>[name]</b>, pero no ha autorizado a QUIQQER a obtener la dirección de correo electrónico asociada. Este permiso es necesario para autenticarse en QUIQQER con Facebook. Haga clic en <b>Autorizar QUIQQER</b> para permitir el acceso a su dirección de correo electrónico de Facebook.]]></es>
+            <pt><![CDATA[Tem sessão iniciada com a conta Facebook <b>[name]</b>, mas não autorizou o QUIQQER a obter o endereço de e-mail associado. Esta autorização é necessária para se autenticar no QUIQQER com o Facebook. Clique em <b>Autorizar o QUIQQER</b> para permitir o acesso ao seu endereço de e-mail do Facebook.]]></pt>
+            <fr><![CDATA[Vous êtes connecté avec le compte Facebook <b>[name]</b>, mais vous n’avez pas autorisé QUIQQER à récupérer l’adresse e-mail associée. Cette autorisation est nécessaire pour vous authentifier dans QUIQQER avec Facebook. Cliquez sur <b>Autoriser QUIQQER</b> pour permettre l’accès à votre adresse e-mail Facebook.]]></fr>
+            <it><![CDATA[Hai effettuato l’accesso con l’account Facebook <b>[name]</b>, ma non hai autorizzato QUIQQER a recuperare l’indirizzo email associato. Questa autorizzazione è necessaria per autenticarti in QUIQQER con Facebook. Fai clic su <b>Autorizza QUIQQER</b> per consentire l’accesso al tuo indirizzo email di Facebook.]]></it>
+            <pl><![CDATA[Korzystasz obecnie z konta na Facebooku <b>[name]</b>, ale QUIQQER nie ma uprawnień do pobrania powiązanego adresu e-mail. To uprawnienie jest wymagane do uwierzytelniania w QUIQQER przez Facebooka. Kliknij <b>Autoryzuj QUIQQER</b>, aby zezwolić na dostęp do adresu e-mail swojego konta na Facebooku.]]></pl>
         </locale>
         <locale name="controls.settings.addAccount.info.unknown">
-            <de><![CDATA[Dieses Benutzerkonto ist z.Z. nicht mit einem Facebook-Konto verknüpft. Bitte loggen Sie sich bei Facebook ein, um mit einer Konto-Verknüpfung zu erstellen.]]></de>
-            <en><![CDATA[This user account is currently not linked to a Facebook Account. Please log in with your Facebook Account to create a user account link.]]></en>
+            <de><![CDATA[Dieses Benutzerkonto ist z.Z. nicht mit einem Facebook-Konto verknüpft. Bitte loggen Sie sich bei Facebook ein, um eine Konto-Verknüpfung zu erstellen.]]></de>
+            <en><![CDATA[This user account is not currently linked to a Facebook account. Sign in to Facebook to link the accounts.]]></en>
+            <es><![CDATA[Esta cuenta de usuario aún no está vinculada a ninguna cuenta de Facebook. Inicie sesión en Facebook para vincular las cuentas.]]></es>
+            <pt><![CDATA[Esta conta de utilizador ainda não está associada a nenhuma conta Facebook. Inicie sessão no Facebook para associar as contas.]]></pt>
+            <fr><![CDATA[Ce compte utilisateur n’est actuellement associé à aucun compte Facebook. Connectez-vous à Facebook pour associer les comptes.]]></fr>
+            <it><![CDATA[Questo account utente non è ancora collegato a un account Facebook. Accedi a Facebook per collegare gli account.]]></it>
+            <pl><![CDATA[To konto użytkownika nie jest obecnie połączone z żadnym kontem na Facebooku. Zaloguj się na Facebooku, aby połączyć konta.]]></pl>
         </locale>
         <locale name="controls.settings.wrong.user.info">
             <de><![CDATA[Die Verknüpfung mit einem Facebook-Konto kann nur der Benutzer selbst verwalten.]]></de>
-            <en><![CDATA[The link to a Facebook Account can only be managed by the user himself.]]></en>
+            <en><![CDATA[Only the account holder can manage the link to a Facebook account.]]></en>
+            <es><![CDATA[Solo el titular de la cuenta puede gestionar la vinculación con una cuenta de Facebook.]]></es>
+            <pt><![CDATA[Apenas o próprio utilizador pode gerir a associação a uma conta Facebook.]]></pt>
+            <fr><![CDATA[Seul le titulaire du compte peut gérer l’association à un compte Facebook.]]></fr>
+            <it><![CDATA[Solo il titolare dell’account può gestire il collegamento a un account Facebook.]]></it>
+            <pl><![CDATA[Tylko właściciel konta może zarządzać połączeniem z kontem na Facebooku.]]></pl>
         </locale>
         <locale name="controls.settings.showAccountInfo.text">
             <de><![CDATA[Dieses Benutzerkonto ist mit dem Facebook-Konto <b>[name]</b> ([email]) verknüpft und kann zur Authentifizierung für diesen Benutzer verwendet werden. Wenn Sie diese Verknüpfung aufheben möchten, klicken Sie bitte auf <b>Verknüpfung aufheben</b>.]]></de>
-            <en><![CDATA[This user account is linked to the Facebook Account <b>[email]</b> ([name]) and can be used for authentication. If you want to remove this link, click <b>Unlink now</b>.]]></en>
+            <en><![CDATA[This user account is linked to the Facebook account <b>[name]</b> ([email]), which you can use to sign in. To unlink the accounts, click <b>Unlink now</b>.]]></en>
+            <es><![CDATA[Esta cuenta de usuario está vinculada a la cuenta de Facebook <b>[name]</b> ([email]), que puede utilizar para iniciar sesión. Para desvincular las cuentas, haga clic en <b>Desvincular</b>.]]></es>
+            <pt><![CDATA[Esta conta de utilizador está associada à conta Facebook <b>[name]</b> ([email]), que pode utilizar para iniciar sessão. Para desassociar as contas, clique em <b>Desassociar</b>.]]></pt>
+            <fr><![CDATA[Ce compte utilisateur est associé au compte Facebook <b>[name]</b> ([email]), que vous pouvez utiliser pour vous connecter. Pour dissocier les comptes, cliquez sur <b>Dissocier</b>.]]></fr>
+            <it><![CDATA[Questo account utente è collegato all’account Facebook <b>[name]</b> ([email]), che puoi utilizzare per accedere. Per scollegare gli account, fai clic su <b>Scollega</b>.]]></it>
+            <pl><![CDATA[To konto użytkownika jest połączone z kontem na Facebooku <b>[name]</b> ([email]), którego możesz używać do logowania. Aby odłączyć konta, kliknij <b>Odłącz</b>.]]></pl>
         </locale>
         <locale name="controls.settings.addAccount.btn.connect">
             <de><![CDATA[Jetzt verknüpfen]]></de>
             <en><![CDATA[Link now]]></en>
+            <es><![CDATA[Vincular ahora]]></es>
+            <pt><![CDATA[Associar agora]]></pt>
+            <fr><![CDATA[Associer maintenant]]></fr>
+            <it><![CDATA[Collega ora]]></it>
+            <pl><![CDATA[Połącz teraz]]></pl>
         </locale>
         <locale name="controls.settings.showAccountInfo.btn.disconnect">
             <de><![CDATA[Verknüpfung aufheben]]></de>
             <en><![CDATA[Unlink now]]></en>
+            <es><![CDATA[Desvincular]]></es>
+            <pt><![CDATA[Desassociar]]></pt>
+            <fr><![CDATA[Dissocier]]></fr>
+            <it><![CDATA[Scollega]]></it>
+            <pl><![CDATA[Odłącz]]></pl>
         </locale>
 
         <!-- Control: Register -->
         <locale name="controls.register.status.unknown">
             <de><![CDATA[Um ein Benutzerkonto mit Facebook zu registrieren, wird der Zugriff auf Ihr Facebook-Profil (nur Name) und die dort hinterlegte E-Mail-Adresse benötigt. Bitte loggen Sie sich bei Facebook ein.]]></de>
             <en><![CDATA[To register a user account with Facebook, access to your Facebook profile (name only) and the e-mail address stored there is required. Please log in to Facebook.]]></en>
+            <es><![CDATA[Para registrarse con Facebook, es necesario acceder a su perfil de Facebook (solo al nombre) y a la dirección de correo electrónico asociada. Inicie sesión en Facebook.]]></es>
+            <pt><![CDATA[Para se registar com o Facebook, é necessário aceder ao seu perfil Facebook (apenas ao nome) e ao endereço de e-mail associado. Inicie sessão no Facebook.]]></pt>
+            <fr><![CDATA[Pour créer un compte avec Facebook, l’accès à votre profil Facebook (nom uniquement) et à l’adresse e-mail associée est nécessaire. Connectez-vous à Facebook.]]></fr>
+            <it><![CDATA[Per registrarti con Facebook, è necessario accedere al tuo profilo Facebook (solo al nome) e all’indirizzo email associato. Accedi a Facebook.]]></it>
+            <pl><![CDATA[Rejestracja przez Facebooka wymaga dostępu do Twojego profilu na Facebooku (tylko do imienia i nazwiska) oraz powiązanego adresu e-mail. Zaloguj się na Facebooku.]]></pl>
         </locale>
         <locale name="controls.register.status.login_required">
             <de><![CDATA[Bitte loggen Sie sich bei Facebook ein, um fortzufahren.]]></de>
             <en><![CDATA[Please sign in with Facebook to continue.]]></en>
+            <es><![CDATA[Inicie sesión con Facebook para continuar.]]></es>
+            <pt><![CDATA[Inicie sessão com o Facebook para continuar.]]></pt>
+            <fr><![CDATA[Connectez-vous avec Facebook pour continuer.]]></fr>
+            <it><![CDATA[Accedi con Facebook per continuare.]]></it>
+            <pl><![CDATA[Zaloguj się przez Facebooka, aby kontynuować.]]></pl>
         </locale>
         <locale name="controls.register.status.not_authorized">
             <de><![CDATA[Um ein Benutzerkonto mit Facebook zu registrieren, wird der Zugriff auf Ihr Facebook-Profil (nur Name) und die dort hinterlegte E-Mail-Adresse benötigt. Bitte klicken Sie auf <b>QUIQQER autorisieren</b>.]]></de>
             <en><![CDATA[To register a user account via Facebook, access to your Facebook profile (name only) and your Facebook email address is required. Please click <b>Authorize QUIQQER</b>.]]></en>
+            <es><![CDATA[Para registrarse con Facebook, es necesario acceder a su perfil de Facebook (solo al nombre) y a la dirección de correo electrónico asociada. Haga clic en <b>Autorizar QUIQQER</b>.]]></es>
+            <pt><![CDATA[Para se registar com o Facebook, é necessário aceder ao seu perfil Facebook (apenas ao nome) e ao endereço de e-mail associado. Clique em <b>Autorizar o QUIQQER</b>.]]></pt>
+            <fr><![CDATA[Pour créer un compte avec Facebook, l’accès à votre profil Facebook (nom uniquement) et à l’adresse e-mail associée est nécessaire. Cliquez sur <b>Autoriser QUIQQER</b>.]]></fr>
+            <it><![CDATA[Per registrarti con Facebook, è necessario accedere al tuo profilo Facebook (solo al nome) e all’indirizzo email associato. Fai clic su <b>Autorizza QUIQQER</b>.]]></it>
+            <pl><![CDATA[Rejestracja przez Facebooka wymaga dostępu do Twojego profilu na Facebooku (tylko do imienia i nazwiska) oraz powiązanego adresu e-mail. Kliknij <b>Autoryzuj QUIQQER</b>.]]></pl>
         </locale>
         <locale name="controls.register.status.connected.account.exists">
             <de><![CDATA[Das Facebook-Konto, mit welchem Sie gerade eingeloggt sind, ist bereits mit einem Benutzerkonto verknüpft und kann daher nicht für eine Registrierung verwendet werden.]]></de>
             <en><![CDATA[The Facebook Account that you are currently logged into is already linked to a user account and can not be used for registration.]]></en>
+            <es><![CDATA[La cuenta de Facebook con la que ha iniciado sesión ya está vinculada a una cuenta de usuario y no puede utilizarse para un nuevo registro.]]></es>
+            <pt><![CDATA[A conta Facebook com que iniciou sessão já está associada a uma conta de utilizador e não pode ser utilizada para um novo registo.]]></pt>
+            <fr><![CDATA[Le compte Facebook avec lequel vous êtes connecté est déjà associé à un compte utilisateur et ne peut pas servir à une nouvelle inscription.]]></fr>
+            <it><![CDATA[L’account Facebook con cui hai effettuato l’accesso è già collegato a un account utente e non può essere utilizzato per una nuova registrazione.]]></it>
+            <pl><![CDATA[Konto na Facebooku, z którego obecnie korzystasz, jest już połączone z kontem użytkownika i nie można go użyć do ponownej rejestracji.]]></pl>
         </locale>
         <locale name="controls.register.registration.profile.not.eligible">
             <de><![CDATA[Für die Registrierung eines Benutzerkontos ist es notwendig, dass Sie Zugriff auf Ihre bei Facebook hinterlegte E-Mail-Adresse geben. Bitte klicken Sie dazu auf <b>QUIQQER autorisieren</b>.]]></de>
-            <en><![CDATA[To register a user account via Facebook, access to your Facebook profile (name only) and your Facebook email address is required. Please click <b>Authorize QUIQQER</b>.]]></en>
+            <en><![CDATA[To register a user account, you must allow access to your Facebook account’s email address. Click <b>Authorize QUIQQER</b>.]]></en>
+            <es><![CDATA[Para registrar una cuenta de usuario, debe permitir el acceso a la dirección de correo electrónico de su cuenta de Facebook. Haga clic en <b>Autorizar QUIQQER</b>.]]></es>
+            <pt><![CDATA[Para registar uma conta de utilizador, tem de permitir o acesso ao endereço de e-mail da sua conta Facebook. Clique em <b>Autorizar o QUIQQER</b>.]]></pt>
+            <fr><![CDATA[Pour créer un compte utilisateur, vous devez autoriser l’accès à l’adresse e-mail de votre compte Facebook. Cliquez sur <b>Autoriser QUIQQER</b>.]]></fr>
+            <it><![CDATA[Per registrare un account utente, devi consentire l’accesso all’indirizzo email del tuo account Facebook. Fai clic su <b>Autorizza QUIQQER</b>.]]></it>
+            <pl><![CDATA[Aby zarejestrować konto użytkownika, zezwól na dostęp do adresu e-mail swojego konta na Facebooku. Kliknij <b>Autoryzuj QUIQQER</b>.]]></pl>
         </locale>
         <locale name="controls.register.registration.confirm" html="true">
             <de><![CDATA[Bitte bestätigen Sie die Erstellung des Benutzerkontos <b>[email]</b> mit einem Klick auf <b>Benutzerkonto erstellen</b>.]]></de>
-            <en><![CDATA[Please confirm the creation of the user account <b>[email]</b> with a click on <b>Create Account</b>.]]></en>
+            <en><![CDATA[Confirm the creation of the user account <b>[email]</b> by clicking <b>Create account</b>.]]></en>
+            <es><![CDATA[Confirme la creación de la cuenta de usuario <b>[email]</b> haciendo clic en <b>Crear cuenta</b>.]]></es>
+            <pt><![CDATA[Confirme a criação da conta de utilizador <b>[email]</b>, clicando em <b>Criar conta</b>.]]></pt>
+            <fr><![CDATA[Confirmez la création du compte utilisateur <b>[email]</b> en cliquant sur <b>Créer un compte</b>.]]></fr>
+            <it><![CDATA[Conferma la creazione dell’account utente <b>[email]</b> facendo clic su <b>Crea account</b>.]]></it>
+            <pl><![CDATA[Potwierdź utworzenie konta użytkownika <b>[email]</b>, klikając <b>Utwórz konto</b>.]]></pl>
         </locale>
         <locale name="controls.register.registration.confirm.btn.text">
             <de><![CDATA[Benutzerkonto erstellen]]></de>
             <en><![CDATA[Create account]]></en>
+            <es><![CDATA[Crear cuenta]]></es>
+            <pt><![CDATA[Criar conta]]></pt>
+            <fr><![CDATA[Créer un compte]]></fr>
+            <it><![CDATA[Crea account]]></it>
+            <pl><![CDATA[Utwórz konto]]></pl>
         </locale>
         <locale name="controls.register.registration.error">
-            <de><![CDATA[Bei der Erstellung des Benutzerkontos ist ein Fehler aufgetreten:<br/><br/>[error]<br/><br/>Es kann kein Benutzerkonto mit dem Facebook-Konto erstellt werden, mit welchem sie z.Z. eingeloggt sind. Bitte verwenden Sie ein anderes Facebook-Konto oder eine andere Registrierungsmethode.]]></de>
+            <de><![CDATA[Bei der Erstellung des Benutzerkontos ist ein Fehler aufgetreten:<br/><br/>[error]<br/><br/>Es kann kein Benutzerkonto mit dem Facebook-Konto erstellt werden, mit welchem Sie z.Z. eingeloggt sind. Bitte verwenden Sie ein anderes Facebook-Konto oder eine andere Registrierungsmethode.]]></de>
             <en><![CDATA[An error occurred during the creation of the user account:<br/><br/>[error]<br/><br/>It is not possible to create a user account with the Facebook Account you are currently logged in with. Please use another Facebook Account or another registration method.]]></en>
+            <es><![CDATA[Se ha producido un error al crear la cuenta de usuario:<br/><br/>[error]<br/><br/>No se puede crear una cuenta de usuario con la cuenta de Facebook con la que ha iniciado sesión. Utilice otra cuenta de Facebook u otro método de registro.]]></es>
+            <pt><![CDATA[Ocorreu um erro ao criar a conta de utilizador:<br/><br/>[error]<br/><br/>Não é possível criar uma conta de utilizador com a conta Facebook com que iniciou sessão. Utilize outra conta Facebook ou outro método de registo.]]></pt>
+            <fr><![CDATA[Une erreur s’est produite lors de la création du compte utilisateur :<br/><br/>[error]<br/><br/>Il est impossible de créer un compte utilisateur avec le compte Facebook actuellement utilisé. Utilisez un autre compte Facebook ou une autre méthode d’inscription.]]></fr>
+            <it><![CDATA[Si è verificato un errore durante la creazione dell’account utente:<br/><br/>[error]<br/><br/>Non è possibile creare un account utente con l’account Facebook con cui hai effettuato l’accesso. Utilizza un altro account Facebook o un altro metodo di registrazione.]]></it>
+            <pl><![CDATA[Wystąpił błąd podczas tworzenia konta użytkownika:<br/><br/>[error]<br/><br/>Nie można utworzyć konta użytkownika przy użyciu konta na Facebooku, z którego obecnie korzystasz. Użyj innego konta na Facebooku lub innej metody rejestracji.]]></pl>
         </locale>
         <locale name="controls.register.registration.success">
             <de><![CDATA[Das Benutzerkonto <b>[email]</b> wurde erfolgreich erstellt.]]></de>
             <en><![CDATA[QUIQQER account <b>[email]</b> was successfully created.]]></en>
+            <es><![CDATA[La cuenta de usuario <b>[email]</b> se ha creado correctamente.]]></es>
+            <pt><![CDATA[A conta de utilizador <b>[email]</b> foi criada com sucesso.]]></pt>
+            <fr><![CDATA[Le compte utilisateur <b>[email]</b> a bien été créé.]]></fr>
+            <it><![CDATA[L’account utente <b>[email]</b> è stato creato.]]></it>
+            <pl><![CDATA[Konto użytkownika <b>[email]</b> zostało utworzone.]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.sign_in.popup.title">
             <de><![CDATA[Bei Facebook einloggen]]></de>
-            <en><![CDATA[Sign in at Facebook]]></en>
+            <en><![CDATA[Sign in to Facebook]]></en>
+            <es><![CDATA[Iniciar sesión en Facebook]]></es>
+            <pt><![CDATA[Iniciar sessão no Facebook]]></pt>
+            <fr><![CDATA[Se connecter à Facebook]]></fr>
+            <it><![CDATA[Accedi a Facebook]]></it>
+            <pl><![CDATA[Zaloguj się na Facebooku]]></pl>
         </locale>
 
         <!-- Control: Login -->
         <locale name="controls.login.status.unknown">
             <de><![CDATA[Bitte loggen Sie sich bei Facebook ein, um sich anzumelden.]]></de>
             <en><![CDATA[Please log in with Facebook to sign in.]]></en>
+            <es><![CDATA[Inicie sesión en su cuenta de Facebook para acceder.]]></es>
+            <pt><![CDATA[Inicie sessão na sua conta Facebook para aceder.]]></pt>
+            <fr><![CDATA[Connectez-vous à votre compte Facebook pour vous identifier.]]></fr>
+            <it><![CDATA[Accedi al tuo account Facebook per effettuare l’accesso.]]></it>
+            <pl><![CDATA[Zaloguj się na swoje konto na Facebooku, aby uzyskać dostęp.]]></pl>
         </locale>
         <locale name="controls.login.register.status.connected" html="true">
             <de><![CDATA[Für die Authentifizierung ist es notwendig, dass Ihr Facebook-Konto mit dem Benutzerkonto, für welches Sie sich authentifizieren wollen, verknüpft ist. Um mit der Authentifizierung fortzufahren, klicken Sie bitte auf: <b>Jetzt verknüpfen</b>.]]></de>
             <en><![CDATA[It is necessary to link your Facebook Account to your user account to authenticate. To do this, please click <b>Link now</b>.]]></en>
+            <es><![CDATA[Para autenticarse, debe vincular su cuenta de Facebook con la cuenta de usuario a la que desea acceder. Haga clic en <b>Vincular ahora</b> para continuar.]]></es>
+            <pt><![CDATA[Para se autenticar, tem de associar a sua conta Facebook à conta de utilizador a que pretende aceder. Clique em <b>Associar agora</b> para continuar.]]></pt>
+            <fr><![CDATA[Pour vous authentifier, vous devez associer votre compte Facebook au compte utilisateur auquel vous souhaitez accéder. Cliquez sur <b>Associer maintenant</b> pour continuer.]]></fr>
+            <it><![CDATA[Per autenticarti, devi collegare il tuo account Facebook all’account utente a cui vuoi accedere. Fai clic su <b>Collega ora</b> per continuare.]]></it>
+            <pl><![CDATA[Aby się uwierzytelnić, połącz swoje konto na Facebooku z kontem użytkownika, do którego chcesz uzyskać dostęp. Kliknij <b>Połącz teraz</b>, aby kontynuować.]]></pl>
         </locale>
         <locale name="controls.login.register.status.not_authorized" html="true">
             <de><![CDATA[Für die Authentifizierung ist es notwendig, dass Ihr Facebook-Konto mit dem Benutzerkonto, für welches Sie sich authentifizieren wollen, verknüpft ist. Um mit der Authentifizierung fortzufahren, müssen Sie QUIQQER zunächst autorisieren, auf Ihr Facebook-Profil und die dort hinterlegte E-Mail-Adresse zuzugreifen. Klicken Sie dazu bitte auf <b>QUIQQER autorisieren</b>.]]></de>
-            <en><![CDATA[It is necessary to link your Facebook Account to your user account to authenticate. To do this, please click <b>Link now</b>.]]></en>
+            <en><![CDATA[To authenticate, you must link your Facebook account to the user account you want to access. First, authorize QUIQQER to access your Facebook profile and its associated email address by clicking <b>Authorize QUIQQER</b>.]]></en>
+            <es><![CDATA[Para autenticarse, debe vincular su cuenta de Facebook con la cuenta de usuario a la que desea acceder. Primero autorice a QUIQQER a acceder a su perfil de Facebook y a la dirección de correo electrónico asociada. Para ello, haga clic en <b>Autorizar QUIQQER</b>.]]></es>
+            <pt><![CDATA[Para se autenticar, tem de associar a sua conta Facebook à conta de utilizador a que pretende aceder. Primeiro, autorize o QUIQQER a aceder ao seu perfil Facebook e ao endereço de e-mail associado. Para isso, clique em <b>Autorizar o QUIQQER</b>.]]></pt>
+            <fr><![CDATA[Pour vous authentifier, vous devez associer votre compte Facebook au compte utilisateur auquel vous souhaitez accéder. Autorisez d’abord QUIQQER à accéder à votre profil Facebook et à l’adresse e-mail associée en cliquant sur <b>Autoriser QUIQQER</b>.]]></fr>
+            <it><![CDATA[Per autenticarti, devi collegare il tuo account Facebook all’account utente a cui vuoi accedere. Autorizza prima QUIQQER ad accedere al tuo profilo Facebook e all’indirizzo email associato facendo clic su <b>Autorizza QUIQQER</b>.]]></it>
+            <pl><![CDATA[Aby się uwierzytelnić, połącz swoje konto na Facebooku z kontem użytkownika, do którego chcesz uzyskać dostęp. Najpierw zezwól QUIQQER na dostęp do swojego profilu na Facebooku i powiązanego adresu e-mail. W tym celu kliknij <b>Autoryzuj QUIQQER</b>.]]></pl>
         </locale>
         <locale name="controls.login.wrong.facebook.user">
-            <de><![CDATA[Das Facebook-Konto, bei welchem Sie z.Z. eingeloggt sind, ist nicht mit dem Benutzerkonto verknüpft, für welches Sie sich gerade authentifizieren. Bitte loggen Sie sich bei Facebook aus und loggen sich erneut mit dem Facebook-Konto ein, welches zu diesem Benutzerkonto gehört oder welches sie mit dem Benutzerkonto verknüpfen möchten.]]></de>
-            <en><![CDATA[The Facebook Account you are currently logged in with is not linked to the user account you are trying to authenticate. Please log in with the Facebook Account that is linked to the user account or a Facebook Account that is currently not linked to any other user account.]]></en>
+            <de><![CDATA[Das Facebook-Konto, bei welchem Sie z.Z. eingeloggt sind, ist nicht mit dem Benutzerkonto verknüpft, für welches Sie sich gerade authentifizieren. Bitte loggen Sie sich bei Facebook aus und loggen sich erneut mit dem Facebook-Konto ein, welches zu diesem Benutzerkonto gehört oder welches Sie mit dem Benutzerkonto verknüpfen möchten.]]></de>
+            <en><![CDATA[The Facebook account you are signed in with is not linked to the user account you are trying to access. Sign out of Facebook, then sign in with the account linked to that user or the one you want to link.]]></en>
+            <es><![CDATA[La cuenta de Facebook con la que ha iniciado sesión no está vinculada a la cuenta de usuario a la que intenta acceder. Cierre la sesión en Facebook y vuelva a iniciarla con la cuenta vinculada a ese usuario o con la que desee vincular.]]></es>
+            <pt><![CDATA[A conta Facebook com que iniciou sessão não está associada à conta de utilizador a que está a tentar aceder. Termine a sessão no Facebook e inicie-a novamente com a conta associada a esse utilizador ou com a que pretende associar.]]></pt>
+            <fr><![CDATA[Le compte Facebook avec lequel vous êtes connecté n’est pas associé au compte utilisateur auquel vous essayez d’accéder. Déconnectez-vous de Facebook, puis reconnectez-vous avec le compte associé à cet utilisateur ou celui que vous souhaitez y associer.]]></fr>
+            <it><![CDATA[L’account Facebook con cui hai effettuato l’accesso non è collegato all’account utente a cui stai tentando di accedere. Esci da Facebook e accedi nuovamente con l’account collegato a quell’utente oppure con quello che desideri collegare.]]></it>
+            <pl><![CDATA[Konto na Facebooku, z którego obecnie korzystasz, nie jest połączone z kontem użytkownika, do którego próbujesz uzyskać dostęp. Wyloguj się z Facebooka i zaloguj ponownie na konto połączone z tym użytkownikiem lub na konto, które chcesz z nim połączyć.]]></pl>
         </locale>
         <locale name="controls.login.no.quiqqer.account">
             <de><![CDATA[Zu dem Facebook-Konto, mit welchem Sie z.Z. eingeloggt sind, existiert kein Benutzerkonto. Bitte loggen Sie sich mit einem anderen Facebook-Konto ein oder verwenden Sie eine andere Authentifizierungs-Methode.]]></de>
-            <en><![CDATA[The Facebook Account you are currently logged in with is not linked to the user account you are trying to authenticate. Please log in with another Facebook Account or use another authentication method.]]></en>
+            <en><![CDATA[No user account is linked to the Facebook account you are currently signed in with. Sign in with another Facebook account or use another authentication method.]]></en>
+            <es><![CDATA[No hay ninguna cuenta de usuario vinculada a la cuenta de Facebook con la que ha iniciado sesión. Inicie sesión con otra cuenta de Facebook o utilice otro método de autenticación.]]></es>
+            <pt><![CDATA[Não existe nenhuma conta de utilizador associada à conta Facebook com que iniciou sessão. Inicie sessão com outra conta Facebook ou utilize outro método de autenticação.]]></pt>
+            <fr><![CDATA[Aucun compte utilisateur n’est associé au compte Facebook avec lequel vous êtes connecté. Connectez-vous avec un autre compte Facebook ou utilisez une autre méthode d’authentification.]]></fr>
+            <it><![CDATA[Nessun account utente è collegato all’account Facebook con cui hai effettuato l’accesso. Accedi con un altro account Facebook o utilizza un altro metodo di autenticazione.]]></it>
+            <pl><![CDATA[Z kontem na Facebooku, z którego obecnie korzystasz, nie jest połączone żadne konto użytkownika. Zaloguj się za pomocą innego konta na Facebooku lub użyj innej metody uwierzytelniania.]]></pl>
         </locale>
         <locale name="controls.login.general_error">
             <de><![CDATA[Facebook-Login kann z.Z. nicht verwendet werden.]]></de>
             <en><![CDATA[Facebook Login is not available at the moment.]]></en>
+            <es><![CDATA[El inicio de sesión con Facebook no está disponible en este momento.]]></es>
+            <pt><![CDATA[O início de sessão com o Facebook não está disponível neste momento.]]></pt>
+            <fr><![CDATA[La connexion avec Facebook est momentanément indisponible.]]></fr>
+            <it><![CDATA[L’accesso con Facebook non è al momento disponibile.]]></it>
+            <pl><![CDATA[Logowanie przez Facebooka jest obecnie niedostępne.]]></pl>
         </locale>
 
         <!-- Control: frontend/controls/Registrar -->
         <locale name="controls.frontend.registrar.already_connected" html="true">
             <de><![CDATA[Das Facebook-Konto <b>[email]</b> ist bereits mit einem Benutzerkonto verknüpft. Bitte loggen Sie sich mit diesem Benutzerkonto ein oder schließen Sie dieses Fenster, um sich ggf. mit einem anderen Facebook-Konto zu registrieren.]]></de>
             <en><![CDATA[The Facebook account <b>[email]</b> is already linked to a user account. Please log in with this account or close this window to sign up with a different Facebook account.]]></en>
+            <es><![CDATA[La cuenta de Facebook <b>[email]</b> ya está vinculada a una cuenta de usuario. Inicie sesión con esa cuenta o cierre esta ventana para registrarse con otra cuenta de Facebook.]]></es>
+            <pt><![CDATA[A conta Facebook <b>[email]</b> já está associada a uma conta de utilizador. Inicie sessão com essa conta ou feche esta janela para se registar com outra conta Facebook.]]></pt>
+            <fr><![CDATA[Le compte Facebook <b>[email]</b> est déjà associé à un compte utilisateur. Connectez-vous avec ce compte ou fermez cette fenêtre pour vous inscrire avec un autre compte Facebook.]]></fr>
+            <it><![CDATA[L’account Facebook <b>[email]</b> è già collegato a un account utente. Accedi con questo account oppure chiudi questa finestra per registrarti con un altro account Facebook.]]></it>
+            <pl><![CDATA[Konto na Facebooku <b>[email]</b> jest już połączone z kontem użytkownika. Zaloguj się na to konto lub zamknij to okno, aby zarejestrować się za pomocą innego konta na Facebooku.]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.already_connected.login.label">
             <de><![CDATA[Jetzt mit Facebook einloggen]]></de>
             <en><![CDATA[Sign In with Facebook]]></en>
+            <es><![CDATA[Iniciar sesión con Facebook ahora]]></es>
+            <pt><![CDATA[Iniciar sessão com o Facebook agora]]></pt>
+            <fr><![CDATA[Se connecter avec Facebook]]></fr>
+            <it><![CDATA[Accedi ora con Facebook]]></it>
+            <pl><![CDATA[Zaloguj się teraz przez Facebooka]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.general_error">
             <de><![CDATA[Die Registrierung per Facebook-Konto kann z.Z. nicht verwendet werden.]]></de>
             <en><![CDATA[The registration via Facebook account is not available at the moment.]]></en>
+            <es><![CDATA[El registro con una cuenta de Facebook no está disponible en este momento.]]></es>
+            <pt><![CDATA[O registo com uma conta Facebook não está disponível neste momento.]]></pt>
+            <fr><![CDATA[L’inscription avec un compte Facebook est momentanément indisponible.]]></fr>
+            <it><![CDATA[La registrazione con un account Facebook non è al momento disponibile.]]></it>
+            <pl><![CDATA[Rejestracja za pomocą konta na Facebooku jest obecnie niedostępna.]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.login_popup.title">
             <de><![CDATA[Mit Facebook einloggen]]></de>
             <en><![CDATA[Sign in with Facebook]]></en>
+            <es><![CDATA[Iniciar sesión con Facebook]]></es>
+            <pt><![CDATA[Iniciar sessão com o Facebook]]></pt>
+            <fr><![CDATA[Se connecter avec Facebook]]></fr>
+            <it><![CDATA[Accedi con Facebook]]></it>
+            <pl><![CDATA[Zaloguj się przez Facebooka]]></pl>
         </locale>
         <locale name="controls.frontend.registrar.gdpr.confirm.content">
             <de><![CDATA[Um die Facebook-Anmeldung zu nutzen, müssen alle Cookies akzeptiert werden. Bitte klicke auf 'Ok' wodurch die Seite neu geladen wird. Anschließend müssen alle Kategorien im erscheinenden Cookie Hinweis akzeptiert werden.]]></de>
-            <en><![CDATA[To use the Facebook registration, all cookies must be accepted. Please click on 'Ok' which will reload the page. Afterward all categories must be accepted in the appearing cookie hint.]]></en>
+            <en><![CDATA[To sign in with Facebook, you must accept all cookies. Click 'Ok' to reload the page, then accept all categories in the cookie notice that appears.]]></en>
+            <es><![CDATA[Para iniciar sesión con Facebook, debe aceptar todas las cookies. Haga clic en 'Ok' para recargar la página. Después, acepte todas las categorías en el aviso de cookies que aparecerá.]]></es>
+            <pt><![CDATA[Para iniciar sessão com o Facebook, tem de aceitar todos os cookies. Clique em 'Ok' para recarregar a página. Depois, aceite todas as categorias no aviso de cookies apresentado.]]></pt>
+            <fr><![CDATA[Pour vous connecter avec Facebook, vous devez accepter tous les cookies. Cliquez sur 'Ok' pour recharger la page, puis acceptez toutes les catégories dans le bandeau de cookies qui s’affiche.]]></fr>
+            <it><![CDATA[Per accedere con Facebook, devi accettare tutti i cookie. Fai clic su 'Ok' per ricaricare la pagina, poi accetta tutte le categorie nel banner dei cookie che viene mostrato.]]></it>
+            <pl><![CDATA[Aby zalogować się przez Facebooka, musisz zaakceptować wszystkie pliki cookie. Kliknij 'Ok', aby ponownie załadować stronę, a następnie zaakceptuj wszystkie kategorie w wyświetlonym komunikacie o plikach cookie.]]></pl>
         </locale>
 
     </groups>

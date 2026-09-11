@@ -44,7 +44,7 @@ class Xs implements CookieInterface
         return sprintf(
             '%d %s',
             3,
-            QUI::getLocale()->get('quiqqer/quiqqer', 'months')
+            QUI::getLocale()->get('quiqqer/core', 'months')
         );
     }
 

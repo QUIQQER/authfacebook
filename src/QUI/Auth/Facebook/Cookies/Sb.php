@@ -44,7 +44,7 @@ class Sb implements CookieInterface
         return sprintf(
             '%d %s',
             2,
-            QUI::getLocale()->get('quiqqer/quiqqer', 'years')
+            QUI::getLocale()->get('quiqqer/core', 'years')
         );
     }
 

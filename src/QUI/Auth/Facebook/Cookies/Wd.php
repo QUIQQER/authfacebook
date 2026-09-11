@@ -44,7 +44,7 @@ class Wd implements CookieInterface
         return sprintf(
             '%d %s',
             7,
-            QUI::getLocale()->get('quiqqer/quiqqer', 'days')
+            QUI::getLocale()->get('quiqqer/core', 'days')
         );
     }
 

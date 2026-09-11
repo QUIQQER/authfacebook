@@ -44,7 +44,7 @@ class Spin implements CookieInterface
         return sprintf(
             '%d %s',
             25,
-            QUI::getLocale()->get('quiqqer/quiqqer', 'hours')
+            QUI::getLocale()->get('quiqqer/core', 'hours')
         );
     }
 

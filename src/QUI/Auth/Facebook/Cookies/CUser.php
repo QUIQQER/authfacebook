@@ -44,7 +44,7 @@ class CUser implements CookieInterface
         return sprintf(
             '%d %s',
             90,
-            QUI::getLocale()->get('quiqqer/quiqqer', 'days')
+            QUI::getLocale()->get('quiqqer/core', 'days')
         );
     }
 

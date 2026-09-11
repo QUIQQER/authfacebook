@@ -38,7 +38,7 @@ class Events
     }
 
     /**
-     * quiqqer/quiqqer: onPackageSetup
+     * quiqqer/core: onPackageSetup
      *
      * @param Package $Package
      * @return void
